@@ -57,8 +57,18 @@ export default function Footer() {
                         whileHover={{ scale: 1.1 }}
                         className="text-[#1f406d] cursor-pointer"
                     >
-                        <div className="w-15 h-15 rounded-lg  flex items-center justify-center font-black text-xs"> <img src="/logos/footer-left.png" alt="" /> </div>
+                        <div className="w-15 h-15 rounded-lg flex items-center justify-center font-black text-xs">
+                            <img src="/logos/footer-left.png" alt="" />
+                        </div>
                     </motion.div>
+                </div>
+
+                {/* Vertical Branded Text filling the empty space */}
+                <div className="flex-1 flex items-center justify-center overflow-hidden w-full">
+                    <div className="[writing-mode:vertical-rl] rotate-180 flex items-center gap-12 uppercase font-black tracking-[0.8em] text-2xl md:text-4xl select-none opacity-10 hover:opacity-30 transition-all duration-1000 cursor-default">
+                        <span className="text-[#1f406d]">MIGRATE</span>
+                        <span className="text-[#e41e25]">ZONE</span>
+                    </div>
                 </div>
 
                 <div className="flex flex-col items-center gap-6">
@@ -67,7 +77,7 @@ export default function Footer() {
                             key={i}
                             href="#"
                             whileHover={{ scale: 1.2, color: '#1f406d' }}
-                            className="text-gray-400 p-2"
+                            className="text-gray-400 p-2 pointer-events-auto"
                         >
                             <Icon size={20} />
                         </motion.a>
@@ -77,9 +87,20 @@ export default function Footer() {
 
             <div className="max-w-[1400px] mx-auto pl-24 md:pl-40 pr-8 md:pr-12 relative z-10">
 
-                {/* Top Section: CTA & Description */}
-                <div className="flex flex-col lg:flex-row justify-between items-start gap-12 lg:gap-24 mb-32">
-                    <div className="max-w-2xl">
+                {/* Top Section: Logo, CTA & Description - Centered */}
+                <div className="flex flex-col items-center text-center gap-12 mb-32">
+                    <div className="max-w-3xl">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            className="mb-12"
+                        >
+                            <img
+                                src="/logo-wide-removebg-preview.png"
+                                alt="Migrate Zone Logo"
+                                className="h-12 md:h-16 w-auto mx-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                            />
+                        </motion.div>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
@@ -87,28 +108,14 @@ export default function Footer() {
                         >
                             Since 1998
                         </motion.div>
-                        <h2 className="text-4xl md:text-6xl font-black font-syne text-[#1f406d] uppercase leading-[0.9] tracking-tighter mb-8 max-w-xl">
+                        <h2 className="text-4xl md:text-6xl font-black font-syne text-[#1f406d] uppercase leading-[0.9] tracking-tighter mb-8 mx-auto">
                             Our space to <span className="text-[#e41e25]">migrate</span>, feel, and <span className="text-[#e41e25]">succeed</span>
                         </h2>
-                        <p className="text-gray-400 text-lg md:text-xl font-medium leading-relaxed max-w-xl">
+                        <p className="text-gray-400 text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
                             Migrate Zone has been in the field of leading visa immigration consultants since 1998
                             thereby providing both Australian as well Canadian Immigration Services for last 23 years.
                         </p>
                     </div>
-
-                    <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        className="relative group cursor-pointer"
-                    >
-                        <div className="absolute inset-0 bg-[#e41e25] blur-[30px] opacity-10 group-hover:opacity-20 transition-opacity" />
-                        <div className="relative flex items-center justify-center bg-white border border-gray-100 p-8 md:p-10 rounded-[40px] shadow-xl md:shadow-2xl">
-                            <img
-                                src="/logo-wide-removebg-preview.png"
-                                alt="Migrate Zone Logo"
-                                className="h-10 md:h-16 w-auto object-contain"
-                            />
-                        </div>
-                    </motion.div>
                 </div>
 
                 {/* Content Grid */}
@@ -231,7 +238,7 @@ export default function Footer() {
             </div>
 
             {/* Massive Watermark Text - Positioned outside the padded container for true desktop centering */}
-            <div className="relative pointer-events-none opacity-[0.4] select-none text-center text-[12vw] font-[900] font-syne uppercase leading-none tracking-tighter mt-20 z-0">
+            <div className="relative pointer-events-none opacity-[0.4] select-none text-center text-[12vw] font-[900] font-syne uppercase leading-none tracking-tighter mt-20 z-0 md:translate-x-10">
                 <span className="text-[#1f406d]">MIGRATE</span>
                 <span className="text-[#e41e25]">ZONE</span>
             </div>

@@ -134,7 +134,7 @@ export default function EvolGroupAccordion() {
                                                 <div className="w-20 h-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center p-4">
                                                     <img src={venture.logo} alt={venture.title} className="max-w-full max-h-full object-contain" />
                                                 </div>
-                                                <span className="text-xs font-extrabold uppercase text-[#d4ff3f] tracking-widest">Active Partner</span>
+                                                <span className="text-xs font-extrabold uppercase text-[#1f406d] bg-white/10 px-3 py-1 rounded-lg tracking-widest">Active Partner</span>
                                             </div>
 
                                             <div className="mb-10">

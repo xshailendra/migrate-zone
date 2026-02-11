@@ -88,7 +88,7 @@ export default function HeroSection() {
                                 </div>
                                 <motion.div
                                     whileHover={{ rotate: 45 }}
-                                    className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-[#d4ff3f] rounded-full text-[#1f406d] shadow-2xl transition-all duration-500"
+                                    className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-[#1f406d] rounded-full text-white shadow-2xl transition-all duration-500"
                                 >
                                     <ArrowRight className="w-4 h-4 md:w-6 md:h-6" />
                                 </motion.div>
@@ -165,7 +165,7 @@ export default function HeroSection() {
 
                     <div className="flex items-center gap-8">
                         <motion.button
-                            whileHover={{ scale: 1.05, backgroundColor: '#e41e25', color: '#ffffff', borderColor: '#e41e25' }}
+                            whileHover={{ scale: 1.05, backgroundColor: '#1f406d', color: '#ffffff', borderColor: '#1f406d' }}
                             whileTap={{ scale: 0.95 }}
                             className="px-10 cursor-pointer py-5 md:px-14 md:py-7 bg-white text-[#1f406d] border border-white rounded-[5rem] font-black text-s md:text-sm uppercase tracking-widest shadow-3xl shadow-black/40 transition-all duration-500"
                         >

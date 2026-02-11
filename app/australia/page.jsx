@@ -1,262 +1,385 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Plane, GraduationCap, Briefcase, Users, Building2, TrendingUp, ArrowRight, CheckCircle2, Globe, MapPin, Award, Zap, Shield, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, ExternalLink, Sparkles, MapPin, Globe, Shield, Heart, TrendingUp, Users, GraduationCap, Briefcase, Building2, Plane, Clock, ClipboardCheck } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import RequestCallBack from '@/components/RequestCallBack';
 
+// --- Custom Decorative Components ---
+
+const StarBurst = ({ className }) => (
+    <svg viewBox="0 0 100 100" className={className}>
+        <path
+            d="M50 0 L53 47 L100 50 L53 53 L50 100 L47 53 L0 50 L47 47 Z"
+            fill="currentColor"
+        />
+        <path
+            d="M50 15 L51.5 48.5 L85 50 L51.5 51.5 L50 85 L48.5 51.5 L15 50 L48.5 48.5 Z"
+            fill="currentColor"
+            opacity="0.5"
+        />
+    </svg>
+);
+
+const ArchedImage = ({ src, className, height = "h-80" }) => (
+    <div className={`relative overflow-hidden rounded-t-full ${height} ${className}`}>
+        <img src={src} alt="" className="w-full h-full object-cover" />
+    </div>
+);
+
+const DecorativeCrown = ({ className }) => (
+    <div className={`flex items-end justify-center gap-1 ${className}`}>
+        {[...Array(11)].map((_, i) => (
+            <div
+                key={i}
+                className="w-1 bg-[#1f406d]"
+                style={{
+                    height: `${Math.max(10, 60 - Math.abs(i - 5) * 12)}px`,
+                    opacity: i === 5 ? 1 : 0.4,
+                    backgroundColor: i === 5 ? '#E42E25' : '#1f406d'
+                }}
+            />
+        ))}
+    </div>
+);
+
+// --- Data ---
+
 const visaCategories = [
     {
+        title: 'Employer Sponsored',
+        desc: 'Employer sponsored visa has of late become the most sought after form of immigration to Australia not only on Temporary basis but also on permanent basis.',
+        icon: Briefcase,
+        subsets: ['TSS 482', 'ENS 186', 'SESR 494']
+    },
+    {
         title: 'Skilled Migration',
-        subsets: ['Visa 189', 'Visa 190', 'Visa 491'],
-        description: 'Points-based visas for skilled workers to live and work in Australia permanently or semi-permanently.',
+        desc: 'The Economy of Australia is said to be one of the most powerful in the world. Young people prefer Australia as it offers the maximum professional growth.',
         icon: TrendingUp,
-        color: '#00843D',
-        bg: 'bg-emerald-50'
+        subsets: ['189', '190', '491']
     },
     {
         title: 'Student Visa',
-        subsets: ['Subclass 500'],
-        description: 'Quality education in world-class Australian universities with post-study work opportunities.',
+        desc: 'Simplified Student Visa Framework (SSVF) will be applicable to ease the process and designed to attract quality students to the world-class Australian universities.',
         icon: GraduationCap,
-        color: '#dc2626',
-        bg: 'bg-red-50'
+        subsets: ['Subclass 500']
     },
     {
-        title: 'Employer Sponsored',
-        subsets: ['Visa 186', 'Visa 482', 'Visa 494'],
-        description: 'Visa pathways for workers who have been sponsored by an Australian employer.',
-        icon: Briefcase,
-        color: '#1f406d',
-        bg: 'bg-blue-50'
-    },
-    {
-        title: 'Business & Investor',
-        subsets: ['Visa 188', 'Visa 132'],
-        description: 'For business owners and investors looking to establish or manage a business in Australia.',
+        title: 'Work Visa',
+        desc: 'The Australian 457 visa (Temporary Business Long Stay) allows employers to sponsor overseas workers for authentic and secure employment opportunities.',
         icon: Building2,
-        color: '#ca8a04',
-        bg: 'bg-yellow-50'
+        subsets: ['457', '482']
     },
     {
-        title: 'Family & Partner',
-        subsets: ['Partner Visa', 'Parent Visa'],
-        description: 'Connect with your loved ones in Australia through various family sponsorship programs.',
-        icon: Users,
-        color: '#db2777',
-        bg: 'bg-pink-50'
-    },
-    {
-        title: 'Work & Holiday',
-        subsets: ['Visa 417', 'Visa 462'],
-        description: 'Explore Australia while working temporarily to fund your travels.',
+        title: 'Tourist Visa',
+        desc: 'This australian Visitor visa (subclass 600) lets you visit Australia for travel or business visitor activities. Tourism includes outings and refreshment.',
         icon: Plane,
-        color: '#0891b2',
-        bg: 'bg-cyan-50'
-    }
-];
-
-const benefits = [
-    {
-        title: 'Quality of Life',
-        desc: 'Australia consistently ranks as one of the best places to live globally.',
-        icon: Heart,
-        color: '#e11d48'
+        subsets: ['Subclass 600']
     },
     {
-        title: 'Economic Growth',
-        desc: 'Strong economy with high minimum wages and plenty of job opportunities.',
-        icon: TrendingUp,
-        color: '#059669'
+        title: 'Business Visa',
+        desc: 'Designed for travel or business visitor activities, including outings, refreshment and strategic business investments in Australia.',
+        icon: Users,
+        subsets: ['Subclass 188', 'Subclass 132']
     },
-    {
-        title: 'Healthcare System',
-        desc: 'Access to world-class public healthcare via Medicare.',
-        icon: Shield,
-        color: '#2563eb'
-    },
-    {
-        title: 'Global Education',
-        desc: 'Home to some of the world\'s top-ranked universities.',
-        icon: GraduationCap,
-        color: '#7c3aed'
-    }
 ];
 
 export default function AustraliaPage() {
     return (
-        <main className="min-h-screen bg-white">
+        <main className="min-h-screen bg-white selection:bg-[#E42E25] selection:text-white">
             <Header />
 
             {/* Hero Section */}
-            <section className="relative h-[90vh] flex items-center overflow-hidden">
-                <div className="absolute inset-0 z-0">
-                    <img
-                        src="/sydney_office_gateway_1770547680868.png"
-                        alt="Sydney Australia"
-                        className="w-full h-full object-cover scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#1f406d]/90 via-[#1f406d]/60 to-transparent" />
-                </div>
+            <section className="pt-32 pb-20 px-6 md:px-10 overflow-hidden">
+                <div className="max-w-[1400px] mx-auto">
+                    <motion.div
+                        className="flex justify-center mb-12"
+                        initial={{ opacity: 0, scale: 0.6 }}
+                        animate={{ opacity: 0.8, scale: 1 }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                    >
+                        <img src="/australia-dotted.png" alt="Australia Map" className="w-48 md:w-72 h-auto object-contain" />
+                    </motion.div>
 
-                <div className="container mx-auto px-8 relative z-10">
-                    <div className="max-w-3xl">
+                    <div className="flex justify-center items-end gap-3 md:gap-6 mb-16 px-4">
+                        {[
+                            { src: "/australia_country_1770386989728.png", w: "w-24 md:w-40", h: "h-40 md:h-64", o: "opacity-60", delay: 0.4 },
+                            { src: "/sydney_office_gateway_1770547680868.png", w: "w-28 md:w-48", h: "h-56 md:h-80", o: "opacity-80", delay: 0.2 },
+                            { src: "/australia_country_1770386989728.png", w: "w-32 md:w-56", h: "h-72 md:h-[400px]", o: "border-4 border-[#1f406d]/10", delay: 0 },
+                            { src: "/sydney_office_gateway_1770547680868.png", w: "w-28 md:w-48", h: "h-56 md:h-80", o: "opacity-80", delay: 0.2 },
+                            { src: "/australia_country_1770386989728.png", w: "w-24 md:w-40", h: "h-40 md:h-64", o: "opacity-60", delay: 0.4 },
+                        ].map((arch, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 80, scale: 0.8 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{ duration: 0.8, delay: arch.delay, ease: [0.16, 1, 0.3, 1] }}
+                            >
+                                <ArchedImage src={arch.src} className={`${arch.w} ${arch.h} ${arch.o}`} />
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    <div className="text-center relative">
+                        <motion.div initial={{ rotate: 0 }} animate={{ rotate: 360 }} transition={{ duration: 20, repeat: Infinity, ease: 'linear' }} className="absolute -left-4 top-0">
+                            <StarBurst className="w-12 md:w-20 text-[#1f406d]/20" />
+                        </motion.div>
+                        <motion.div initial={{ rotate: 0 }} animate={{ rotate: -360 }} transition={{ duration: 25, repeat: Infinity, ease: 'linear' }} className="absolute -right-4 top-0">
+                            <StarBurst className="w-12 md:w-20 text-[#1f406d]/20" />
+                        </motion.div>
+
+                        <motion.h1
+                            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                            className="text-7xl md:text-[12vw] font-[900] font-syne text-[#1f406d] leading-[0.85] tracking-tighter uppercase mb-8"
+                        >
+                            AUSTRALIA
+                        </motion.h1>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.3 }}
+                            className="flex items-center justify-center gap-8 mb-12"
+                        >
+                            <i className="text-xl md:text-3xl font-serif text-[#1f406d]/60">1998</i>
+                            <motion.div animate={{ rotate: 360 }} transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}>
+                                <StarBurst className="w-8 md:w-16 text-[#E42E25]" />
+                            </motion.div>
+                            <i className="text-xl md:text-3xl font-serif text-[#1f406d]/60">2026</i>
+                        </motion.div>
+
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.5 }}
+                            className="max-w-4xl mx-auto mb-16"
                         >
-                            <span className="inline-block px-4 py-2 bg-[#E42E25] text-white rounded-full text-xs font-black tracking-widest uppercase mb-6">
-                                Destination Australia
-                            </span>
-                            <h1 className="text-6xl md:text-8xl font-black text-white leading-tight mb-8">
-                                Your Gateway to <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-200">Opportunities.</span>
-                            </h1>
-                            <p className="text-xl text-white/80 font-medium mb-10 leading-relaxed max-w-xl">
-                                Navigate the Australian migration landscape with Migrate Zone's expert MARA-registered guidance.
+                            <p className="text-lg md:text-2xl font-serif italic text-[#1f406d] leading-relaxed">
+                                "Australia has been the most influential country in the world for the past two decades, attracting tourists, workers, students, and residents from all over the globe."
                             </p>
-                            <div className="flex flex-wrap gap-4">
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="px-10 py-5 bg-white text-[#1f406d] rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl"
-                                >
-                                    Get Free Consultation
-                                </motion.button>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="px-10 py-5 bg-transparent border border-white/30 text-white rounded-2xl font-black text-sm uppercase tracking-widest backdrop-blur-md"
-                                >
-                                    Explore Visas
-                                </motion.button>
-                            </div>
                         </motion.div>
-                    </div>
-                </div>
-
-                {/* Floating Stats */}
-                <div className="absolute bottom-12 right-12 hidden xl:flex gap-6">
-                    <div className="bg-white/10 backdrop-blur-2xl border border-white/20 p-6 rounded-3xl text-white min-w-[200px]">
-                        <div className="text-3xl font-black mb-1">50K+</div>
-                        <div className="text-xs font-bold text-white/60 uppercase tracking-widest">Successful Visas</div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-2xl border border-white/20 p-6 rounded-3xl text-white min-w-[200px]">
-                        <div className="text-3xl font-black mb-1">98%</div>
-                        <div className="text-xs font-bold text-white/60 uppercase tracking-widest">Success Rate</div>
                     </div>
                 </div>
             </section>
 
-            {/* Quick Overview Cards */}
-            <section className="py-24 bg-gray-50">
-                <div className="container mx-auto px-8">
-                    <div className="text-center mb-20">
-                        <h2 className="text-4xl md:text-5xl font-black text-[#1f406d] mb-6">Explore Visa Pathways</h2>
-                        <p className="text-gray-500 max-w-2xl mx-auto text-lg">
-                            We offer specialized assistance for a wide range of Australian visa categories tailored to your profile.
-                        </p>
+            {/* Intro Content Section */}
+            <section className="py-24 px-6 md:px-10 border-t border-[#1f406d]/5">
+                <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div className="text-[#1f406d]">
+                        <h2 className="text-5xl md:text-7xl font-black font-syne leading-none uppercase tracking-tighter mb-8">
+                            Global <br />
+                            <span className="text-[#E42E25]">Presence</span>
+                        </h2>
+                        <div className="space-y-6 text-lg font-medium leading-relaxed opacity-80 mb-10">
+                            <p>
+                                Australia is not only a beautiful location to visit, but it is also the most acceptable place to work in a wide range of fields. Due to Australia's high employment rate, one can be assured of economic stability.
+                            </p>
+                            <p>
+                                Migrate Zone Immigration consultancy helps in attaining the most appropriate Australian visa category for the migrants. We provide aspirants with personal and accessible visa services from registration to settling down.
+                            </p>
+                        </div>
+
+                        {/* Opening Hours - inline compact */}
+                        <div className="flex items-center gap-4 bg-[#1f406d]/[0.03] rounded-2xl p-5 border border-[#1f406d]/[0.06]">
+                            <div className="w-10 h-10 bg-[#E42E25] rounded-xl flex items-center justify-center shrink-0">
+                                <Clock className="w-5 h-5 text-white" />
+                            </div>
+                            <div className="flex-1">
+                                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1f406d]/40 mb-1">Opening Hours</h4>
+                                <div className="flex items-center gap-6 text-sm">
+                                    <span className="font-bold text-[#1f406d]">Mon–Sat: <span className="font-medium opacity-60">10am – 7pm</span></span>
+                                    <span className="font-bold text-[#E42E25]">Sun: Closed</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
+                    <div>
+                        <div className="bg-[#1f406d]/5 p-4 rounded-[40px]">
+                            <img
+                                src="/australia_country_1770386989728.png"
+                                alt="Sydney Expert"
+                                className="w-full grayscale hover:grayscale-0 transition-all duration-1000 rounded-[32px] shadow-2xl"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Services Grid Section */}
+            <section className="py-32 px-6 md:px-10 bg-white relative overflow-hidden">
+                {/* Background decorative elements */}
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                    <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-[#1f406d]/[0.02] rounded-full blur-[80px]" />
+                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#E42E25]/[0.03] rounded-full blur-[80px]" />
+                    <motion.div animate={{ rotate: 360 }} transition={{ duration: 60, repeat: Infinity, ease: 'linear' }} className="absolute top-10 right-20">
+                        <StarBurst className="w-32 text-[#1f406d]/[0.04]" />
+                    </motion.div>
+                    <motion.div animate={{ rotate: -360 }} transition={{ duration: 45, repeat: Infinity, ease: 'linear' }} className="absolute bottom-10 left-20">
+                        <StarBurst className="w-24 text-[#1f406d]/[0.04]" />
+                    </motion.div>
+                </div>
+
+                <div className="max-w-[1400px] mx-auto relative z-10">
+                    {/* Header */}
+                    <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-20 gap-8">
+                        <motion.div
+                            initial={{ opacity: 0, x: -40 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            <span className="text-xs font-black uppercase tracking-[0.5em] text-[#E42E25] mb-6 block">Our Services</span>
+                            <h2 className="text-5xl md:text-8xl font-black font-syne uppercase tracking-tighter text-[#1f406d] leading-none">
+                                Visa <br className="hidden md:block" />Categories
+                            </h2>
+                        </motion.div>
+                        <motion.p
+                            initial={{ opacity: 0, x: 40 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="text-[#1f406d]/50 text-lg max-w-md font-medium leading-relaxed"
+                        >
+                            Comprehensive Australian visa pathways tailored to your unique profile and aspirations.
+                        </motion.p>
+                    </div>
+
+                    {/* Cards Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {visaCategories.map((visa, idx) => (
+                        {visaCategories.map((visa, i) => (
                             <motion.div
-                                key={visa.title}
-                                initial={{ opacity: 0, y: 20 }}
+                                key={i}
+                                initial={{ opacity: 0, y: 60 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1 }}
                                 viewport={{ once: true }}
-                                className="bg-white p-8 rounded-[2.5rem] border border-gray-100 hover:border-[#1f406d]/20 hover:shadow-2xl transition-all group"
+                                transition={{ duration: 0.7, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                                whileHover={{ y: -8 }}
+                                className="relative group cursor-pointer"
                             >
-                                <div className={`w-14 h-14 ${visa.bg} rounded-2xl flex items-center justify-center mb-6 transformation group-hover:scale-110 transition-transform`}>
-                                    <visa.icon style={{ color: visa.color }} className="w-6 h-6" />
-                                </div>
-                                <h3 className="text-2xl font-black text-gray-900 mb-4">{visa.title}</h3>
-                                <p className="text-gray-500 mb-6 leading-relaxed">
-                                    {visa.description}
-                                </p>
-                                <div className="flex flex-wrap gap-2 mb-8">
-                                    {visa.subsets.map(tag => (
-                                        <span key={tag} className="px-3 py-1 bg-gray-100 text-gray-600 rounded-lg text-[10px] font-bold uppercase tracking-wider">
-                                            {tag}
+                                <div className="relative bg-white p-10 rounded-[28px] border border-[#1f406d]/[0.06] shadow-[0_4px_40px_rgba(31,64,109,0.04)] group-hover:shadow-[0_20px_60px_rgba(31,64,109,0.12)] transition-all duration-500 flex flex-col h-full overflow-hidden">
+                                    {/* Left accent bar */}
+                                    <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-[#E42E25] to-[#1f406d] opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-l-full" />
+
+                                    {/* Number + Icon Row */}
+                                    <div className="flex items-start justify-between mb-8">
+                                        <span className="text-8xl font-black font-syne text-[#1f406d]/[0.04] group-hover:text-[#E42E25]/10 transition-colors duration-700 leading-none select-none">
+                                            0{i + 1}
                                         </span>
-                                    ))}
+                                        <motion.div
+                                            className="w-14 h-14 bg-[#1f406d]/[0.04] rounded-2xl flex items-center justify-center group-hover:bg-[#E42E25] transition-all duration-500"
+                                            whileHover={{ rotate: 12, scale: 1.1 }}
+                                        >
+                                            <visa.icon className="w-7 h-7 text-[#1f406d]/60 group-hover:text-white transition-colors duration-500" />
+                                        </motion.div>
+                                    </div>
+
+                                    {/* Title */}
+                                    <h3 className="text-2xl md:text-3xl font-black font-syne uppercase tracking-tight text-[#1f406d] mb-5 leading-tight group-hover:text-[#1f406d] transition-colors">
+                                        {visa.title}
+                                    </h3>
+
+                                    {/* Description */}
+                                    <p className="text-sm text-[#1f406d]/50 leading-relaxed mb-8 grow group-hover:text-[#1f406d]/70 transition-colors duration-500">
+                                        {visa.desc}
+                                    </p>
+
+                                    {/* Tags */}
+                                    <div className="flex flex-wrap gap-2 mb-8">
+                                        {visa.subsets.map(tag => (
+                                            <span key={tag} className="px-3 py-1.5 bg-[#1f406d]/[0.04] text-[10px] font-black text-[#1f406d]/60 uppercase rounded-full border border-[#1f406d]/[0.06] group-hover:border-[#E42E25]/20 group-hover:bg-[#E42E25]/5 group-hover:text-[#E42E25] transition-all duration-500">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* CTA */}
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[11px] font-black text-[#E42E25] uppercase tracking-widest group-hover:tracking-[0.25em] transition-all duration-500">Read More</span>
+                                        <div className="w-8 h-8 bg-[#E42E25]/10 rounded-full flex items-center justify-center group-hover:bg-[#E42E25] transition-all duration-300">
+                                            <ArrowRight className="w-4 h-4 text-[#E42E25] group-hover:text-white transition-colors duration-300" />
+                                        </div>
+                                    </div>
                                 </div>
-                                <button className="flex items-center gap-2 text-sm font-black text-[#1f406d] uppercase tracking-widest">
-                                    Learn More <ArrowRight className="w-4 h-4" />
-                                </button>
                             </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Why Australia Section */}
-            <section className="py-24 relative overflow-hidden bg-white">
-                <div className="container mx-auto px-8">
-                    <div className="flex flex-col lg:flex-row items-center gap-16">
-                        <div className="flex-1">
-                            <h2 className="text-4xl md:text-6xl font-black text-[#1f406d] mb-8 leading-tight">
-                                Why Choose <span className="text-[#E42E25]">Australia?</span>
-                            </h2>
-                            <p className="text-gray-500 text-lg mb-12 leading-relaxed">
-                                From breathtaking natural landscapes to a booming economy, Australia offers unparalleled opportunities for immigrants from across the globe.
-                            </p>
+            {/* Assessment Section */}
+            <section className="py-28 px-6 md:px-10 bg-[#ffffff] relative overflow-hidden">
+                {/* Background blurs */}
+                <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-white/[0.03] rounded-full blur-[100px]" />
+                <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#E42E25]/[0.05] rounded-full blur-[100px]" />
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                                {benefits.map((benefit, idx) => (
-                                    <div key={idx} className="flex gap-4">
-                                        <div className="flex-shrink-0 w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-[#1f406d]">
-                                            <benefit.icon className="w-6 h-6" style={{ color: benefit.color }} />
+                <div className="max-w-[1200px] mx-auto relative z-10">
+                    {/* Main card */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="bg-white rounded-[40px] p-12 md:p-20 relative overflow-hidden shadow-2xl shadow-black/10"
+                    >
+                        {/* Decorative elements inside card */}
+                        <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: 'linear' }} className="absolute -top-10 -right-10 opacity-[0.04]">
+                            <StarBurst className="w-60 text-[#1f406d]" />
+                        </motion.div>
+                        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-to-tr from-[#E42E25]/[0.03] to-transparent rounded-tr-full" />
+
+                        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                            {/* Left — CTA */}
+                            <div>
+                                <span className="text-xs font-black uppercase tracking-[0.5em] text-[#E42E25] mb-6 block">Free Assessment</span>
+                                <h2 className="text-4xl md:text-6xl font-black font-syne text-[#1f406d] uppercase tracking-tighter mb-6 leading-[0.9]">
+                                    Check Your<br />Eligibility
+                                </h2>
+                                <p className="text-base text-[#1f406d]/50 font-medium leading-relaxed mb-10 max-w-md">
+                                    Looking to settle abroad? Our team is highly trained in relevant legislation. Check your eligibility now — completely free.
+                                </p>
+                                <button className="group flex items-center gap-4 px-10 py-4 bg-[#1f406d] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#E42E25] transition-all duration-300 shadow-xl shadow-[#1f406d]/20">
+                                    Fill Assessment Form
+                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </div>
+
+                            {/* Right — Contact */}
+                            <div className="space-y-6">
+                                <div className="bg-[#1f406d]/[0.03] rounded-2xl p-8 border border-[#1f406d]/[0.06] hover:border-[#E42E25]/20 transition-all duration-300">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-[#E42E25]/10 rounded-xl flex items-center justify-center shrink-0">
+                                            <MapPin className="w-6 h-6 text-[#E42E25]" />
                                         </div>
                                         <div>
-                                            <h4 className="font-black text-xl text-gray-900 mb-2">{benefit.title}</h4>
-                                            <p className="text-gray-500 text-sm leading-relaxed">{benefit.desc}</p>
+                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1f406d]/30 mb-1">India Support</p>
+                                            <p className="text-2xl font-bold text-[#1f406d]">+91 70696 29625</p>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="flex-1 relative">
-                            <div className="relative aspect-square rounded-[3rem] overflow-hidden shadow-2xl">
-                                <img
-                                    src="/australia_country_1770386989728.png"
-                                    alt="Life in Australia"
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            {/* Decorative element */}
-                            <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-[#1f406d] rounded-[2rem] -z-10 animate-pulse" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Process Section */}
-            <section className="py-24 bg-[#1f406d] text-white">
-                <div className="container mx-auto px-8 text-center">
-                    <h2 className="text-4xl md:text-5xl font-black mb-16">The Migration Journey</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12 relative">
-                        {/* Connecting Line */}
-                        <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-white/10 z-0" />
-
-                        {[
-                            { step: '01', title: 'Consultation', desc: 'Detailed assessment of your profile and goals.' },
-                            { step: '02', title: 'Preparation', desc: 'Compiling documentation and meeting requirements.' },
-                            { step: '03', title: 'Lodgement', desc: 'Secure submission to Australian authorities.' },
-                            { step: '04', title: 'Approval', desc: 'Continuous follow-up until your visa is granted.' }
-                        ].map((item, idx) => (
-                            <div key={idx} className="relative z-10 flex flex-col items-center">
-                                <div className="w-24 h-24 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center mb-8 text-2xl font-black">
-                                    {item.step}
                                 </div>
-                                <h4 className="text-xl font-black mb-4 uppercase tracking-widest">{item.title}</h4>
-                                <p className="text-white/60 text-sm">{item.desc}</p>
+                                <div className="bg-[#1f406d]/[0.03] rounded-2xl p-8 border border-[#1f406d]/[0.06] hover:border-[#E42E25]/20 transition-all duration-300">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-[#E42E25]/10 rounded-xl flex items-center justify-center shrink-0">
+                                            <Globe className="w-6 h-6 text-[#E42E25]" />
+                                        </div>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#1f406d]/30 mb-1">Australia Support</p>
+                                            <p className="text-2xl font-bold text-[#1f406d]">+61 2 8099 6026</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p className="text-center text-[#1f406d]/20 text-xs italic pt-2">
+                                    "Your queries light up our day, we're here to guide you all the way!"
+                                </p>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    </motion.div>
                 </div>
             </section>
 

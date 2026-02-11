@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
 import { Menu, X, ChevronDown, ChevronRight, ArrowRight, Plane, GraduationCap, Briefcase, Users, Building2, Clock, Star, TrendingUp, CheckCircle2, Sparkles, Globe, MapPin, Award, Zap } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 
@@ -526,6 +527,7 @@ export default function Header() {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [expandedMobileItems, setExpandedMobileItems] = useState([]);
     const [navTheme, setNavTheme] = useState('white'); // 'black', 'white', 'glass'
+    const pathname = usePathname();
     const hoverTimeoutRef = useRef(null);
     const navContainerRef = useRef(null);
 
@@ -613,6 +615,16 @@ export default function Header() {
         );
     };
 
+    const handleNavClick = (e, href) => {
+        if (href === '/' && pathname === '/') {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setIsMobileMenuOpen(false);
+        } else {
+            setIsMobileMenuOpen(false);
+        }
+    };
+
     return (
         <div className="fixed top-6 left-0 w-full z-50 px-6">
             <header className="max-w-[90rem] mx-auto">
@@ -629,7 +641,7 @@ export default function Header() {
                                     : 'bg-transparent border-none shadow-none'}`}
                         whileHover={{ scale: 1.02 }}
                     >
-                        <Link href="/" className="flex items-center justify-center">
+                        <Link href="/" className="flex items-center justify-center" onClick={(e) => handleNavClick(e, '/')}>
                             <img
                                 src="/logo-wide-removebg-preview.png"
                                 alt="Migrate Zone Logo"
@@ -653,7 +665,7 @@ export default function Header() {
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
                                 >
-                                    <Link href={item.href}>
+                                    <Link href={item.href} onClick={(e) => handleNavClick(e, item.href)}>
                                         <motion.div
                                             className={`relative flex items-center gap-1.5 py-2 px-3 text-[12px] font-black tracking-widest uppercase 
                                                        transition-all duration-500 rounded-full
@@ -721,7 +733,7 @@ export default function Header() {
                                                 <Link
                                                     href={item.href}
                                                     className="flex items-center gap-3 text-[13px] font-black tracking-widest text-[#1f406d] uppercase"
-                                                    onClick={() => !item.subItems && setIsMobileMenuOpen(false)}
+                                                    onClick={(e) => handleNavClick(e, item.href)}
                                                 >
                                                     {item.label}
                                                 </Link>

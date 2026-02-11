@@ -119,7 +119,7 @@ export default function EvolGroupCarousel() {
                                             <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center p-2.5">
                                                 <img src={venture.logo} alt={venture.title} className="max-w-full max-h-full object-contain" />
                                             </div>
-                                            <span className="text-[10px] font-bold uppercase bg-[#d4ff3f] text-[#1f406d] px-2.5 py-1 rounded-full">Active</span>
+                                            <span className="text-[10px] font-bold uppercase bg-[#1f406d] text-white px-2.5 py-1 rounded-full">Active</span>
                                         </div>
 
                                         <div>
