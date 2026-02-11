@@ -217,12 +217,6 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Massive Watermark Text inspired by CALMIND image */}
-                <div className="relative pointer-events-none opacity-[0.5] select-none text-center text-[12vw] font-[900] font-syne uppercase leading-none tracking-tighter mt-20">
-                    <span className="text-[#1f406d]">MIGRATE</span>
-                    <span className="text-[#e41e25]">ZONE</span>
-                </div>
-
                 {/* Bottom Bar: Copyright & Links */}
                 <div className="relative pt-12 border-t border-gray-100 mt-12 flex flex-col md:flex-row justify-between items-center gap-8 z-20">
                     <p className="text-gray-300 text-[10px] font-black uppercase tracking-widest">
@@ -234,6 +228,12 @@ export default function Footer() {
                     </div>
                 </div>
 
+            </div>
+
+            {/* Massive Watermark Text - Positioned outside the padded container for true desktop centering */}
+            <div className="relative pointer-events-none opacity-[0.4] select-none text-center text-[12vw] font-[900] font-syne uppercase leading-none tracking-tighter mt-20 z-0">
+                <span className="text-[#1f406d]">MIGRATE</span>
+                <span className="text-[#e41e25]">ZONE</span>
             </div>
         </footer>
     );
