@@ -200,9 +200,9 @@ export default function AwesomeFacts() {
             <div className="relative z-10">
                 {/* Title Segment */}
                 <div className="relative text-center mb-10 px-6 h-12 md:h-16 flex items-center justify-center">
-                    <h2 className="absolute text-3xl md:text-5xl font-black font-syne uppercase tracking-tighter leading-none text-[#1f406d] whitespace-nowrap">
+                    {/* <h2 className="absolute text-3xl md:text-5xl font-black font-syne uppercase tracking-tighter leading-none text-[#1f406d] whitespace-nowrap">
                         See Our <span className="text-[#e41e25]">Awesome Facts</span>
-                    </h2>
+                    </h2> */}
                     <div
                         className="absolute inset-0 flex items-center justify-center pointer-events-none"
                         style={{ clipPath: clipPathStr }}

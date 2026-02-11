@@ -62,15 +62,20 @@ const visaCategories = [
 
 export default function NewZealandPage() {
     return (
-        <main className="min-h-screen bg-white selection:bg-[#E42E25] selection:text-white">
+        <main className="min-h-screen bg-white selection:bg-[#E42E25] selection:text-white relative">
+            {/* Global Page Background Watermark */}
+            <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center opacity-[0.25] overflow-hidden">
+                <img
+                    src="/new-zealand-dotted.png"
+                    alt=""
+                    className="w-[80%] max-w-[1000px] h-auto object-contain grayscale"
+                />
+            </div>
             <Header />
 
             {/* Hero Section */}
             <section className="pt-32 pb-20 px-6 md:px-10 overflow-hidden">
                 <div className="max-w-[1400px] mx-auto">
-                    <motion.div className="flex justify-center mb-12" initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 0.8, scale: 1 }} transition={{ duration: 1.2, ease: "easeOut" }}>
-                        <img src="/new-zealand-dotted.png" alt="New Zealand Map" className="w-48 md:w-72 h-auto object-contain" />
-                    </motion.div>
 
                     <div className="flex justify-center items-end gap-3 md:gap-6 mb-16 px-4">
                         {[
@@ -144,7 +149,7 @@ export default function NewZealandPage() {
             </section>
 
             {/* Services Grid Section */}
-            <section className="py-32 px-6 md:px-10 bg-white relative overflow-hidden">
+            <section className="py-32 px-6 md:px-10 bg-transparent relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                     <div className="absolute top-20 right-0 w-[500px] h-[500px] bg-[#1f406d]/[0.02] rounded-full blur-[80px]" />
                     <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#E42E25]/[0.03] rounded-full blur-[80px]" />
@@ -191,7 +196,7 @@ export default function NewZealandPage() {
             </section>
 
             {/* Assessment Section */}
-            <section className="py-28 px-6 md:px-10 bg-[#ffffff] relative overflow-hidden">
+            <section className="py-28 px-6 md:px-10 bg-transparent relative overflow-hidden">
                 <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-white/[0.03] rounded-full blur-[100px]" />
                 <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[#E42E25]/[0.05] rounded-full blur-[100px]" />
                 <div className="max-w-[1200px] mx-auto relative z-10">
