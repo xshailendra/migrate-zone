@@ -1,8 +1,45 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, ArrowUpRight, Facebook, Instagram, Linkedin, Twitter, Twitter as XIcon } from 'lucide-react';
+
+// Real-time office status hook
+function useOfficeStatus() {
+    const [statuses, setStatuses] = useState({ india: false, australia: false });
+
+    useEffect(() => {
+        function checkStatus() {
+            const now = new Date();
+
+            // India (IST = UTC+5:30)
+            const indiaTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+            const indiaDay = indiaTime.getDay(); // 0=Sun
+            const indiaHour = indiaTime.getHours();
+            const indiaMin = indiaTime.getMinutes();
+            const indiaDecimal = indiaHour + indiaMin / 60;
+            // Mon(1)-Sat(6), 10:00-19:00
+            const indiaOpen = indiaDay >= 1 && indiaDay <= 6 && indiaDecimal >= 10 && indiaDecimal < 19;
+
+            // Australia (AEST = UTC+10/11)
+            const ausTime = new Date(now.toLocaleString('en-US', { timeZone: 'Australia/Sydney' }));
+            const ausDay = ausTime.getDay();
+            const ausHour = ausTime.getHours();
+            const ausMin = ausTime.getMinutes();
+            const ausDecimal = ausHour + ausMin / 60;
+            // Mon(1)-Fri(5), 10:00-17:00
+            const ausOpen = ausDay >= 1 && ausDay <= 5 && ausDecimal >= 10 && ausDecimal < 17;
+
+            setStatuses({ india: indiaOpen, australia: ausOpen });
+        }
+
+        checkStatus();
+        const interval = setInterval(checkStatus, 60000); // update every minute
+        return () => clearInterval(interval);
+    }, []);
+
+    return statuses;
+}
 
 const usefulLinks = [
     { label: 'Home', href: '/' },
@@ -48,24 +85,20 @@ const officeLocations = [
 ];
 
 export default function Footer() {
+    const officeStatus = useOfficeStatus();
+
     return (
         <footer className="relative bg-transparent pt-24 pb-12 overflow-hidden border-t border-gray-100 min-h-[1000px]">
             {/* Sidebar Socials & Logo */}
             <div className="absolute left-6 md:left-12 top-0 bottom-0 py-12 flex flex-col items-center justify-between border-r border-gray-100 w-12 md:w-20 z-20 pointer-events-none md:pointer-events-auto">
-                <div className="flex flex-col items-center gap-8">
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        className="text-[#1f406d] cursor-pointer"
-                    >
-                        <div className="w-15 h-15 rounded-lg flex items-center justify-center font-black text-xs">
-                            <img src="/logos/footer-left.png" alt="" />
-                        </div>
-                    </motion.div>
-                </div>
+
 
                 {/* Vertical Branded Text filling the empty space */}
                 <div className="flex-1 flex items-center justify-center overflow-hidden w-full">
                     <div className="[writing-mode:vertical-rl] rotate-180 flex items-center gap-12 uppercase font-black tracking-[0.8em] text-2xl md:text-4xl select-none opacity-10 hover:opacity-30 transition-all duration-1000 cursor-default">
+                        <div className="w-15 h-15 rounded-lg flex items-center justify-center font-black text-xs">
+                            <img src="/logos/footer-left.png" alt="" className="rotate-180" />
+                        </div>
                         <span className="text-[#1f406d]">MIGRATE</span>
                         <span className="text-[#e41e25]">ZONE</span>
                     </div>
@@ -145,33 +178,41 @@ export default function Footer() {
                             <h4 className="text-[#1f406d] text-[10px] font-black uppercase tracking-[0.2em]">Opening Hours</h4>
                         </div>
                         <div className="space-y-12">
+                            {/* India Office */}
                             <div className="relative pl-6 border-l border-gray-100 group">
-                                <div className="absolute top-0 left-[-4px] w-2 h-2 rounded-full bg-[#e41e25] group-hover:scale-150 transition-transform" />
-                                <h5 className="text-[11px] font-black text-[#1f406d] uppercase tracking-widest mb-4">India (Head Office)</h5>
+                                <div className={`absolute top-0 left-[-4px] w-2 h-2 rounded-full group-hover:scale-150 transition-transform ${officeStatus.india ? 'bg-green-500' : 'bg-[#e41e25]'}`} />
+                                <div className="flex items-center gap-2 mb-3">
+                                    <h5 className="text-[11px] font-black text-[#1f406d] uppercase tracking-widest">India (Head Office)</h5>
+                                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${officeStatus.india ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-500'}`}>
+                                        <span className={`w-1.5 h-1.5 rounded-full ${officeStatus.india ? 'bg-green-500 animate-pulse' : 'bg-red-400'}`} />
+                                        {officeStatus.india ? 'Open' : 'Closed'}
+                                    </span>
+                                </div>
                                 <div className="space-y-3">
                                     <div className="flex flex-col">
                                         <span className="text-gray-400 text-[10px] uppercase font-black tracking-tighter mb-1">Mon - Sat</span>
                                         <span className="text-[#1f406d] font-bold text-sm">10.00 am - 7.00 pm</span>
                                     </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-gray-400 text-[10px] uppercase font-black tracking-tighter mb-1">Sun</span>
-                                        <span className="text-red-600 font-bold text-sm underline decoration-red-200 decoration-2 underline-offset-4">Closed</span>
-                                    </div>
+
                                 </div>
                             </div>
 
-                            <div className="relative pl-6 border-l border-gray-100 group">
-                                <div className="absolute top-0 left-[-4px] w-2 h-2 rounded-full bg-[#1f406d] group-hover:scale-150 transition-transform" />
-                                <h5 className="text-[11px] font-black text-[#1f406d] uppercase tracking-widest mb-4">Australia Hub</h5>
+                            {/* Australia Hub */}
+                            <div className="relative pl-6 border-l border-gray-100 group mt-50">
+                                <div className={`absolute top-0 left-[-4px] w-2 h-2 rounded-full group-hover:scale-150 transition-transform ${officeStatus.australia ? 'bg-green-500' : 'bg-[#1f406d]'}`} />
+                                <div className="flex items-center gap-2 mb-3">
+                                    <h5 className="text-[11px] font-black text-[#1f406d] uppercase tracking-widest">Australia Hub</h5>
+                                    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${officeStatus.australia ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-500'}`}>
+                                        <span className={`w-1.5 h-1.5 rounded-full ${officeStatus.australia ? 'bg-green-500 animate-pulse' : 'bg-red-400'}`} />
+                                        {officeStatus.australia ? 'Open' : 'Closed'}
+                                    </span>
+                                </div>
                                 <div className="space-y-3">
                                     <div className="flex flex-col">
                                         <span className="text-gray-400 text-[10px] uppercase font-black tracking-tighter mb-1">Mon - Fri</span>
                                         <span className="text-[#1f406d] font-bold text-sm">10.00 am - 5.00 pm</span>
                                     </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-gray-400 text-[10px] uppercase font-black tracking-tighter mb-1">Sat - Sun</span>
-                                        <span className="text-red-600 font-bold text-sm underline decoration-red-200 decoration-2 underline-offset-4">Closed</span>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

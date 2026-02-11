@@ -100,32 +100,34 @@ const LocationMarker = ({ location }) => {
     );
 };
 
-export default function LocationsSection() {
+export default function LocationsSection({ hideHeader = false, isLoader = false }) {
     return (
-        <section data-cursor="location" className="relative py-24 bg-transparent overflow-hidden min-h-[950px]">
-            <div className="max-w-[1400px] mx-auto px-6">
+        <section data-cursor="location" className={`relative ${isLoader ? 'py-0 h-full min-h-0' : 'py-24 min-h-[950px]'} bg-transparent overflow-hidden`}>
+            <div className={`max-w-[1400px] mx-auto px-6 ${isLoader ? 'h-full flex items-center justify-center' : ''}`}>
 
-                <div className="text-center mb-16 relative z-40">
-                    <motion.h2
-                        initial={{ opacity: 0, y: -20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-6xl md:text-8xl font-black font-syne text-[#1f406d] tracking-tighter uppercase mb-4"
-                    >
-                        Explore By <span className="text-[#e41e25]">Location</span>
-                    </motion.h2>
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.3 }}
-                        className="text-gray-400 text-lg md:text-xl font-medium tracking-tight"
-                    >
-                        Our global presence across India, Australia, and our strategic global hubs.
-                    </motion.p>
-                </div>
+                {!hideHeader && (
+                    <div className="text-center mb-16 relative z-40">
+                        <motion.h2
+                            initial={{ opacity: 0, y: -20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="text-6xl md:text-8xl font-black font-syne text-[#1f406d] tracking-tighter uppercase mb-4"
+                        >
+                            Explore By <span className="text-[#e41e25]">Location</span>
+                        </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.3 }}
+                            className="text-gray-400 text-lg md:text-xl font-medium tracking-tight"
+                        >
+                            Our global presence across India, Australia, and our strategic global hubs.
+                        </motion.p>
+                    </div>
+                )}
 
-                <div className="relative w-full h-[600px] md:h-[750px] flex items-center justify-center">
+                <div className={`relative w-full ${isLoader ? 'h-full' : 'h-[600px] md:h-[750px]'} flex items-center justify-center`}>
 
                     <div className="absolute inset-0 scale-100 pointer-events-none flex items-center justify-center overflow-hidden">
                         {/* The Dotted World Map Background from User Reference */}

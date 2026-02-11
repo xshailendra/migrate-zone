@@ -9,135 +9,154 @@ if (typeof window !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 }
 
-const TextSpan = ({ text, className }) => {
-    return text.split(" ").map((word, i) => (
-        <span key={i} className={`word inline-block mr-[0.25em] ${className}`} style={{ opacity: 0.1 }}>
-            {word}
-        </span>
-    ));
+/* ─── SVG Flowing Wave Text ─── */
+const FlowingWave = ({ text, fontSize = 42, gradientId = 'waveGrad', className = '' }) => {
+    const pathRef = useRef(null);
+
+    const generateWavePath = () => {
+        const width = 6000;
+        const amplitude = 14;
+        const wavelength = 500;
+        let d = `M 0 55`;
+        for (let x = 0; x <= width; x += 8) {
+            const y = 55 + amplitude * Math.sin((x / wavelength) * 2 * Math.PI);
+            d += ` L ${x} ${y.toFixed(2)}`;
+        }
+        return d;
+    };
+
+    return (
+        <div className={`overflow-hidden w-full ${className}`}>
+            <svg
+                viewBox="0 0 2000 110"
+                preserveAspectRatio="xMidYMid meet"
+                className="w-full"
+                style={{ height: fontSize * 1.8 }}
+            >
+                <defs>
+                    <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#1f406d" stopOpacity="0.7" />
+                        <stop offset="30%" stopColor="#1f406d" stopOpacity="1" />
+                        <stop offset="55%" stopColor="#e41e25" stopOpacity="0.85" />
+                        <stop offset="75%" stopColor="#1f406d" stopOpacity="1" />
+                        <stop offset="100%" stopColor="#1f406d" stopOpacity="0.6" />
+                    </linearGradient>
+                </defs>
+
+                <path
+                    ref={pathRef}
+                    id={`wavePath-${gradientId}`}
+                    d={generateWavePath()}
+                    fill="none"
+                    stroke="none"
+                />
+
+                <text
+                    fill={`url(#${gradientId})`}
+                    fontSize={fontSize}
+                    fontWeight="900"
+                    fontFamily="var(--font-syne), sans-serif"
+                    letterSpacing="-0.02em"
+                >
+                    <textPath
+                        href={`#wavePath-${gradientId}`}
+                        startOffset="0%"
+                        className={`wave-tp wave-tp-${gradientId}`}
+                    >
+                        {text}
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+    );
 };
 
 export default function AwesomeFacts() {
     const containerRef = useRef(null);
-    const textContainerRef = useRef(null);
-    const [isMobile, setIsMobile] = useState(false);
 
-    useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+    const line1 = "Aiming to migrate to Australia or Canada, then find yourself in the safe and efficient hands of Migrate Zone with experienced and motivated professionals ever ready to be of help.";
+    const line2 = "With 21 and more years of experience in the field of immigration and with umpteen numbers of satisfied clients, we stand out when it comes to leading immigration consultants.";
 
     useGSAP(() => {
-        const words = textContainerRef.current.querySelectorAll('.word');
-        if (!words.length) return;
+        // Animate wave text paths — smooth flowing offset
+        const tp1 = containerRef.current.querySelectorAll('.wave-tp-wg1');
+        const tp2 = containerRef.current.querySelectorAll('.wave-tp-wg2');
 
-        ScrollTrigger.refresh();
-
-        const rows = {};
-        words.forEach(word => {
-            const top = Math.round(word.offsetTop);
-            if (!rows[top]) rows[top] = [];
-            rows[top].push(word);
-        });
-
-        const sortedRowTops = Object.keys(rows).sort((a, b) => Number(a) - Number(b));
-        const rowArrays = sortedRowTops.map(top => rows[top]);
-
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: containerRef.current,
-                start: "top 60%",
-                end: "bottom 30%",
-                scrub: 1,
-            }
-        });
-
-        rowArrays.forEach((rowWords, i) => {
-            tl.to(rowWords, {
-                opacity: 1,
-                duration: 1,
-                ease: "none",
+        if (tp1.length) {
+            gsap.fromTo(tp1, { attr: { startOffset: '5%' } }, {
+                attr: { startOffset: '-60%' },
+                duration: 25,
+                ease: 'none',
+                repeat: -1,
             });
-        });
+        }
+        if (tp2.length) {
+            gsap.fromTo(tp2, { attr: { startOffset: '-60%' } }, {
+                attr: { startOffset: '5%' },
+                duration: 30,
+                ease: 'none',
+                repeat: -1,
+            });
+        }
 
-        // Parallax effects for decorative elements
-        gsap.to(".floating-shape", {
-            y: (i, el) => -100 * parseFloat(el.dataset.speed || 1),
-            ease: "none",
+        // Parallax shapes
+        gsap.to('.af-shape', {
+            y: (i, el) => -80 * parseFloat(el.dataset.speed || 1),
+            ease: 'none',
             scrollTrigger: {
                 trigger: containerRef.current,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+            },
         });
-
-    }, { scope: containerRef, dependencies: [isMobile] });
+    }, { scope: containerRef });
 
     return (
-        <section ref={containerRef} className="relative min-h-[50vh] h-[calc(50vh-15px)] flex items-center justify-center bg-[#1f406d] overflow-hidden">
-            {/* Base Background Layer */}
+        <section ref={containerRef} className="relative py-14 md:py-16 bg-white overflow-hidden">
+            {/* Background */}
             <div className="absolute inset-0 z-0 overflow-hidden">
-                <img
-                    src="/professional_solicitor_team.png"
-                    alt="Background"
-                    className="w-full h-full object-cover opacity-10 brightness-50 scale-110"
-                />
 
-                {/* Texture Overlay */}
-                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/carbon-fibre.png')" }}></div>
 
-                {/* Radial Glow */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(228,30,37,0.15)_0%,transparent_70%)] pointer-events-none"></div>
-
-                {/* Main Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#1f406d]/95 via-[#1f406d]/90 to-[#1f406d]/95"></div>
-
-                {/* Floating Decorative Shapes */}
-                <div data-speed="0.2" className="floating-shape absolute top-20 left-[10%] w-32 h-32 bg-white/5 backdrop-blur-3xl rounded-full border border-white/10 blur-xl"></div>
-                <div data-speed="0.5" className="floating-shape absolute bottom-20 right-[15%] w-48 h-48 bg-[#e41e25]/10 backdrop-blur-2xl rounded-full border border-white/5 blur-2xl"></div>
-
-                {/* Moving Branded Diamonds */}
-                <div data-speed="0.8" className="floating-shape absolute top-1/4 right-[5%] w-12 h-12 border border-white/20 rotate-45 opacity-20"></div>
-                <div data-speed="0.3" className="floating-shape absolute bottom-1/3 left-[5%] w-8 h-8 border border-[#e41e25]/40 rotate-12 opacity-30"></div>
+                <div data-speed="0.3" className="af-shape absolute top-10 left-[8%] w-24 h-24 bg-[#1f406d]/[0.03] rounded-full blur-2xl" />
+                <div data-speed="0.5" className="af-shape absolute bottom-12 right-[10%] w-36 h-36 bg-[#e41e25]/[0.03] rounded-full blur-3xl" />
+                <div data-speed="0.7" className="af-shape absolute top-1/3 right-[5%] w-8 h-8 border border-[#1f406d]/10 rotate-45 opacity-15" />
             </div>
 
-            <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-                {/* Top Badge Overlay */}
-                <div className="mb-6 flex justify-center">
-                    <div className="px-6 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full flex items-center gap-3">
-                        <div className="w-2 h-2 bg-[#e41e25] rounded-full animate-pulse shadow-[0_0_8px_#e41e25]"></div>
-                        <span className="text-[10px] uppercase font-black tracking-[0.3em] text-white/60">Migrate Zone Insights</span>
-                    </div>
+            <div className="relative z-10">
+                {/* Title */}
+                <div className="text-center mb-4 px-6">
+                    <h2 className="text-3xl md:text-5xl font-black font-syne text-[#1f406d] uppercase tracking-tighter leading-none mb-10">
+                        See Our <span className="text-[#e41e25]">Awesome Facts</span>
+                    </h2>
+
                 </div>
 
-                <div ref={textContainerRef} className="relative">
-                    <div className="mb-10">
-                        <h2 className="text-4xl md:text-6xl font-black font-syne text-white uppercase tracking-tighter leading-none">
-                            <TextSpan text="See Our" /> <TextSpan text="Awesome Facts" className="text-[#e41e25]" />
-                        </h2>
-                        {/* Refined subtle underline for title accent */}
-                        <div className="h-[4px] w-24 bg-gradient-to-r from-transparent via-[#e41e25] to-transparent mx-auto mt-6 opacity-50"></div>
-                    </div>
+                {/* Flowing Wave Row 1 */}
+                <div className="relative">
+                    <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+                    <FlowingWave
+                        text={`${line1}  ◆  ${line1}  ◆  ${line1}  ◆  `}
+                        fontSize={34}
+                        gradientId="wg1"
+                    />
+                </div>
 
-                    <div className="relative px-4">
-                        {/* Text Frame Corner Accents (Subtle) */}
-                        <div className="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-[#e41e25]/20"></div>
-                        <div className="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-[#e41e25]/20"></div>
-
-                        <div className="mb-3 text-white/80 text-xl md:text-2xl font-medium leading-[1.6] max-w-5xl mx-auto mt-0">
-                            <p>
-                                <TextSpan text="Aiming to migrate to Australia or Canada, then find yourself in the safe and efficient hands of Migrate Zone with experienced and motivated professionals ever ready to be of help. With 21 and more years of experience in the field of immigration and with umpteen numbers of satisfied clients, we stand out when it comes to leading immigration consultants." />
-                            </p>
-                        </div>
-                    </div>
+                {/* Flowing Wave Row 2 (reverse, slightly smaller) */}
+                <div className="relative -mt-2">
+                    <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+                    <FlowingWave
+                        text={`${line2}  ◆  ${line2}  ◆  ${line2}  ◆  `}
+                        fontSize={28}
+                        gradientId="wg2"
+                        className="opacity-50"
+                    />
                 </div>
             </div>
 
-            {/* Bottom Section Transition Gradient */}
-            <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+
         </section>
     );
 }

@@ -643,12 +643,15 @@ export default function Header() {
                                     : 'bg-transparent border-none shadow-none'}`}
                         whileHover={{ scale: 1.02 }}
                     >
-                        <Link href="/" className="flex items-center justify-center" onClick={(e) => handleNavClick(e, '/')}>
+                        <Link href="/" className="flex items-center justify-center gap-2 h-10 max-w-[180px]" onClick={(e) => handleNavClick(e, '/')}>
                             <img
-                                src="/logo-wide-removebg-preview.png"
-                                alt="Migrate Zone Logo"
-                                className="h-10 w-auto max-w-[180px] object-contain transition-all duration-500"
+                                src="/logos/footer-left.png"
+                                alt="Migrate Zone"
+                                className="h-8 w-8 object-contain flex-shrink-0"
                             />
+                            <span className="text-[17px] font-extrabold tracking-tight whitespace-nowrap" style={{ color: '#e41e25' }}>
+                                MIGRATE ZONE
+                            </span>
                         </Link>
                     </motion.div>
 
@@ -669,7 +672,7 @@ export default function Header() {
                                 >
                                     <Link href={item.href} onClick={(e) => handleNavClick(e, item.href)}>
                                         <motion.div
-                                            className={`relative flex items-center gap-1.5 py-2 px-3 text-[12px] font-black tracking-widest uppercase 
+                                            className={`relative flex items-center gap-1.5 py-2 px-3 text-[13px] font-medium tracking-widest uppercase 
                                                        transition-all duration-500 rounded-full
                                                        ${hoveredIndex === index
                                                     ? (navTheme === 'glass' ? 'bg-[#1f406d]/10 text-[#1f406d]' : navTheme === 'black' ? 'bg-black/5 text-slate-950' : 'bg-white/15 text-white')

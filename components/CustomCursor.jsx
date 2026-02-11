@@ -74,7 +74,14 @@ const CustomCursor = () => {
         };
 
         const handleMouseDown = () => setCursorType('click');
-        const handleMouseUp = (e) => updateCursor(e.target);
+        const handleMouseUp = (e) => {
+            // Delay re-detection slightly so React state (e.g. data-cursor) has time to update
+            setTimeout(() => {
+                const el = document.elementFromPoint(mouseX.get(), mouseY.get());
+                if (el) updateCursor(el);
+                else updateCursor(e.target);
+            }, 50);
+        };
 
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mousedown', handleMouseDown);
@@ -101,7 +108,7 @@ const CustomCursor = () => {
         hover: {
             width: 80,
             height: 80,
-            backgroundColor: hoverColor === '#e42e25' ? 'rgba(228, 46, 37, 0.12)' : 'rgba(31, 64, 109, 0.12)',
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
             border: `1.5px solid ${hoverColor}`,
             borderRadius: '50%',
             opacity: 1
@@ -109,7 +116,7 @@ const CustomCursor = () => {
         visit: {
             width: 150,
             height: 52,
-            backgroundColor: 'rgba(228, 46, 37, 0.12)',
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
             borderRadius: '26px',
             border: '1.5px solid #e42e25',
             scale: 1,
@@ -119,7 +126,7 @@ const CustomCursor = () => {
         explore: {
             width: 150,
             height: 52,
-            backgroundColor: 'rgba(228, 46, 37, 0.12)',
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
             borderRadius: '26px',
             border: '1.5px solid #e42e25',
             scale: 1,
@@ -129,7 +136,7 @@ const CustomCursor = () => {
         play: {
             width: 100,
             height: 100,
-            backgroundColor: 'rgba(228, 46, 37, 0.12)',
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
             borderRadius: '50%',
             border: '1.5px solid #e42e25',
             scale: 1,
@@ -139,7 +146,7 @@ const CustomCursor = () => {
         pause: {
             width: 100,
             height: 100,
-            backgroundColor: 'rgba(31, 64, 109, 0.12)',
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
             borderRadius: '50%',
             border: '1.5px solid #1f406d',
             scale: 1,
@@ -149,7 +156,7 @@ const CustomCursor = () => {
         location: {
             width: 160,
             height: 52,
-            backgroundColor: 'rgba(31, 64, 109, 0.12)',
+            backgroundColor: 'rgba(255, 255, 255, 0.85)',
             borderRadius: '26px',
             border: '1.5px solid #1f406d',
             scale: 1,
