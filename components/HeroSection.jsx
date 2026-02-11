@@ -29,7 +29,7 @@ export default function HeroSection() {
     return (
         <section className="relative min-h-[95vh] md:min-h-screen w-full flex items-center justify-center pt-32 pb-16 px-6 overflow-hidden bg-transparent mt-20 md:mt-28">
             {/* Background Video Container */}
-            <div className="absolute inset-4 md:inset-8 z-0 overflow-hidden rounded-[3.5rem] md:rounded-[6rem] shadow-2xl">
+            <div className="absolute inset-4 md:inset-8 z-0 overflow-hidden rounded-[3.5rem] md:rounded-[6rem] shadow-2xl bg-white">
                 <video
                     src="/hero-bgg.mp4"
                     autoPlay

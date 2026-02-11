@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import TextLoader from '@/components/TextLoader';
+import QuantumLoader from '@/components/QuantumLoader';
+import PlaneCloudLoader from '@/components/Planecloudloader';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import WelcomeSection from '@/components/WelcomeSection';
@@ -33,10 +34,10 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen bg-transparent text-neutral-900">
+    <main className="relative min-h-screen text-neutral-900 bg-white">
       <AnimatePresence>
         {showLoader && (
-          <TextLoader
+          <QuantumLoader
             onTransitionStart={handleTransitionStart}
             onComplete={() => setShowLoader(false)}
           />
@@ -72,8 +73,7 @@ export default function Home() {
       <RequestCallBack />
 
       <TestimonialsSection />
-      {/* <FAQSection /> */}
-      {/* <CTABanner /> */}
+
       <LocationsSection />
       <Footer />
     </main>

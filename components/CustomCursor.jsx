@@ -25,9 +25,9 @@ const CustomCursor = () => {
         // We prioritize the card's specific data-cursor for accurate scroll/hover detection
         const targetCursor = target.closest('[data-cursor]')?.getAttribute('data-cursor');
 
-        if (targetCursor === 'visit' || targetCursor === 'explore' || targetCursor === 'play' || targetCursor === 'pause') {
+        if (targetCursor === 'visit' || targetCursor === 'explore' || targetCursor === 'play' || targetCursor === 'pause' || targetCursor === 'location') {
             setCursorType(targetCursor);
-            if (targetCursor === 'pause') {
+            if (targetCursor === 'pause' || targetCursor === 'location') {
                 setHoverColor('#1f406d');
             } else {
                 setHoverColor('#e42e25');
@@ -146,6 +146,16 @@ const CustomCursor = () => {
             boxShadow: 'none',
             opacity: 1
         },
+        location: {
+            width: 160,
+            height: 52,
+            backgroundColor: 'rgba(31, 64, 109, 0.12)',
+            borderRadius: '26px',
+            border: '1.5px solid #1f406d',
+            scale: 1,
+            boxShadow: 'none',
+            opacity: 1
+        },
         click: {
             width: 16,
             height: 16,
@@ -164,6 +174,7 @@ const CustomCursor = () => {
         explore: { scale: 1, backgroundColor: '#e42e25', opacity: 1 },
         play: { scale: 1.2, backgroundColor: '#e42e25', opacity: 1 },
         pause: { scale: 1.2, backgroundColor: '#1f406d', opacity: 1 },
+        location: { scale: 1.2, backgroundColor: '#1f406d', opacity: 1 },
         click: {
             scale: [1, 12, 1],
             backgroundColor: ['#e42e25', 'rgba(228, 46, 37, 0)', '#1f406d'],
@@ -211,11 +222,11 @@ const CustomCursor = () => {
                 <motion.span
                     initial={{ opacity: 0, y: 15 }}
                     animate={{
-                        opacity: (cursorType === 'visit' || cursorType === 'explore' || cursorType === 'play' || cursorType === 'pause') ? 1 : 0,
-                        y: (cursorType === 'visit' || cursorType === 'explore' || cursorType === 'play' || cursorType === 'pause') ? 0 : 15,
-                        scale: (cursorType === 'visit' || cursorType === 'explore' || cursorType === 'play' || cursorType === 'pause') ? 1 : 0.8
+                        opacity: (cursorType === 'visit' || cursorType === 'explore' || cursorType === 'play' || cursorType === 'pause' || cursorType === 'location') ? 1 : 0,
+                        y: (cursorType === 'visit' || cursorType === 'explore' || cursorType === 'play' || cursorType === 'pause' || cursorType === 'location') ? 0 : 15,
+                        scale: (cursorType === 'visit' || cursorType === 'explore' || cursorType === 'play' || cursorType === 'pause' || cursorType === 'location') ? 1 : 0.8
                     }}
-                    className={`${cursorType === 'pause' ? 'text-[#1f406d]' : 'text-[#e42e25]'} text-[11px] font-black tracking-tight px-1 font-syne uppercase`}
+                    className={`${(cursorType === 'pause' || cursorType === 'location') ? 'text-[#1f406d]' : 'text-[#e42e25]'} text-[11px] font-black tracking-tight px-1 font-syne uppercase`}
                     transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                     <motion.span
@@ -227,7 +238,8 @@ const CustomCursor = () => {
                     >
                         {cursorType === 'explore' ? 'Explore' :
                             cursorType === 'play' ? 'Play' :
-                                cursorType === 'pause' ? 'Pause' : 'Visit'}
+                                cursorType === 'pause' ? 'Pause' :
+                                    cursorType === 'location' ? 'Location' : 'Visit'}
                     </motion.span>
                 </motion.span>
             </motion.div>

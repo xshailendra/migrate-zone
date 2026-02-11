@@ -10,7 +10,6 @@ import gsap from 'gsap';
 const countryData = {
     'AUSTRALIA': {
         image: '/australia_country_1770386989728.png',
-        flag: '🇦🇺',
         tagline: 'Land of Opportunities',
         highlight: 'Skilled Migration Hub',
         color: '#00843D',
@@ -18,7 +17,6 @@ const countryData = {
     },
     'CANADA': {
         image: '/canada_country_1770386923730.png',
-        flag: '🇨🇦',
         tagline: 'Your Gateway to PR',
         highlight: 'Express Entry Experts',
         color: '#FF0000',
@@ -26,7 +24,6 @@ const countryData = {
     },
     'NEW ZEALAND': {
         image: '/newzealand_country_1770386941714.png',
-        flag: '🇳🇿',
         tagline: 'Natural Paradise',
         highlight: 'Quality of Life',
         color: '#00247D',
@@ -34,7 +31,6 @@ const countryData = {
     },
     'USA': {
         image: '/usa_country_1770386959388.png',
-        flag: '🇺🇸',
         tagline: 'The American Dream',
         highlight: 'Study & Work Visas',
         color: '#3C3B6E',
@@ -42,7 +38,6 @@ const countryData = {
     },
     'UK': {
         image: '/uk_country_1770387018157.png',
-        flag: '🇬🇧',
         tagline: 'World-Class Education',
         highlight: 'Student Visa Experts',
         color: '#012169',
@@ -50,7 +45,6 @@ const countryData = {
     },
     'EUROPE': {
         image: '/europe_country_1770387043225.png',
-        flag: '🇪🇺',
         tagline: 'Explore the Continent',
         highlight: 'Schengen Specialists',
         color: '#003399',
@@ -395,7 +389,6 @@ const MegaDropdown = ({ items, isOpen, parentLabel }) => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.2 }}
                                 >
-                                    <span className="text-4xl">{country?.flag}</span>
                                     <div className="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">
                                         Popular Destination
                                     </div>
@@ -532,8 +525,72 @@ export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [expandedMobileItems, setExpandedMobileItems] = useState([]);
+    const [navTheme, setNavTheme] = useState('white'); // 'black', 'white', 'glass'
     const hoverTimeoutRef = useRef(null);
     const navContainerRef = useRef(null);
+
+    useEffect(() => {
+        const detectTheme = () => {
+            if (window.scrollY >= 60) {
+                setNavTheme('glass');
+                return;
+            }
+
+            // Detect background under navbar
+            const elements = document.elementsFromPoint(window.innerWidth / 2, 40);
+            const bgEl = elements.find(el =>
+                el &&
+                !navContainerRef.current?.contains(el) &&
+                !el.closest('header')
+            );
+
+            if (bgEl) {
+                const style = window.getComputedStyle(bgEl);
+                let bgColor = style.backgroundColor;
+
+                // If current element is transparent, find nearest parent with color
+                let parent = bgEl;
+                while (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent' && parent.parentElement) {
+                    parent = parent.parentElement;
+                    bgColor = window.getComputedStyle(parent).backgroundColor;
+                }
+
+                const match = bgColor.match(/\d+/g);
+                if (match) {
+                    const [r, g, b] = match.map(Number);
+                    const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+
+                    if (r === 255 && g === 255 && b === 255) {
+                        setNavTheme('black');
+                    } else if (luminance > 240) {
+                        setNavTheme('glass');
+                    } else if (luminance < 140) {
+                        setNavTheme('white');
+                    } else {
+                        // For complex backgrounds, default to white for contrast
+                        setNavTheme('white');
+                    }
+                } else {
+                    setNavTheme('white');
+                }
+            } else {
+                setNavTheme('white');
+            }
+        };
+
+        const handleScroll = () => {
+            detectTheme();
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Initial detection after a small delay to ensure DOM is ready
+        const timer = setTimeout(detectTheme, 100);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            clearTimeout(timer);
+        };
+    }, []);
 
     const handleMouseEnter = useCallback((index) => {
         if (hoverTimeoutRef.current) {
@@ -562,18 +619,32 @@ export default function Header() {
 
                 {/* Navbar Container */}
                 <div ref={navContainerRef} className="relative flex items-center justify-center">
-                    {/* Logo */}
+                    {/* Logo Container */}
                     <motion.div
-                        className="relative z-20 flex items-center justify-center px-6 h-14 bg-[#1f406d] rounded-full mr-4"
+                        className={`relative z-20 flex items-center justify-center px-6 h-14 rounded-full mr-4 transition-all duration-500 ease-in-out
+                            ${navTheme === 'glass'
+                                ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)]'
+                                : navTheme === 'black'
+                                    ? 'bg-transparent border border-black/20 shadow-none'
+                                    : 'bg-transparent border-none shadow-none'}`}
                         whileHover={{ scale: 1.02 }}
                     >
                         <Link href="/" className="flex items-center justify-center">
-                            <img src="/logo-wide-removebg-preview.png" alt="Migrate Zone Logo" className="h-10 w-auto max-w-[180px] object-contain" />
+                            <img
+                                src="/logo-wide-removebg-preview.png"
+                                alt="Migrate Zone Logo"
+                                className="h-10 w-auto max-w-[180px] object-contain transition-all duration-500"
+                            />
                         </Link>
                     </motion.div>
 
-                    {/* Navigation */}
-                    <div className="relative z-10 bg-[#1f406d] rounded-full px-4 py-3">
+                    {/* Navigation Container */}
+                    <div className={`relative z-10 rounded-full px-4 py-3 transition-all duration-500 ease-in-out
+                        ${navTheme === 'glass'
+                            ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)]'
+                            : navTheme === 'black'
+                                ? 'bg-transparent border border-black/20 shadow-none'
+                                : 'bg-transparent border-none shadow-none'}`}>
                         <div className="hidden xl:flex items-center gap-0.5">
                             {navItems.map((item, index) => (
                                 <div
@@ -584,20 +655,14 @@ export default function Header() {
                                 >
                                     <Link href={item.href}>
                                         <motion.div
-                                            className={`relative flex items-center gap-1.5 py-2 px-3 text-[10px] font-black tracking-widest uppercase 
-                                                       transition-all duration-300 rounded-full
+                                            className={`relative flex items-center gap-1.5 py-2 px-3 text-[12px] font-black tracking-widest uppercase 
+                                                       transition-all duration-500 rounded-full
                                                        ${hoveredIndex === index
-                                                    ? 'text-white bg-white/15'
-                                                    : 'text-white/80 hover:text-white hover:bg-white/5'
+                                                    ? (navTheme === 'glass' ? 'bg-[#1f406d]/10 text-[#1f406d]' : navTheme === 'black' ? 'bg-black/5 text-slate-950' : 'bg-white/15 text-white')
+                                                    : (navTheme === 'glass' ? 'text-[#1f406d]/80 hover:text-[#1f406d]' : navTheme === 'black' ? 'text-slate-700 hover:text-slate-950' : 'text-white/80 hover:text-white')
                                                 }`}
                                             whileHover={{ scale: 1.02 }}
                                         >
-                                            {item.subItems && countryData[item.label] && (
-                                                <span className="text-sm">
-                                                    {countryData[item.label].flag}
-                                                </span>
-                                            )}
-
                                             {item.label}
 
                                             {item.subItems && (
@@ -623,7 +688,11 @@ export default function Header() {
                         </div>
 
                         {/* Mobile Toggle */}
-                        <button className="xl:hidden p-2 text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                        <button
+                            className={`xl:hidden p-2 transition-colors duration-500 
+                                ${navTheme === 'glass' ? 'text-[#1f406d]' : navTheme === 'black' ? 'text-black' : 'text-white'}`}
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        >
                             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                         </button>
                     </div>
@@ -651,10 +720,9 @@ export default function Header() {
                                             <div className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50">
                                                 <Link
                                                     href={item.href}
-                                                    className="flex items-center gap-3 text-[11px] font-black tracking-widest text-[#1f406d] uppercase"
+                                                    className="flex items-center gap-3 text-[13px] font-black tracking-widest text-[#1f406d] uppercase"
                                                     onClick={() => !item.subItems && setIsMobileMenuOpen(false)}
                                                 >
-                                                    {countryData[item.label] && <span className="text-xl">{countryData[item.label].flag}</span>}
                                                     {item.label}
                                                 </Link>
                                                 {item.subItems && (
@@ -676,7 +744,7 @@ export default function Header() {
                                                             <Link
                                                                 key={subItem.label}
                                                                 href={subItem.href}
-                                                                className="block text-[10px] font-bold tracking-wide text-gray-500 hover:text-[#1f406d] uppercase py-2.5"
+                                                                className="block text-[12px] font-bold tracking-wide text-gray-500 hover:text-[#1f406d] uppercase py-2.5"
                                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                             >
                                                                 {subItem.label}
@@ -701,7 +769,7 @@ export default function Header() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </header>
-        </div>
+            </header >
+        </div >
     );
 }
