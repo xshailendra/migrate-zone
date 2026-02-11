@@ -38,9 +38,9 @@ export default function UKPage() {
             {/* Global Page Background Watermark */}
             <div className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center opacity-[0.25] overflow-hidden">
                 <img
-                    src="/uk-dotted.png"
+                    src="/uk-flag-dots.png"
                     alt=""
-                    className="w-[80%] max-w-[1000px] h-auto object-contain grayscale"
+                    className="w-[80%] max-w-[1000px] h-auto object-contain"
                 />
             </div>
             <Header />
