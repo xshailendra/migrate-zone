@@ -25,7 +25,7 @@ const CustomCursor = () => {
         // We prioritize the card's specific data-cursor for accurate scroll/hover detection
         const targetCursor = target.closest('[data-cursor]')?.getAttribute('data-cursor');
 
-        if (targetCursor === 'visit' || targetCursor === 'explore' || targetCursor === 'play' || targetCursor === 'pause' || targetCursor === 'location') {
+        if (targetCursor === 'visit' || targetCursor === 'explore' || targetCursor === 'play' || targetCursor === 'pause' || targetCursor === 'location' || targetCursor === 'minimal') {
             setCursorType(targetCursor);
             if (targetCursor === 'pause' || targetCursor === 'location') {
                 setHoverColor('#1f406d');
@@ -163,6 +163,16 @@ const CustomCursor = () => {
             boxShadow: 'none',
             opacity: 1
         },
+        minimal: {
+            width: 150,
+            height: 52,
+            backgroundColor: 'rgba(255, 255, 255, 0.15)',
+            borderRadius: '26px',
+            border: `2px solid ${hoverColor}`,
+            scale: 1,
+            boxShadow: 'none',
+            opacity: 1
+        },
         click: {
             width: 16,
             height: 16,
@@ -182,6 +192,7 @@ const CustomCursor = () => {
         play: { scale: 1.2, backgroundColor: '#e42e25', opacity: 1 },
         pause: { scale: 1.2, backgroundColor: '#1f406d', opacity: 1 },
         location: { scale: 1.2, backgroundColor: '#1f406d', opacity: 1 },
+        minimal: { scale: 1.2, backgroundColor: hoverColor, opacity: 1 },
         click: {
             scale: [1, 12, 1],
             backgroundColor: ['#e42e25', 'rgba(228, 46, 37, 0)', '#1f406d'],
