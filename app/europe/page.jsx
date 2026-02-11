@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Globe, Shield, Heart, TrendingUp, GraduationCap, Briefcase, Plane, Clock, Building2 } from 'lucide-react';
 import Header from '@/components/Header';
@@ -145,7 +147,7 @@ export default function EuropePage() {
                                 <span className="text-xs font-black uppercase tracking-[0.5em] text-[#E42E25] mb-6 block">Free Assessment</span>
                                 <h2 className="text-4xl md:text-6xl font-black font-syne text-[#1f406d] uppercase tracking-tighter mb-6 leading-[0.9]">Check Your<br />Eligibility</h2>
                                 <p className="text-base text-[#1f406d]/50 font-medium leading-relaxed mb-10 max-w-md">Looking to settle abroad? Our team is highly trained in relevant legislation. Check your eligibility now — completely free.</p>
-                                <button className="group flex items-center gap-4 px-10 py-4 bg-[#1f406d] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#E42E25] transition-all duration-300 shadow-xl shadow-[#1f406d]/20">Fill Assessment Form <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></button>
+                                <Link href="/assessment" className="group flex items-center gap-4 px-10 py-4 bg-[#1f406d] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#E42E25] transition-all duration-300 shadow-xl shadow-[#1f406d]/20">Fill Assessment Form <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></Link>
                             </div>
                             <div className="space-y-6">
                                 <div className="bg-[#1f406d]/[0.03] rounded-2xl p-8 border border-[#1f406d]/[0.06] hover:border-[#E42E25]/20 transition-all duration-300">

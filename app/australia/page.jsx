@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ExternalLink, Sparkles, MapPin, Globe, Shield, Heart, TrendingUp, Users, GraduationCap, Briefcase, Building2, Plane, Clock, ClipboardCheck } from 'lucide-react';
 import Header from '@/components/Header';
@@ -344,10 +346,10 @@ export default function AustraliaPage() {
                                 <p className="text-base text-[#1f406d]/50 font-medium leading-relaxed mb-10 max-w-md">
                                     Looking to settle abroad? Our team is highly trained in relevant legislation. Check your eligibility now — completely free.
                                 </p>
-                                <button className="group flex items-center gap-4 px-10 py-4 bg-[#1f406d] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#E42E25] transition-all duration-300 shadow-xl shadow-[#1f406d]/20">
+                                <Link href="/assessment" className="group flex items-center gap-4 px-10 py-4 bg-[#1f406d] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#E42E25] transition-all duration-300 shadow-xl shadow-[#1f406d]/20">
                                     Fill Assessment Form
                                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                </button>
+                                </Link>
                             </div>
 
                             {/* Right — Contact */}

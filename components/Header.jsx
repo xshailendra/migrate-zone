@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
-import { Menu, X, ChevronDown, ChevronRight, ArrowRight, Plane, GraduationCap, Briefcase, Users, Building2, Clock, Star, TrendingUp, CheckCircle2, Sparkles, Globe, MapPin, Award, Zap } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight, Plane, GraduationCap, Briefcase, Users, Building2, Star, TrendingUp, Globe } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -11,44 +11,56 @@ import gsap from 'gsap';
 const countryData = {
     'AUSTRALIA': {
         image: '/australia_country_1770386989728.png',
+        flag: 'https://flagcdn.com/w640/au.png',
         tagline: 'Land of Opportunities',
         highlight: 'Skilled Migration Hub',
         color: '#00843D',
+        flagColors: ['#00008B', '#FFFFFF', '#FF0000'],
         stats: { visas: '50K+', success: '98%', processing: '8-12 weeks' }
     },
     'CANADA': {
         image: '/canada_country_1770386923730.png',
+        flag: 'https://flagcdn.com/w640/ca.png',
         tagline: 'Your Gateway to PR',
         highlight: 'Express Entry Experts',
         color: '#FF0000',
+        flagColors: ['#FF0000', '#FFFFFF', '#FF0000'],
         stats: { visas: '40K+', success: '97%', processing: '6-8 months' }
     },
     'NEW ZEALAND': {
         image: '/newzealand_country_1770386941714.png',
+        flag: 'https://flagcdn.com/w640/nz.png',
         tagline: 'Natural Paradise',
         highlight: 'Quality of Life',
         color: '#00247D',
+        flagColors: ['#00247D', '#CC142B', '#FFFFFF'],
         stats: { visas: '15K+', success: '96%', processing: '4-6 weeks' }
     },
     'USA': {
         image: '/usa_country_1770386959388.png',
+        flag: 'https://flagcdn.com/w640/us.png',
         tagline: 'The American Dream',
         highlight: 'Study & Work Visas',
         color: '#3C3B6E',
+        flagColors: ['#3C3B6E', '#FFFFFF', '#B22234'],
         stats: { visas: '30K+', success: '95%', processing: '3-6 months' }
     },
     'UK': {
         image: '/uk_country_1770387018157.png',
+        flag: 'https://flagcdn.com/w640/gb.png',
         tagline: 'World-Class Education',
         highlight: 'Student Visa Experts',
         color: '#012169',
+        flagColors: ['#012169', '#FFFFFF', '#C8102E'],
         stats: { visas: '25K+', success: '97%', processing: '3-8 weeks' }
     },
     'EUROPE': {
         image: '/europe_country_1770387043225.png',
+        flag: 'https://flagcdn.com/w640/eu.png',
         tagline: 'Explore the Continent',
         highlight: 'Schengen Specialists',
         color: '#003399',
+        flagColors: ['#003399', '#FFD700', '#003399'],
         stats: { visas: '35K+', success: '96%', processing: '2-4 weeks' }
     },
 };
@@ -168,157 +180,71 @@ const navItems = [
     { label: 'EVENTS', href: '/events' },
 ];
 
-// Modern Visa Category Item
-const VisaCategoryItem = ({ item, index, onHover, isActive, country }) => {
+// Category Column for the Jewell-style mega menu
+const CategoryColumn = ({ item, index }) => {
     const config = categoryConfig[item.label] || { icon: Briefcase, color: '#1f406d', bg: '#e8f0fe' };
     const IconComponent = config.icon;
-    const hasSubItems = item.subItems && item.subItems.length > 0;
+
+    // Collect all linkable items: the item itself (if no sub-items, it's a direct link) + sub-items
+    const allLinks = [];
+    if (item.subItems && item.subItems.length > 0) {
+        item.subItems.forEach(sub => {
+            allLinks.push(sub);
+            // Include nested sub-items too
+            if (sub.subItems && sub.subItems.length > 0) {
+                sub.subItems.forEach(nested => allLinks.push(nested));
+            }
+        });
+    }
 
     return (
-        <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.05, ease: [0.4, 0, 0.2, 1] }}
-            onMouseEnter={() => onHover(item)}
-            className="relative"
-        >
-            <Link href={item.href}>
-                <motion.div
-                    className={`group flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-300
-                        ${isActive ? 'bg-white/20' : 'hover:bg-white/10'}`}
-                    whileHover={{ x: 8 }}
-                    transition={{ duration: 0.2 }}
+        <div className="mega-col flex flex-col">
+            {/* Category Header */}
+            <div className="flex items-center gap-3 mb-4">
+                <div
+                    className="w-10 h-10 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors duration-300"
+                    style={{ borderColor: config.color, color: config.color }}
                 >
-                    {/* Icon */}
-                    <div
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300
-                            ${isActive ? 'bg-white text-[#1f406d]' : 'bg-white/10 text-white group-hover:bg-white/20'}`}
-                    >
-                        <IconComponent className="w-4 h-4" />
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1">
-                        <h4 className="font-bold text-white text-sm mb-0.5">{item.label}</h4>
-                        <p className="text-white/60 text-xs line-clamp-1">
-                            {item.description || 'Expert consultation services'}
-                        </p>
-                    </div>
-
-                    {/* Arrow / Sub items indicator */}
-                    {hasSubItems ? (
-                        <motion.div
-                            animate={{ x: isActive ? 5 : 0 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <ChevronRight className={`w-5 h-5 transition-colors ${isActive ? 'text-white' : 'text-white/40'}`} />
-                        </motion.div>
-                    ) : (
-                        <ArrowRight className="w-4 h-4 text-white/40 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    )}
-                </motion.div>
-            </Link>
-        </motion.div>
-    );
-};
-
-// Sub Menu Panel with smooth animations
-const SubMenuPanel = ({ item, country }) => {
-    const panelRef = useRef(null);
-    const config = categoryConfig[item.label] || { icon: Briefcase, color: '#1f406d', bg: '#e8f0fe' };
-
-    useLayoutEffect(() => {
-        if (!panelRef.current) return;
-
-        const ctx = gsap.context(() => {
-            // Smooth slide in
-            gsap.fromTo(panelRef.current,
-                { opacity: 0, x: 30, scale: 0.95 },
-                { opacity: 1, x: 0, scale: 1, duration: 0.4, ease: 'power3.out' }
-            );
-
-            // Stagger children
-            const items = panelRef.current.querySelectorAll('.sub-item');
-            gsap.fromTo(items,
-                { opacity: 0, y: 15 },
-                { opacity: 1, y: 0, stagger: 0.04, duration: 0.35, ease: 'power2.out', delay: 0.15 }
-            );
-        }, panelRef);
-
-        return () => ctx.revert();
-    }, [item]);
-
-    return (
-        <motion.div
-            ref={panelRef}
-            className="h-full p-8 flex flex-col"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-        >
-            {/* Header */}
-            <div className="mb-6">
-                <div className="flex items-center gap-3 mb-3">
-                    <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center"
-                        style={{ background: config.color }}
-                    >
-                        {(() => {
-                            const IconComponent = config.icon;
-                            return <IconComponent className="w-5 h-5 text-white" />;
-                        })()}
-                    </div>
-                    <div>
-                        <h3 className="text-xl font-black text-gray-900">{item.label}</h3>
-                        <p className="text-sm text-gray-500">{item.subItems?.length || 0} options available</p>
-                    </div>
+                    <IconComponent className="w-[18px] h-[18px]" />
                 </div>
-                <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
+                <Link href={item.href}>
+                    <h3 className="text-[15px] font-bold text-gray-900 leading-tight hover:text-[#1f406d] transition-colors cursor-pointer">
+                        {item.label}
+                    </h3>
+                </Link>
             </div>
 
-            {/* Sub items */}
-            <div className="flex-1 space-y-2 overflow-y-auto">
-                {item.subItems?.map((subItem, idx) => (
-                    <Link key={subItem.label} href={subItem.href} className="sub-item block">
-                        <motion.div
-                            className="group flex items-center gap-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 cursor-pointer transition-all duration-200"
-                            whileHover={{ x: 6, backgroundColor: '#f0f4f8' }}
-                        >
-                            <div
-                                className="w-2 h-2 rounded-full"
-                                style={{ background: config.color }}
-                            />
-                            <span className="flex-1 text-sm font-medium text-gray-700 group-hover:text-gray-900">
-                                {subItem.label}
+            {/* Service Links */}
+            <div className="space-y-0">
+                {allLinks.length > 0 ? (
+                    allLinks.map((link) => (
+                        <Link key={link.label} href={link.href}>
+                            <div className="group flex items-center justify-between py-[10px] cursor-pointer">
+                                <span className="text-[13px] text-gray-500 group-hover:text-[#1f406d] transition-colors duration-200 leading-snug">
+                                    {link.label}
+                                </span>
+                                <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#1f406d] flex-shrink-0 ml-3 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200" />
+                            </div>
+                        </Link>
+                    ))
+                ) : (
+                    <Link href={item.href}>
+                        <div className="group flex items-center justify-between py-[10px] cursor-pointer">
+                            <span className="text-[13px] text-gray-500 group-hover:text-[#1f406d] transition-colors duration-200">
+                                Learn More
                             </span>
-                            <ArrowRight
-                                className="w-4 h-4 text-gray-400 opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all"
-                            />
-                        </motion.div>
+                            <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#1f406d] flex-shrink-0 ml-3 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200" />
+                        </div>
                     </Link>
-                ))}
+                )}
             </div>
-
-            {/* CTA */}
-            <Link href={item.href} className="mt-6">
-                <motion.div
-                    className="flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-sm text-white"
-                    style={{ background: config.color }}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                >
-                    <span>View All Options</span>
-                    <ArrowRight className="w-4 h-4" />
-                </motion.div>
-            </Link>
-        </motion.div>
+        </div>
     );
 };
 
-// New Modern Mega Dropdown
+// Jewell-style Mega Dropdown
 const MegaDropdown = ({ items, isOpen, parentLabel }) => {
     const dropdownRef = useRef(null);
-    const [hoveredItem, setHoveredItem] = useState(null);
     const country = countryData[parentLabel];
 
     useLayoutEffect(() => {
@@ -327,13 +253,24 @@ const MegaDropdown = ({ items, isOpen, parentLabel }) => {
         const ctx = gsap.context(() => {
             if (isOpen) {
                 gsap.set(dropdownRef.current, { display: 'block', pointerEvents: 'auto' });
+                // Smooth slide down like Jewell
                 gsap.fromTo(dropdownRef.current,
-                    { opacity: 0, y: -20 },
-                    { opacity: 1, y: 0, duration: 0.35, ease: 'power3.out' }
+                    { opacity: 0, y: -15, clipPath: 'inset(0 0 100% 0)' },
+                    {
+                        opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)',
+                        duration: 0.45, ease: 'power3.out'
+                    }
+                );
+                // Stagger columns
+                const cols = dropdownRef.current.querySelectorAll('.mega-col');
+                gsap.fromTo(cols,
+                    { opacity: 0, y: 20 },
+                    { opacity: 1, y: 0, stagger: 0.06, duration: 0.4, ease: 'power2.out', delay: 0.15 }
                 );
             } else {
                 gsap.to(dropdownRef.current, {
-                    opacity: 0, y: -15, duration: 0.2, ease: 'power2.in',
+                    opacity: 0, y: -10, clipPath: 'inset(0 0 100% 0)',
+                    duration: 0.25, ease: 'power2.in',
                     onComplete: () => {
                         if (dropdownRef.current) {
                             gsap.set(dropdownRef.current, { display: 'none', pointerEvents: 'none' });
@@ -346,13 +283,11 @@ const MegaDropdown = ({ items, isOpen, parentLabel }) => {
         return () => ctx.revert();
     }, [isOpen]);
 
-    useEffect(() => {
-        if (!isOpen) setHoveredItem(null);
-    }, [isOpen]);
-
     if (!items || items.length === 0) return null;
 
-    const showSubPanel = hoveredItem && hoveredItem.subItems && hoveredItem.subItems.length > 0;
+    // Split items into rows of 3 for grid layout
+    const topRow = items.slice(0, 3);
+    const bottomRow = items.slice(3);
 
     return (
         <div
@@ -360,160 +295,227 @@ const MegaDropdown = ({ items, isOpen, parentLabel }) => {
             className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
             style={{ display: 'none', width: 'min(1200px, 95vw)' }}
         >
-            <div className="rounded-3xl overflow-hidden border border-gray-200">
-                <div className="flex min-h-[620px]">
+            <div className="bg-white rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.12)] border border-gray-100">
+                <div className="flex">
 
-                    {/* Left - Full Image Background with Categories */}
-                    <div className="relative w-[420px] flex-shrink-0">
-                        {/* Background Image */}
-                        <div className="absolute inset-0">
-                            <img
-                                src={country?.image || '/australia_country_1770386989728.png'}
-                                alt={parentLabel}
-                                className="w-full h-full object-cover"
-                            />
-                            <div
-                                className="absolute inset-0"
-                                style={{
-                                    background: `linear-gradient(135deg, ${country?.color || '#1f406d'}f0 0%, ${country?.color || '#1f406d'}cc 100%)`
-                                }}
-                            />
-                        </div>
+                    {/* Left Sidebar – Country Info Panel */}
+                    <div
+                        className="w-[280px] flex-shrink-0 p-8 flex flex-col justify-between relative overflow-hidden"
+                    >
+                        {/* Base gradient mixing all flag colors */}
+                        <div className="absolute inset-0" style={{ background: `linear-gradient(160deg, ${country?.flagColors?.[0] || '#1f406d'} 0%, ${country?.flagColors?.[2] || '#e41e25'}99 45%, ${country?.flagColors?.[0] || '#1f406d'}dd 65%, ${country?.flagColors?.[1] || '#FFFFFF'}22 100%)` }} />
 
-                        {/* Content */}
-                        <div className="relative h-full flex flex-col p-6">
-                            {/* Header */}
-                            <div className="mb-4">
-                                <motion.div
-                                    className="flex items-center gap-3 mb-4"
-                                    initial={{ opacity: 0, y: -10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.2 }}
-                                >
-                                    <div className="px-3 py-1 bg-white/20 rounded-full text-xs font-bold text-white">
-                                        Popular Destination
-                                    </div>
-                                </motion.div>
-                                <motion.h2
-                                    className="text-3xl font-black text-white mb-2"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.3 }}
-                                >
-                                    {parentLabel}
-                                </motion.h2>
-                                <motion.p
-                                    className="text-white/80"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.35 }}
-                                >
-                                    {country?.tagline}
-                                </motion.p>
-                            </div>
+                        {/* Glowing orb */}
+                        <div
+                            className="absolute -top-10 -left-10 w-40 h-40 rounded-full blur-3xl opacity-[0.25]"
+                            style={{ background: country?.flagColors?.[2] || '#e41e25' }}
+                        />
+                        <div
+                            className="absolute -bottom-16 -right-10 w-48 h-48 rounded-full blur-3xl opacity-[0.15]"
+                            style={{ background: country?.flagColors?.[1] || '#FFFFFF' }}
+                        />
 
-                            {/* Categories List */}
-                            <div className="flex-1 space-y-0.5 overflow-y-auto pr-2 max-h-[350px]">
-                                {items.map((item, index) => (
-                                    <VisaCategoryItem
-                                        key={item.label}
-                                        item={item}
-                                        index={index}
-                                        onHover={setHoveredItem}
-                                        isActive={hoveredItem?.label === item.label}
-                                        country={country}
-                                    />
-                                ))}
-                            </div>
+                        {/* Topographic contour lines */}
+                        <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 280 500" fill="none">
+                            <ellipse cx="140" cy="250" rx="120" ry="180" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
+                            <ellipse cx="140" cy="250" rx="95" ry="145" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
+                            <ellipse cx="140" cy="250" rx="70" ry="110" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
+                            <ellipse cx="140" cy="250" rx="45" ry="75" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
+                            <ellipse cx="140" cy="250" rx="20" ry="40" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
+                        </svg>
 
-                            {/* Stats */}
+                        {/* Accent vertical bar */}
+                        <div
+                            className="absolute left-0 top-8 bottom-8 w-1 rounded-full opacity-30"
+                            style={{ background: `linear-gradient(to bottom, ${country?.flagColors?.[2] || '#e41e25'}, transparent)` }}
+                        />
+
+                        {/* Corner accent triangle */}
+                        <svg className="absolute bottom-0 right-0 w-20 h-20 opacity-[0.08]" viewBox="0 0 80 80">
+                            <polygon points="80,0 80,80 0,80" fill={country?.flagColors?.[2] || '#e41e25'} />
+                        </svg>
+
+                        {/* Small cross marks */}
+                        <svg className="absolute top-20 right-8 w-4 h-4 opacity-[0.15]" viewBox="0 0 12 12">
+                            <line x1="6" y1="0" x2="6" y2="12" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1.5" />
+                            <line x1="0" y1="6" x2="12" y2="6" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1.5" />
+                        </svg>
+                        <svg className="absolute bottom-36 left-8 w-3 h-3 opacity-[0.1]" viewBox="0 0 12 12">
+                            <line x1="6" y1="0" x2="6" y2="12" stroke={country?.flagColors?.[2] || '#e41e25'} strokeWidth="1.5" />
+                            <line x1="0" y1="6" x2="12" y2="6" stroke={country?.flagColors?.[2] || '#e41e25'} strokeWidth="1.5" />
+                        </svg>
+
+                        <div className="relative z-10">
                             <motion.div
-                                className="mt-4 flex gap-3"
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4 }}
+                                transition={{ delay: 0.15 }}
                             >
-                                <div className="flex-1 bg-white/10 rounded-xl p-4 text-center">
-                                    <div className="text-2xl font-black text-white">{country?.stats?.visas}</div>
-                                    <div className="text-xs text-white/60">Visas</div>
-                                </div>
-                                <div className="flex-1 bg-white/10 rounded-xl p-4 text-center">
-                                    <div className="text-2xl font-black text-white">{country?.stats?.success}</div>
-                                    <div className="text-xs text-white/60">Success</div>
+                                <div className="inline-block px-3 py-1 bg-white/15 rounded-full text-[10px] font-bold text-white/90 tracking-wider uppercase mb-4">
+                                    Migrate Zone
                                 </div>
                             </motion.div>
+                            <motion.h2
+                                className="text-2xl font-black text-white mb-3 leading-tight"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.2 }}
+                            >
+                                {parentLabel}<br />
+                                <span className="text-white/70 text-lg font-semibold">Services</span>
+                            </motion.h2>
+                            <motion.p
+                                className="text-white/60 text-[13px] leading-relaxed"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 0.25 }}
+                            >
+                                {country?.tagline || 'Expert immigration services'}. We provide end-to-end visa consultation and support for a seamless migration journey.
+                            </motion.p>
                         </div>
+
+                        {/* Quick Stats */}
+                        <motion.div
+                            className="relative z-10 mt-5 flex gap-3"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.4 }}
+                        >
+                            <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-lg py-2.5 text-center">
+                                <div className="text-base font-black text-white">{country?.stats?.visas || '20K+'}</div>
+                                <div className="text-[10px] text-white/50 uppercase tracking-wider">Visas</div>
+                            </div>
+                            <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-lg py-2.5 text-center">
+                                <div className="text-base font-black text-white">{country?.stats?.success || '95%'}</div>
+                                <div className="text-[10px] text-white/50 uppercase tracking-wider">Success</div>
+                            </div>
+                        </motion.div>
                     </div>
 
-                    {/* Right - Sub Panel or Default Content */}
-                    <div className="flex-1 bg-white">
-                        <AnimatePresence mode="wait">
-                            {showSubPanel ? (
-                                <SubMenuPanel
-                                    key={hoveredItem.label}
-                                    item={hoveredItem}
-                                    country={country}
-                                />
-                            ) : (
-                                <motion.div
-                                    key="default"
-                                    className="h-full flex flex-col items-center justify-center p-12 text-center"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                >
-                                    {/* Default Image */}
-                                    <div className="w-48 h-48 rounded-3xl overflow-hidden mb-8 shadow-xl">
-                                        <img
-                                            src={country?.image || '/australia_country_1770386989728.png'}
-                                            alt={parentLabel}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </div>
+                    {/* Right – Categories Grid */}
+                    <div className="flex-1 py-8 px-10 flex flex-col">
+                        {/* Top Row */}
+                        <div
+                            className="grid gap-x-10 gap-y-8"
+                            style={{
+                                gridTemplateColumns: `repeat(${Math.min(topRow.length, 3)}, 1fr)`
+                            }}
+                        >
+                            {topRow.map((item, index) => (
+                                <CategoryColumn key={item.label} item={item} index={index} />
+                            ))}
+                        </div>
 
-                                    <h3 className="text-2xl font-black text-gray-900 mb-3">
-                                        Explore {parentLabel}
-                                    </h3>
-                                    <p className="text-gray-500 mb-6 max-w-sm">
-                                        Hover over a visa category to see available options and pathways
-                                    </p>
+                        {/* Divider between rows */}
+                        {bottomRow.length > 0 && (
+                            <div className="border-t border-gray-100 my-7" />
+                        )}
 
-                                    <Link href={`/${parentLabel.toLowerCase().replace(' ', '-')}`}>
-                                        <motion.button
-                                            className="px-8 py-4 bg-[#1f406d] text-white rounded-xl font-bold text-sm flex items-center gap-2"
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            View All Services
-                                            <ArrowRight className="w-4 h-4" />
-                                        </motion.button>
-                                    </Link>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                        {/* Bottom Row */}
+                        {bottomRow.length > 0 && (
+                            <div
+                                className="grid gap-x-10 gap-y-8"
+                                style={{
+                                    gridTemplateColumns: `repeat(${Math.min(bottomRow.length, 3)}, 1fr)`
+                                }}
+                            >
+                                {bottomRow.map((item, index) => (
+                                    <CategoryColumn key={item.label} item={item} index={index + 3} />
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Featured Content — fills space for countries with few categories */}
+                        {items.length <= 3 && (
+                            <div className="mega-col mt-auto pt-6 border-t border-gray-100">
+                                {/* Quick Info Pills */}
+                                <div className="flex flex-wrap gap-2 mb-5">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1f406d]/5 text-[#1f406d] rounded-full text-[11px] font-semibold">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                                        {country?.stats?.processing || 'Fast Processing'}
+                                    </span>
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1f406d]/5 text-[#1f406d] rounded-full text-[11px] font-semibold">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                                        {country?.highlight || 'Expert Guidance'}
+                                    </span>
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1f406d]/5 text-[#1f406d] rounded-full text-[11px] font-semibold">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                                        {country?.stats?.success || '95%'} Success Rate
+                                    </span>
+                                </div>
+
+                                {/* CTA Card */}
+                                <Link href={`/${parentLabel.toLowerCase().replace(' ', '-')}`}>
+                                    <motion.div
+                                        className="relative overflow-hidden rounded-2xl p-6 cursor-pointer group"
+                                        style={{ background: 'linear-gradient(135deg, #1f406d 0%, #2a5a96 50%, #1f406d 100%)' }}
+                                        whileHover={{ scale: 1.01 }}
+                                        whileTap={{ scale: 0.99 }}
+                                    >
+                                        {/* Decorative elements */}
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+                                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+
+                                        <div className="relative z-10 flex items-center justify-between">
+                                            <div>
+                                                <h4 className="text-white font-bold text-[15px] mb-1">
+                                                    Start Your {parentLabel} Journey
+                                                </h4>
+                                                <p className="text-white/60 text-[12px] leading-relaxed max-w-xs">
+                                                    Get personalized visa guidance from our certified immigration experts. Free initial assessment.
+                                                </p>
+                                            </div>
+                                            <motion.div
+                                                className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0 ml-4"
+                                                whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.25)' }}
+                                            >
+                                                <ArrowRight className="w-4 h-4 text-white" />
+                                            </motion.div>
+                                        </div>
+
+                                        {/* Why Choose Us - compact row */}
+                                        <div className="relative z-10 mt-4 pt-4 border-t border-white/10 grid grid-cols-3 gap-3">
+                                            <div className="text-center">
+                                                <div className="text-white text-[13px] font-bold">{country?.stats?.visas || '20K+'}</div>
+                                                <div className="text-white/40 text-[10px] uppercase tracking-wider">Visas Processed</div>
+                                            </div>
+                                            <div className="text-center border-x border-white/10">
+                                                <div className="text-white text-[13px] font-bold">10+ Years</div>
+                                                <div className="text-white/40 text-[10px] uppercase tracking-wider">Experience</div>
+                                            </div>
+                                            <div className="text-center">
+                                                <div className="text-white text-[13px] font-bold">24/7</div>
+                                                <div className="text-white/40 text-[10px] uppercase tracking-wider">Support</div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
 
                 {/* Bottom Bar */}
-                <div className="bg-gray-50 px-8 py-4 flex items-center justify-between border-t border-gray-100">
+                <div className="bg-gray-50/80 px-8 py-3.5 flex items-center justify-between border-t border-gray-100">
                     <div className="flex items-center gap-4">
-                        <span className="text-sm text-gray-500">Need help?</span>
+                        <span className="text-[13px] text-gray-400">Need expert guidance?</span>
                         <Link href="/contact">
                             <motion.div
-                                className="flex items-center gap-2 px-4 py-2 bg-[#1f406d] text-white rounded-full text-sm font-bold"
-                                whileHover={{ scale: 1.02 }}
+                                className="flex items-center gap-2 px-5 py-2 bg-[#1f406d] text-white rounded-full text-[12px] font-bold tracking-wide"
+                                whileHover={{ scale: 1.03, backgroundColor: '#16325a' }}
+                                whileTap={{ scale: 0.97 }}
                             >
                                 Free Consultation
                                 <ArrowRight className="w-3 h-3" />
                             </motion.div>
                         </Link>
                     </div>
-                    <div className="flex items-center gap-6 text-sm text-gray-400">
-                        <a href="tel:1800-123-4567" className="hover:text-[#1f406d] transition-colors">
-                            📞 1800-123-4567
+                    <div className="flex items-center gap-6 text-[12px] text-gray-400">
+                        <a href="tel:1800-123-4567" className="hover:text-[#1f406d] transition-colors flex items-center gap-1.5">
+                            <span>📞</span> 1800-123-4567
                         </a>
-                        <a href="mailto:info@migratezone.com" className="hover:text-[#1f406d] transition-colors">
-                            📧 info@migratezone.com
+                        <a href="mailto:info@migratezone.com" className="hover:text-[#1f406d] transition-colors flex items-center gap-1.5">
+                            <span>📧</span> info@migratezone.com
                         </a>
                     </div>
                 </div>
@@ -552,7 +554,7 @@ export default function Header() {
 
                 // If current element is transparent, find nearest parent with color
                 let parent = bgEl;
-                while (bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent' && parent.parentElement) {
+                while ((bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') && parent.parentElement) {
                     parent = parent.parentElement;
                     bgColor = window.getComputedStyle(parent).backgroundColor;
                 }
