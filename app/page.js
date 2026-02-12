@@ -2,17 +2,10 @@
 
 import { useState, useRef } from 'react';
 import QuantumLoader from '@/components/QuantumLoader';
-import PlaneCloudLoader from '@/components/Planecloudloader';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import WelcomeSection from '@/components/WelcomeSection';
-import AboutSection from '@/components/AboutSection';
-import FeaturesSection from '@/components/FeaturesSection';
-import ServicesSection from '@/components/ServicesSection';
-import ComparisonSection from '@/components/ComparisonSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
-import FAQSection from '@/components/FAQSection';
-import CTABanner from '@/components/CTABanner';
 import ExpertiseSection from '@/components/ExpertiseSection';
 import StrengthsSection from '@/components/StrengthsSection';
 import EvolGroupSection from '@/components/EvolGroupSection';
