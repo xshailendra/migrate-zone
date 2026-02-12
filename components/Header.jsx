@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
-import { Menu, X, ChevronDown, ArrowRight, Plane, GraduationCap, Briefcase, Users, Building2, Star, TrendingUp, Globe } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight, Plane, GraduationCap, Briefcase, Users, Building2, Star, TrendingUp, Globe, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -100,11 +100,11 @@ const navItems = [
             },
             {
                 label: 'Work Visa', href: '/australia/work-visa', description: 'Temporary work visa options available.', subItems: [
-                    { label: 'NTDAMA - 482', href: '/australia/work-visa/ntdama-482' },
+                    { label: 'Skilled In-Demand - 482', href: '/australia/work-visa/skilled-in-demand-visa-australia' },
                 ]
             },
             { label: 'Student Visa', href: '/australia/student-visa', description: 'Study in world-class Australian universities.' },
-            { label: 'Tourist Visa', href: '/australia/tourist-visa', description: 'Visit Australia for tourism and holidays.' },
+            { label: 'Tourist Visa - 600', href: '/australia/tourist-visa/subclass-600', description: 'Visit Australia for tourism and holidays.' },
             {
                 label: 'Business Visa', href: '/australia/business-visa', description: 'Business and investor visa categories.', subItems: [
                     { label: 'Business Talent (Permanent) Visa - 132', href: '/australia/business-visa/visa-132' },
@@ -121,8 +121,8 @@ const navItems = [
         label: 'CANADA', href: '/canada', subItems: [
             {
                 label: 'Business Visa', href: '/canada/business-visa', description: 'Business and investor immigration to Canada.', subItems: [
-                    { label: 'Federal Business Immigration', href: '/canada/business-visa/federal-business' },
-                    { label: 'Provincial Nominee Investor Visa', href: '/canada/business-visa/pnp-investor' },
+                    { label: 'Federal Business Immigration', href: '/canada/business-visa/federal-business-immigration-canada' },
+                    { label: 'Provincial Nominee Investor Visa', href: '/canada/business-visa/provincial-nominee-investor-visa-canada' },
                 ]
             },
             {
@@ -144,11 +144,11 @@ const navItems = [
             { label: 'Student Visa', href: '/canada/student-visa', description: 'Study permits for Canadian institutions.' },
             {
                 label: 'Travel Visa', href: '/canada/travel-visa', description: 'Temporary resident visa for tourism.', subItems: [
-                    { label: 'Canada Visitor Visa', href: '/canada/travel-visa/visitor' },
+                    { label: 'Canada Visitor Visa', href: '/canada/canada-visitor-visa' },
                     { label: 'Tourist Visa', href: '/canada/travel-visa/tourist' },
                 ]
             },
-            { label: 'Work Visa', href: '/canada/work-visa', description: 'Work permits and employment pathways.' },
+            { label: 'Work Visa', href: '/canada/canada-work-visa-services', description: 'Work permits and employment pathways.' },
             { label: 'Canadian Experience Class', href: '/canada/canadian-experience-class', description: 'PR pathway for Canadian work experience.' },
         ]
     },
@@ -161,13 +161,14 @@ const navItems = [
     {
         label: 'USA', href: '/usa', subItems: [
             { label: 'Student Visa', href: '/usa/student-visa', description: 'F-1 student visa for US universities.' },
-            { label: 'Visitor Visa', href: '/usa/visitor-visa', description: 'B1/B2 visas for tourism and business.' },
+            { label: 'Visitor Visa', href: '/usa/usa-visitor-visa', description: 'B1/B2 visas for tourism and business.' },
         ]
     },
     {
         label: 'UK', href: '/uk', subItems: [
             { label: 'Student Visa', href: '/uk/student-visa', description: 'Student visa for UK education.' },
             { label: 'Visitor Visa', href: '/uk/visitor-visa', description: 'Standard visitor visa for UK.' },
+            { label: 'Skilled Worker Visa', href: '/uk/uk-skilled-worker-visa', description: 'Work and live in the UK with sponsorship.' },
         ]
     },
     {
@@ -176,7 +177,7 @@ const navItems = [
         ]
     },
     { label: 'BLOG', href: '/blog' },
-    { label: 'CAREER', href: '/career' },
+    { label: 'CAREER', href: 'https://evolgroups.com/mz/career/', target: '_blank' },
     { label: 'EVENTS', href: '/events' },
 ];
 
@@ -208,7 +209,7 @@ const CategoryColumn = ({ item, index }) => {
                     <IconComponent className="w-[18px] h-[18px]" />
                 </div>
                 <Link href={item.href}>
-                    <h3 className="text-[15px] font-bold text-gray-900 leading-tight hover:text-[#1f406d] transition-colors cursor-pointer">
+                    <h3 className="text-[18px] font-bold text-gray-900 leading-tight hover:text-[#1f406d] transition-colors cursor-pointer">
                         {item.label}
                     </h3>
                 </Link>
@@ -253,24 +254,36 @@ const MegaDropdown = ({ items, isOpen, parentLabel }) => {
         const ctx = gsap.context(() => {
             if (isOpen) {
                 gsap.set(dropdownRef.current, { display: 'block', pointerEvents: 'auto' });
-                // Smooth slide down like Jewell
+                // Premium reveal: Smooth slide, slight scale, and clip-path
                 gsap.fromTo(dropdownRef.current,
-                    { opacity: 0, y: -15, clipPath: 'inset(0 0 100% 0)' },
+                    { opacity: 0, y: -20, scale: 0.985, clipPath: 'inset(0 0 100% 0)' },
                     {
-                        opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)',
-                        duration: 0.45, ease: 'power3.out'
+                        opacity: 1, y: 0, scale: 1, clipPath: 'inset(0 0 0% 0)',
+                        duration: 0.7,
+                        ease: 'expo.out', // Hyper-smooth deceleration
+                        clearProps: 'clipPath' // Ensure no clipping issues after animation
                     }
                 );
-                // Stagger columns
+                // Stagger columns with tighter timing
                 const cols = dropdownRef.current.querySelectorAll('.mega-col');
                 gsap.fromTo(cols,
-                    { opacity: 0, y: 20 },
-                    { opacity: 1, y: 0, stagger: 0.06, duration: 0.4, ease: 'power2.out', delay: 0.15 }
+                    { opacity: 0, y: 15 },
+                    {
+                        opacity: 1, y: 0,
+                        stagger: 0.04,
+                        duration: 0.6,
+                        ease: 'power3.out',
+                        delay: 0.1
+                    }
                 );
             } else {
                 gsap.to(dropdownRef.current, {
-                    opacity: 0, y: -10, clipPath: 'inset(0 0 100% 0)',
-                    duration: 0.25, ease: 'power2.in',
+                    opacity: 0,
+                    y: -15,
+                    scale: 0.99,
+                    clipPath: 'inset(0 0 100% 0)',
+                    duration: 0.35,
+                    ease: 'power2.inOut',
                     onComplete: () => {
                         if (dropdownRef.current) {
                             gsap.set(dropdownRef.current, { display: 'none', pointerEvents: 'none' });
@@ -300,39 +313,27 @@ const MegaDropdown = ({ items, isOpen, parentLabel }) => {
 
                     {/* Left Sidebar – Country Info Panel */}
                     <div
-                        className="w-[280px] flex-shrink-0 p-8 flex flex-col justify-between relative overflow-hidden"
+                        className="w-[280px] flex-shrink-0 p-8 flex flex-col justify-between relative overflow-hidden bg-[#1f406d]"
                     >
-                        {/* Base gradient mixing all flag colors */}
-                        <div className="absolute inset-0" style={{ background: `linear-gradient(160deg, ${country?.flagColors?.[0] || '#1f406d'} 0%, ${country?.flagColors?.[2] || '#e41e25'}99 45%, ${country?.flagColors?.[0] || '#1f406d'}dd 65%, ${country?.flagColors?.[1] || '#FFFFFF'}22 100%)` }} />
-
-                        {/* Glowing orb */}
-                        <div
-                            className="absolute -top-10 -left-10 w-40 h-40 rounded-full blur-3xl opacity-[0.25]"
-                            style={{ background: country?.flagColors?.[2] || '#e41e25' }}
-                        />
-                        <div
-                            className="absolute -bottom-16 -right-10 w-48 h-48 rounded-full blur-3xl opacity-[0.15]"
-                            style={{ background: country?.flagColors?.[1] || '#FFFFFF' }}
-                        />
+                        {/* Country Flag Background - Large and Subtle */}
+                        {country?.flag && (
+                            <div
+                                className="absolute inset-0 z-0 opacity-[0.2] transition-all duration-700"
+                                style={{
+                                    backgroundImage: `url(${country.flag})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center'
+                                }}
+                            />
+                        )}
 
                         {/* Topographic contour lines */}
-                        <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 280 500" fill="none">
+                        <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 280 500" fill="none">
                             <ellipse cx="140" cy="250" rx="120" ry="180" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
                             <ellipse cx="140" cy="250" rx="95" ry="145" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
                             <ellipse cx="140" cy="250" rx="70" ry="110" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
                             <ellipse cx="140" cy="250" rx="45" ry="75" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
                             <ellipse cx="140" cy="250" rx="20" ry="40" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
-                        </svg>
-
-                        {/* Accent vertical bar */}
-                        <div
-                            className="absolute left-0 top-8 bottom-8 w-1 rounded-full opacity-30"
-                            style={{ background: `linear-gradient(to bottom, ${country?.flagColors?.[2] || '#e41e25'}, transparent)` }}
-                        />
-
-                        {/* Corner accent triangle */}
-                        <svg className="absolute bottom-0 right-0 w-20 h-20 opacity-[0.08]" viewBox="0 0 80 80">
-                            <polygon points="80,0 80,80 0,80" fill={country?.flagColors?.[2] || '#e41e25'} />
                         </svg>
 
                         {/* Small cross marks */}
@@ -351,15 +352,16 @@ const MegaDropdown = ({ items, isOpen, parentLabel }) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.15 }}
                             >
-                                <div className="inline-block px-3 py-1 bg-white/15 rounded-full text-[10px] font-bold text-white/90 tracking-wider uppercase mb-4">
+                                <div className="inline-block px-3 py-1 bg-white/15 rounded-full text-[10px] font-bold text-white/90 tracking-wider uppercase mb-5">
                                     Migrate Zone
                                 </div>
                             </motion.div>
+
                             <motion.h2
                                 className="text-2xl font-black text-white mb-3 leading-tight"
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ delay: 0.2 }}
+                                transition={{ delay: 0.25 }}
                             >
                                 {parentLabel}<br />
                                 <span className="text-white/70 text-lg font-semibold">Services</span>
@@ -670,7 +672,11 @@ export default function Header() {
                                     onMouseEnter={() => handleMouseEnter(index)}
                                     onMouseLeave={handleMouseLeave}
                                 >
-                                    <Link href={item.href} onClick={(e) => handleNavClick(e, item.href)}>
+                                    <Link
+                                        href={item.href}
+                                        onClick={(e) => handleNavClick(e, item.href)}
+                                        {...(item.target ? { target: item.target, rel: 'noopener noreferrer' } : {})}
+                                    >
                                         <motion.div
                                             className={`relative flex items-center gap-1.5 py-2 px-3 text-[13px] font-medium tracking-widest uppercase 
                                                        transition-all duration-500 rounded-full
@@ -713,6 +719,41 @@ export default function Header() {
                             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                         </button>
                     </div>
+
+                    {/* Contact/Chat Toggle — Separate but close to main navbar unit */}
+                    <motion.div
+                        className="hidden xl:flex items-center ml-4"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.8 }}
+                    >
+                        <Link href="/contact" onClick={(e) => handleNavClick(e, '/contact')}>
+                            <motion.div
+                                className={`group relative w-12 h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500
+                                           ${navTheme === 'glass'
+                                        ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)] text-[#1f406d]'
+                                        : navTheme === 'black'
+                                            ? 'bg-white border border-black/20 text-[#1f406d] shadow-sm'
+                                            : 'bg-white/10 backdrop-blur-md text-white border border-white/20'}`}
+                                whileHover={{ scale: 1.1, backgroundColor: '#e41e25', color: '#fff', borderColor: '#e41e25' }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <MessageCircle className="w-5 h-5 transition-transform duration-500 group-hover:rotate-[360deg]" />
+                                <motion.div
+                                    className="absolute -top-1 -right-1 w-3 h-3 bg-[#e41e25] rounded-full border-2 border-white"
+                                    animate={{ scale: [1, 1.2, 1] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
+                                />
+
+                                {/* Tooltip */}
+                                <div className="absolute top-full mt-3 right-0 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+                                    <div className="bg-[#1f406d] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg whitespace-nowrap shadow-xl uppercase tracking-widest">
+                                        Contact Us
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </Link>
+                    </motion.div>
                 </div>
 
                 {/* Mobile Menu */}
@@ -739,6 +780,7 @@ export default function Header() {
                                                     href={item.href}
                                                     className="flex items-center gap-3 text-[13px] font-black tracking-widest text-[#1f406d] uppercase"
                                                     onClick={(e) => handleNavClick(e, item.href)}
+                                                    {...(item.target ? { target: item.target, rel: 'noopener noreferrer' } : {})}
                                                 >
                                                     {item.label}
                                                 </Link>

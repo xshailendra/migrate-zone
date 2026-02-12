@@ -52,7 +52,7 @@ const usefulLinks = [
     { label: 'UK Visa', href: '#' },
     { label: 'Europe Visa', href: '#' },
     { label: 'Blog', href: '#' },
-    { label: 'Career', href: '#' },
+    { label: 'Career', href: 'https://evolgroups.com/mz/career/', target: '_blank' },
     { label: 'Testimonial', href: '#' },
     { label: 'Privacy Policy', href: '#' },
 ];
@@ -164,6 +164,7 @@ export default function Footer() {
                                     href={link.href}
                                     whileHover={{ x: 10, color: '#e41e25' }}
                                     className="text-gray-400 text-sm font-bold tracking-tight hover:text-[#e41e25] transition-colors"
+                                    {...(link.target ? { target: link.target, rel: 'noopener noreferrer' } : {})}
                                 >
                                     {link.label}
                                 </motion.a>
