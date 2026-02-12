@@ -244,7 +244,7 @@ const CategoryColumn = ({ item, index }) => {
 };
 
 // Jewell-style Mega Dropdown
-const MegaDropdown = ({ items, isOpen, parentLabel }) => {
+const MegaDropdown = ({ items, isOpen, parentLabel, onMouseEnter, onMouseLeave }) => {
     const dropdownRef = useRef(null);
     const country = countryData[parentLabel];
 
@@ -307,6 +307,8 @@ const MegaDropdown = ({ items, isOpen, parentLabel }) => {
             ref={dropdownRef}
             className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
             style={{ display: 'none', width: 'min(1200px, 95vw)' }}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
         >
             <div className="bg-white rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.12)] border border-gray-100">
                 <div className="flex">
@@ -630,7 +632,7 @@ export default function Header() {
     };
 
     return (
-        <div className="fixed top-6 left-0 w-full z-50 px-6">
+        <div className="fixed top-6 left-0 w-full z-50 px-6 font-outfit">
             <header className="max-w-[90rem] mx-auto">
 
                 {/* Navbar Container */}
@@ -698,14 +700,6 @@ export default function Header() {
                                             )}
                                         </motion.div>
                                     </Link>
-
-                                    {item.subItems && (
-                                        <MegaDropdown
-                                            items={item.subItems}
-                                            isOpen={hoveredIndex === index}
-                                            parentLabel={item.label}
-                                        />
-                                    )}
                                 </div>
                             ))}
                         </div>
@@ -755,6 +749,20 @@ export default function Header() {
                         </Link>
                     </motion.div>
                 </div>
+
+                {/* Render Mega Menus outside the Navigation Container to avoid backdrop-filter coordinate issues */}
+                {navItems.map((item, index) => (
+                    item.subItems && (
+                        <MegaDropdown
+                            key={`dropdown-${item.label}`}
+                            items={item.subItems}
+                            isOpen={hoveredIndex === index}
+                            parentLabel={item.label}
+                            onMouseEnter={() => handleMouseEnter(index)}
+                            onMouseLeave={handleMouseLeave}
+                        />
+                    )
+                ))}
 
                 {/* Mobile Menu */}
                 <AnimatePresence>
@@ -828,7 +836,7 @@ export default function Header() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </header >
-        </div >
+            </header>
+        </div>
     );
 }
