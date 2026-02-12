@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { GraduationCap, BookOpen, Globe, Users, Trophy, CheckCircle2 } from 'lucide-react';
+import { GraduationCap, BookOpen, Globe, Users, Trophy, CheckCircle2, Zap } from 'lucide-react';
 import VisaPageTemplate from '@/components/VisaPageTemplate';
 
 const ScreenUS1 = () => (

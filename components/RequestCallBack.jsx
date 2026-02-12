@@ -28,29 +28,29 @@ export default function RequestCallBack() {
                     </div>
 
                     {/* Horizontal Ribbon Content */}
-                    <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between p-10 lg:p-16 gap-12">
+                    <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between p-8 md:p-10 lg:p-16 gap-10 md:gap-12">
 
                         {/* Zone 1: Brand Marker */}
-                        <div className="flex-shrink-0 flex items-center gap-6">
-                            <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white">
-                                <Sparkles size={24} className="text-[#e41e25]" />
+                        <div className="flex-shrink-0 flex items-center gap-4 md:gap-6">
+                            <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white">
+                                <Sparkles size={20} className="text-[#e41e25] md:w-6 md:h-6" />
                             </div>
                             <div className="h-10 w-[1px] bg-white/20 hidden lg:block" />
                             <div className="flex flex-col">
-                                <span className="text-white font-black text-[10px] uppercase tracking-[0.4em]">Action / 09</span>
+                                <span className="text-white font-black text-[9px] md:text-[10px] uppercase tracking-[0.4em]">Action / 09</span>
                                 <div className="flex items-center gap-2 mt-2">
-                                    <div className="w-2 h-2 bg-[#e41e25] transform rotate-45" />
-                                    <div className="w-12 h-[1px] bg-white/40" />
+                                    <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#e41e25] transform rotate-45" />
+                                    <div className="w-10 md:w-12 h-[1px] bg-white/40" />
                                 </div>
                             </div>
                         </div>
 
                         {/* Zone 2: Core Messaging */}
                         <div className="flex-1 text-center lg:text-left">
-                            <h2 className="text-4xl lg:text-5xl font-black font-syne text-white uppercase tracking-tighter leading-none mb-4">
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black font-syne text-white uppercase tracking-tighter leading-none mb-4">
                                 Request <span className="text-[#e41e25]">A Call Back</span>.
                             </h2>
-                            <p className="text-white/60 text-base lg:text-lg font-medium max-w-xl uppercase tracking-tight">
+                            <p className="text-white/60 text-sm md:text-base lg:text-lg font-medium max-w-xl uppercase tracking-tight px-2 md:px-0">
                                 Professional guidance tailored to your ambitions. Fill out the form and check your eligibility now for free!
                             </p>
                         </div>

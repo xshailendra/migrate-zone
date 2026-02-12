@@ -113,21 +113,21 @@ export default function VisaPageTemplate({
     return (
         <main className="min-h-screen bg-white selection:bg-[#E42E25] selection:text-white relative" ref={containerRef}>
             <Header />
-            <section ref={sectionRef} className="pt-64 pb-32 px-6 overflow-hidden bg-white relative">
+            <section ref={sectionRef} className="pt-40 md:pt-64 pb-20 md:pb-32 px-4 md:px-6 overflow-hidden bg-white relative">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-[#1f406d]/[0.02] rounded-full blur-[120px] pointer-events-none" />
-                <div className="max-w-[1400px] mx-auto text-center relative z-10 mb-20 md:mb-32">
+                <div className="max-w-[1400px] mx-auto text-center relative z-10 mb-16 md:mb-32">
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#1f406d]/5 rounded-full border border-[#1f406d]/10 mb-8">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#1f406d]/5 rounded-full border border-[#1f406d]/10 mb-6 md:mb-8">
                             <div className="px-1.5 py-0.5 bg-[#E42E25] rounded text-[8px] font-black text-white uppercase tracking-wider">{heroBadge}</div>
                             <span className="text-[10px] font-black text-[#1f406d] uppercase tracking-widest">{heroSubtitle}</span>
                         </div>
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-[900] font-syne text-[#1f406d] leading-[1.1] tracking-tighter mb-8 max-w-4xl mx-auto">
+                        <h1 className="text-4xl md:text-7xl lg:text-8xl font-[900] font-syne text-[#1f406d] leading-[1.1] tracking-tighter mb-6 md:mb-8 max-w-4xl mx-auto px-2">
                             {heroTitle}
                         </h1>
-                        <p className="text-lg md:text-xl text-gray-500 font-medium max-w-2xl mx-auto mb-12 leading-relaxed">
+                        <p className="text-base md:text-xl text-gray-500 font-medium max-w-2xl mx-auto mb-10 md:mb-12 leading-relaxed px-4">
                             {heroDescription}
                         </p>
-                        <Link href="/assessment" className="group inline-flex items-center gap-4 px-10 py-5 bg-[#1f406d] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#E42E25] transition-all duration-500 shadow-xl shadow-[#1f406d]/10">
+                        <Link href="/assessment" className="group inline-flex items-center gap-4 px-8 md:px-10 py-4 md:py-5 bg-[#1f406d] text-white rounded-full font-black text-xs md:text-sm uppercase tracking-widest hover:bg-[#E42E25] transition-all duration-500 shadow-xl shadow-[#1f406d]/10">
                             Check Eligibility
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>

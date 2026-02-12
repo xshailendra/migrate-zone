@@ -517,7 +517,7 @@ export default function Header() {
                 <div ref={navContainerRef} className="relative flex items-center justify-center">
                     {/* Logo Container */}
                     <motion.div
-                        className={`relative z-20 flex items-center justify-center px-6 h-14 rounded-full mr-4 transition-all duration-500 ease-in-out
+                        className={`relative z-20 flex items-center justify-center px-4 md:px-6 h-12 md:h-14 rounded-full mr-2 md:mr-4 transition-all duration-500 ease-in-out
                             ${navTheme === 'glass'
                                 ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)]'
                                 : navTheme === 'black'
@@ -525,20 +525,20 @@ export default function Header() {
                                     : 'bg-transparent border-none shadow-none'}`}
                         whileHover={{ scale: 1.02 }}
                     >
-                        <Link href="/" className="flex items-center justify-center gap-2 h-10 max-w-[180px]" onClick={(e) => handleNavClick(e, '/')}>
+                        <Link href="/" className="flex items-center justify-center gap-1.5 md:gap-2 h-8 md:h-10 max-w-[150px] md:max-w-[180px]" onClick={(e) => handleNavClick(e, '/')}>
                             <img
                                 src="/logos/footer-left.png"
                                 alt="Migrate Zone"
-                                className="h-8 w-8 object-contain flex-shrink-0"
+                                className="h-6 w-6 md:h-8 md:w-8 object-contain flex-shrink-0"
                             />
-                            <span className="text-[17px] font-extrabold tracking-tight whitespace-nowrap" style={{ color: '#e41e25' }}>
+                            <span className="text-[14px] md:text-[17px] font-extrabold tracking-tight whitespace-nowrap" style={{ color: '#e41e25' }}>
                                 MIGRATE ZONE
                             </span>
                         </Link>
                     </motion.div>
 
                     {/* Navigation Container */}
-                    <div className={`relative z-10 rounded-full px-4 py-3 transition-all duration-500 ease-in-out
+                    <div className={`relative z-10 rounded-full px-2 md:px-4 py-2 md:py-3 transition-all duration-500 ease-in-out
                         ${navTheme === 'glass'
                             ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)]'
                             : navTheme === 'black'

@@ -59,16 +59,16 @@ export default function ContactPage() {
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.8, ease: "circOut" }}
                             >
-                                <h1 className="text-[14vw] md:text-[12vw] font-[900] text-[#1f406d] leading-[0.8] tracking-[-0.05em] uppercase font-syne pointer-events-none relative z-20">
+                                <h1 className="text-[12vw] md:text-[12vw] font-[900] text-[#1f406d] leading-[0.9] tracking-[-0.05em] uppercase font-syne pointer-events-none relative z-20 px-2">
                                     Contact <br />
                                     <span className="text-[#e41e25]">Us.</span>
                                 </h1>
 
-                                <div className="mt-12 max-w-md">
-                                    <p className="text-gray-400 font-medium text-lg leading-relaxed">
+                                <div className="mt-8 md:mt-12 max-w-md px-4 md:px-0">
+                                    <p className="text-gray-400 font-medium text-base md:text-lg leading-relaxed">
                                         For any inquiries, collaborations, or just to say hello, we'd love to hear from you! Reach out, and let's connect.
                                     </p>
-                                    <div className="mt-8 flex items-center gap-2">
+                                    <div className="mt-6 md:mt-8 flex items-center gap-2">
                                         <div className="flex -space-x-1">
                                             {[1, 2, 3, 4, 5].map(s => <Star key={s} className="w-3 h-3 fill-[#1f406d] text-[#1f406d]" />)}
                                         </div>
@@ -99,18 +99,18 @@ export default function ContactPage() {
                     </div>
 
                     {/* Contact Sections Grid — Minimalist Style */}
-                    <div className="mt-32 md:mt-56 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 border-t border-gray-100 pt-20">
+                    <div className="mt-20 md:mt-56 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16 border-t border-gray-100 pt-16 md:pt-20">
 
                         {/* Sales Inquiry */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            className="flex flex-col gap-6"
+                            className="flex flex-col gap-4 md:gap-6 px-4 md:px-0"
                         >
                             <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#e41e25]">Sales & Business</h3>
                             <div>
-                                <p className="text-xl font-bold text-[#1f406d] mb-4">Migrate Zone Partners</p>
-                                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                                <p className="text-lg md:text-xl font-bold text-[#1f406d] mb-4">Migrate Zone Partners</p>
+                                <p className="text-[#1f406d]/60 text-sm leading-relaxed mb-6">
                                     Our business development team is ready to assist with institutional partnerships.
                                 </p>
                                 <a href="mailto:info@migratezone.com" className="text-sm font-black text-[#1f406d] border-b-2 border-[#1f406d] pb-1 hover:text-[#e41e25] hover:border-[#e41e25] transition-all">
@@ -124,12 +124,12 @@ export default function ContactPage() {
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 }}
-                            className="flex flex-col gap-6"
+                            className="flex flex-col gap-4 md:gap-6 px-4 md:px-0"
                         >
                             <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#e41e25]">Career & Support</h3>
                             <div>
-                                <p className="text-xl font-bold text-[#1f406d] mb-4">Join Our Global Team</p>
-                                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                                <p className="text-lg md:text-xl font-bold text-[#1f406d] mb-4">Join Our Global Team</p>
+                                <p className="text-[#1f406d]/60 text-sm leading-relaxed mb-6">
                                     We are always looking for qualified solicitors and migration experts.
                                 </p>
                                 <a href="mailto:info@evolgroups.com" className="text-sm font-black text-[#1f406d] border-b-2 border-[#1f406d] pb-1 hover:text-[#e41e25] hover:border-[#e41e25] transition-all">
@@ -143,12 +143,12 @@ export default function ContactPage() {
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="flex flex-col gap-6"
+                            className="flex flex-col gap-4 md:gap-6 px-4 md:px-0"
                         >
                             <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#e41e25]">Head Office</h3>
                             <div>
-                                <p className="text-xl font-bold text-[#1f406d] mb-2">Vadodara, HQ</p>
-                                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                                <p className="text-lg md:text-xl font-bold text-[#1f406d] mb-2">Vadodara, HQ</p>
+                                <p className="text-[#1f406d]/60 text-sm leading-relaxed mb-6">
                                     328, 3rd Floor, Atlantis k-10 Tower B, <br />
                                     Sarabhai Main Road, Vadodara, <br />
                                     Gujarat 390007, India

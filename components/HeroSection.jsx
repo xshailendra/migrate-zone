@@ -28,9 +28,9 @@ export default function HeroSection() {
     }, []);
 
     return (
-        <section className="relative min-h-[95vh] md:min-h-screen w-full flex items-center justify-center pt-32 pb-16 px-6 overflow-hidden bg-transparent mt-20 md:mt-28">
+        <section className="relative min-h-[95vh] md:min-h-screen w-full flex items-center justify-center pt-24 md:pt-32 pb-16 px-6 overflow-hidden bg-transparent mt-16 md:mt-28">
             {/* Background Video Container */}
-            <div className="absolute inset-4 md:inset-8 z-0 overflow-hidden rounded-[3.5rem] md:rounded-[6rem] shadow-2xl bg-white">
+            <div className="absolute inset-2 md:inset-8 z-0 overflow-hidden rounded-[2.5rem] md:rounded-[6rem] shadow-2xl bg-white">
                 <video
                     src="/hero-bgg.mp4"
                     autoPlay
@@ -42,7 +42,7 @@ export default function HeroSection() {
             </div>
 
             {/* Content Container */}
-            <div className="relative z-10 max-w-[95rem] mx-auto w-full pt-10 px-10 md:px-28 lg:px-44">
+            <div className="relative z-10 max-w-[95rem] mx-auto w-full pt-4 md:pt-10 px-4 md:px-28 lg:px-44">
                 <div className="flex flex-col items-start gap-3 md:gap-6">
 
                     {/* Line 1: IMMIGRATE TO YOUR + Avatar Pill */}
@@ -52,7 +52,7 @@ export default function HeroSection() {
                         transition={{ duration: 0.8, delay: 3.2, ease: [0.16, 1, 0.3, 1] }}
                         className="flex flex-wrap items-center gap-x-3 md:gap-x-8"
                     >
-                        <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] leading-[0.8] font-black tracking-[-0.08em] text-white uppercase flex flex-wrap items-center gap-x-3 md:gap-x-6">
+                        <h1 className="text-[clamp(2.5rem,8vw,6rem)] leading-[0.9] font-black tracking-[-0.08em] text-white uppercase flex flex-wrap items-center gap-x-3 md:gap-x-6">
                             IMMIGRATE <span className="text-[#e41e25]">TO YOUR</span>
 
                             <div className="relative group inline-flex items-center bg-white rounded-full p-1 md:p-1.5 pr-2.5 md:pr-3 gap-2 md:gap-4 shadow-3xl border border-white/20 transform hover:scale-105 transition-all duration-700 cursor-pointer">
@@ -104,7 +104,7 @@ export default function HeroSection() {
                         transition={{ duration: 0.8, delay: 3.4, ease: [0.16, 1, 0.3, 1] }}
                         className="flex items-center"
                     >
-                        <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] leading-[0.8] font-black tracking-[-0.08em] text-white uppercase">
+                        <h1 className="text-[clamp(2.5rem,8vw,6rem)] leading-[0.9] font-black tracking-[-0.08em] text-white uppercase">
                             DREAM DESTINATION
                         </h1>
                     </motion.div>
@@ -133,7 +133,7 @@ export default function HeroSection() {
                                 />
                             </AnimatePresence>
                         </div>
-                        <h1 className="text-[clamp(1.5rem,5.5vw,6rem)] leading-[0.8] font-black tracking-[-0.08em] text-white uppercase">
+                        <h1 className="text-[clamp(2.5rem,8vw,6rem)] leading-[0.9] font-black tracking-[-0.08em] text-white uppercase">
                             WITH <span className="text-[#e41e25]">FAMILY</span>
                         </h1>
                     </motion.div>

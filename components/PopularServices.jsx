@@ -82,7 +82,7 @@ const ServiceItem = ({ service, index, setActiveId }) => {
                     {service.icon}
                 </div>
                 <div>
-                    <h3 className="text-3xl font-black text-[#1f406d] font-syne uppercase tracking-tighter mb-4">
+                    <h3 className="text-2xl md:text-3xl font-black text-[#1f406d] font-syne uppercase tracking-tighter mb-4">
                         {service.title}
                     </h3>
                     <p className="text-lg leading-relaxed text-[#666666] max-w-xl">
@@ -123,8 +123,8 @@ export default function PopularServices() {
     return (
         <section className="bg-transparent w-full cursor-none">
             <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-24">
-                <div className="mb-24 text-center">
-                    <h2 className="text-5xl md:text-5xl font-black text-[#1f406d] font-syne uppercase tracking-tighter">
+                <div className="mb-16 md:mb-24 text-center">
+                    <h2 className="text-3xl md:text-5xl font-black text-[#1f406d] font-syne uppercase tracking-tighter px-4">
                         POPULAR <span className="text-[#e41e25]">SERVICES</span>
                     </h2>
                     {/* <div className="flex items-center justify-center gap-4 mt-6">

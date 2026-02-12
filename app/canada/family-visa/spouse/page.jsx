@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Heart, Users, CheckCircle2, Shield, Home } from 'lucide-react';
+import { Heart, Users, CheckCircle2, Shield, Home, Globe } from 'lucide-react';
 import VisaPageTemplate from '@/components/VisaPageTemplate';
 
 const ScreenS1 = () => (
