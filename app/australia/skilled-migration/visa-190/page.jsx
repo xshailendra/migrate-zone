@@ -3,7 +3,7 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, CheckCircle2, Shield, Minus, Plus, Trophy, MapPin, Building, Landplot, Briefcase } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Shield, Minus, Plus, Trophy, MapPin, Building, LandPlot, Briefcase } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -90,7 +90,7 @@ export default function Visa190Page() {
                             </IPhoneFrame>
                             <IPhoneFrame innerRef={centerPhoneRef} className="z-10 shadow-[0_40px_100px_rgba(0,0,0,0.1)]">
                                 <div className="p-6 h-full flex flex-col pt-12 text-center items-center">
-                                    <div className="w-14 h-14 bg-[#1f406d]/5 rounded-2xl flex items-center justify-center mb-6"><div className="w-10 h-10 bg-[#1f406d] rounded-xl flex items-center justify-center"><Landplot className="w-5 h-5 text-white" /></div></div>
+                                    <div className="w-14 h-14 bg-[#1f406d]/5 rounded-2xl flex items-center justify-center mb-6"><div className="w-10 h-10 bg-[#1f406d] rounded-xl flex items-center justify-center"><LandPlot className="w-5 h-5 text-white" /></div></div>
                                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#E42E25] mb-2">State Support</p>
                                     <h3 className="text-2xl font-[900] font-syne text-[#1f406d] uppercase tracking-tighter leading-tight mb-8">Live in <span className="text-gray-400">State</span></h3>
                                     <div className="w-full space-y-3">
