@@ -62,16 +62,12 @@ const CustomCursor = () => {
     }, [mouseX, mouseY]);
 
     useEffect(() => {
-        const checkMobile = () => {
-            const isMobile = window.matchMedia("(max-width: 1024px)").matches;
-            setIsVisible(!isMobile);
-        };
+        const isMobile = window.matchMedia("(max-width: 767px)").matches;
+        if (isMobile) return;
 
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
+        setIsVisible(true);
 
         const handleMouseMove = (e) => {
-            if (!isVisible) return;
             mouseX.set(e.clientX);
             mouseY.set(e.clientY);
             updateCursor(e.target);
@@ -92,12 +88,11 @@ const CustomCursor = () => {
         window.addEventListener('mouseup', handleMouseUp);
 
         return () => {
-            window.removeEventListener('resize', checkMobile);
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mousedown', handleMouseDown);
             window.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [mouseX, mouseY, isVisible]);
+    }, [mouseX, mouseY]);
 
     if (!isVisible) return null;
 
@@ -213,7 +208,7 @@ const CustomCursor = () => {
     return (
         <>
             <style jsx global>{`
-                @media (min-width: 1025px) {
+                @media (min-width: 768px) {
                     * {
                         cursor: none !important;
                     }

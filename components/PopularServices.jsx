@@ -60,7 +60,7 @@ const services = [
 
 const ServiceItem = ({ service, index, setActiveId }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { margin: "-30% 0px -30% 0px" });
+    const isInView = useInView(ref, { margin: "-45% 0px -45% 0px" });
 
     useEffect(() => {
         if (isInView) {
@@ -72,7 +72,10 @@ const ServiceItem = ({ service, index, setActiveId }) => {
         <div
             id={service.id}
             ref={ref}
-            className="min-h-[50vh] md:min-h-[60vh] flex flex-col justify-center py-12 md:py-20 border-b border-gray-100 last:border-0"
+            className="min-h-[60vh] flex flex-col justify-center py-20 border-b border-gray-100 last:border-0 cursor-none"
+            data-cursor="explore"
+            onMouseEnter={() => document.body.setAttribute('data-cursor', 'explore')}
+            onMouseLeave={() => document.body.removeAttribute('data-cursor')}
         >
             <div className="flex items-start gap-8 mb-8">
                 <div className="p-4 bg-gray-50 rounded-2xl text-[#e41e25]">
@@ -118,7 +121,7 @@ export default function PopularServices() {
     };
 
     return (
-        <section className="bg-transparent w-full">
+        <section className="bg-transparent w-full cursor-none">
             <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-24">
                 <div className="mb-24 text-center">
                     <h2 className="text-5xl md:text-5xl font-black text-[#1f406d] font-syne uppercase tracking-tighter">

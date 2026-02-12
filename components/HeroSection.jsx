@@ -37,7 +37,7 @@ export default function HeroSection() {
                     loop
                     muted
                     playsInline
-                    className="w-full h-full object-cover brightness-[0.7] md:brightness-[0.6] contrast-[1] md:contrast-[1.1] opacity-90 md:scale-105 will-change-transform"
+                    className="w-full h-full object-cover brightness-[0.6] contrast-[1.1] opacity-90 scale-105"
                 />
             </div>
 
@@ -47,7 +47,7 @@ export default function HeroSection() {
 
                     {/* Line 1: IMMIGRATE TO YOUR + Avatar Pill */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20, md: -50 }}
+                        initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 3.2, ease: [0.16, 1, 0.3, 1] }}
                         className="flex flex-wrap items-center gap-x-3 md:gap-x-8"
@@ -99,7 +99,7 @@ export default function HeroSection() {
 
                     {/* Line 2: DREAM DESTINATION */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20, md: -50 }}
+                        initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 3.4, ease: [0.16, 1, 0.3, 1] }}
                         className="flex items-center"
@@ -111,7 +111,7 @@ export default function HeroSection() {
 
                     {/* Line 3: Image Pill + WITH FAMILY */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20, md: -50 }}
+                        initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 3.6, ease: [0.16, 1, 0.3, 1] }}
                         className="flex flex-wrap items-center gap-x-3 md:gap-x-8"
