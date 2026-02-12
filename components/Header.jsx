@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useLayoutEffect, useCallback } from 'react';
-import { Menu, X, ChevronDown, ArrowRight, Plane, GraduationCap, Briefcase, Users, Building2, Star, TrendingUp, Globe, MessageCircle } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowRight, Plane, GraduationCap, Briefcase, Users, Building2, Star, TrendingUp, Globe } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -181,72 +181,24 @@ const navItems = [
     { label: 'EVENTS', href: '/events' },
 ];
 
-// Category Column for the Jewell-style mega menu
-const CategoryColumn = ({ item, index }) => {
-    const config = categoryConfig[item.label] || { icon: Briefcase, color: '#1f406d', bg: '#e8f0fe' };
-    const IconComponent = config.icon;
-
-    // Collect all linkable items: the item itself (if no sub-items, it's a direct link) + sub-items
-    const allLinks = [];
-    if (item.subItems && item.subItems.length > 0) {
-        item.subItems.forEach(sub => {
-            allLinks.push(sub);
-            // Include nested sub-items too
-            if (sub.subItems && sub.subItems.length > 0) {
-                sub.subItems.forEach(nested => allLinks.push(nested));
-            }
-        });
-    }
-
-    return (
-        <div className="mega-col flex flex-col">
-            {/* Category Header */}
-            <div className="flex items-center gap-3 mb-4">
-                <div
-                    className="w-10 h-10 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors duration-300"
-                    style={{ borderColor: config.color, color: config.color }}
-                >
-                    <IconComponent className="w-[18px] h-[18px]" />
-                </div>
-                <Link href={item.href}>
-                    <h3 className="text-[18px] font-bold text-gray-900 leading-tight hover:text-[#1f406d] transition-colors cursor-pointer">
-                        {item.label}
-                    </h3>
-                </Link>
-            </div>
-
-            {/* Service Links */}
-            <div className="space-y-0">
-                {allLinks.length > 0 ? (
-                    allLinks.map((link) => (
-                        <Link key={link.label} href={link.href}>
-                            <div className="group flex items-center justify-between py-[10px] cursor-pointer">
-                                <span className="text-[13px] text-gray-500 group-hover:text-[#1f406d] transition-colors duration-200 leading-snug">
-                                    {link.label}
-                                </span>
-                                <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#1f406d] flex-shrink-0 ml-3 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200" />
-                            </div>
-                        </Link>
-                    ))
-                ) : (
-                    <Link href={item.href}>
-                        <div className="group flex items-center justify-between py-[10px] cursor-pointer">
-                            <span className="text-[13px] text-gray-500 group-hover:text-[#1f406d] transition-colors duration-200">
-                                Learn More
-                            </span>
-                            <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-[#1f406d] flex-shrink-0 ml-3 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200" />
-                        </div>
-                    </Link>
-                )}
-            </div>
-        </div>
-    );
+// Category icons with colors
+const getCategoryConfig = (label) => {
+    return categoryConfig[label] || { icon: Briefcase, color: '#1f406d', bg: '#e8f0fe' };
 };
 
-// Jewell-style Mega Dropdown
+// New Tabbed Mega Dropdown
 const MegaDropdown = ({ items, isOpen, parentLabel, onMouseEnter, onMouseLeave }) => {
     const dropdownRef = useRef(null);
+    const [activeTab, setActiveTab] = useState(0);
     const country = countryData[parentLabel];
+
+    // Reset active tab when menu closes
+    useEffect(() => {
+        if (!isOpen) {
+            const timer = setTimeout(() => setActiveTab(0), 300);
+            return () => clearTimeout(timer);
+        }
+    }, [isOpen]);
 
     useLayoutEffect(() => {
         if (!dropdownRef.current) return;
@@ -254,36 +206,22 @@ const MegaDropdown = ({ items, isOpen, parentLabel, onMouseEnter, onMouseLeave }
         const ctx = gsap.context(() => {
             if (isOpen) {
                 gsap.set(dropdownRef.current, { display: 'block', pointerEvents: 'auto' });
-                // Premium reveal: Smooth slide, slight scale, and clip-path
+                // Premium reveal: Smooth slide and fade
                 gsap.fromTo(dropdownRef.current,
-                    { opacity: 0, y: -20, scale: 0.985, clipPath: 'inset(0 0 100% 0)' },
+                    { opacity: 0, y: -10, scale: 0.99 },
                     {
-                        opacity: 1, y: 0, scale: 1, clipPath: 'inset(0 0 0% 0)',
-                        duration: 0.7,
-                        ease: 'expo.out', // Hyper-smooth deceleration
-                        clearProps: 'clipPath' // Ensure no clipping issues after animation
-                    }
-                );
-                // Stagger columns with tighter timing
-                const cols = dropdownRef.current.querySelectorAll('.mega-col');
-                gsap.fromTo(cols,
-                    { opacity: 0, y: 15 },
-                    {
-                        opacity: 1, y: 0,
-                        stagger: 0.04,
-                        duration: 0.6,
-                        ease: 'power3.out',
-                        delay: 0.1
+                        opacity: 1, y: 0, scale: 1,
+                        duration: 0.4,
+                        ease: 'power3.out'
                     }
                 );
             } else {
                 gsap.to(dropdownRef.current, {
                     opacity: 0,
-                    y: -15,
+                    y: -10,
                     scale: 0.99,
-                    clipPath: 'inset(0 0 100% 0)',
-                    duration: 0.35,
-                    ease: 'power2.inOut',
+                    duration: 0.3,
+                    ease: 'power2.in',
                     onComplete: () => {
                         if (dropdownRef.current) {
                             gsap.set(dropdownRef.current, { display: 'none', pointerEvents: 'none' });
@@ -298,229 +236,169 @@ const MegaDropdown = ({ items, isOpen, parentLabel, onMouseEnter, onMouseLeave }
 
     if (!items || items.length === 0) return null;
 
-    // Split items into rows of 3 for grid layout
-    const topRow = items.slice(0, 3);
-    const bottomRow = items.slice(3);
+    const activeItem = items[activeTab];
+    const ActiveIcon = getCategoryConfig(activeItem?.label).icon;
 
     return (
         <div
             ref={dropdownRef}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50"
-            style={{ display: 'none', width: 'min(1200px, 95vw)' }}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 rounded-[40px] overflow-hidden shadow-[0_40px_80px_rgba(31,64,109,0.12),0_10px_40px_rgba(0,0,0,0.04)] bg-white border border-white"
+            style={{ display: 'none', width: 'min(1050px, 95vw)' }}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
-            <div className="bg-white rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.12)] border border-gray-100">
-                <div className="flex">
-
-                    {/* Left Sidebar – Country Info Panel */}
-                    <div
-                        className="w-[280px] flex-shrink-0 p-8 flex flex-col justify-between relative overflow-hidden bg-[#1f406d]"
-                    >
-                        {/* Country Flag Background - Large and Subtle */}
-                        {country?.flag && (
-                            <div
-                                className="absolute inset-0 z-0 opacity-[0.2] transition-all duration-700"
-                                style={{
-                                    backgroundImage: `url(${country.flag})`,
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center'
-                                }}
-                            />
-                        )}
-
-                        {/* Topographic contour lines */}
-                        <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 280 500" fill="none">
-                            <ellipse cx="140" cy="250" rx="120" ry="180" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
-                            <ellipse cx="140" cy="250" rx="95" ry="145" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
-                            <ellipse cx="140" cy="250" rx="70" ry="110" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
-                            <ellipse cx="140" cy="250" rx="45" ry="75" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
-                            <ellipse cx="140" cy="250" rx="20" ry="40" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1" />
-                        </svg>
-
-                        {/* Small cross marks */}
-                        <svg className="absolute top-20 right-8 w-4 h-4 opacity-[0.15]" viewBox="0 0 12 12">
-                            <line x1="6" y1="0" x2="6" y2="12" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1.5" />
-                            <line x1="0" y1="6" x2="12" y2="6" stroke={country?.flagColors?.[1] || '#FFF'} strokeWidth="1.5" />
-                        </svg>
-                        <svg className="absolute bottom-36 left-8 w-3 h-3 opacity-[0.1]" viewBox="0 0 12 12">
-                            <line x1="6" y1="0" x2="6" y2="12" stroke={country?.flagColors?.[2] || '#e41e25'} strokeWidth="1.5" />
-                            <line x1="0" y1="6" x2="12" y2="6" stroke={country?.flagColors?.[2] || '#e41e25'} strokeWidth="1.5" />
-                        </svg>
-
-                        <div className="relative z-10">
-                            <motion.div
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.15 }}
-                            >
-                                <div className="inline-block px-3 py-1 bg-white/15 rounded-full text-[10px] font-bold text-white/90 tracking-wider uppercase mb-5">
-                                    Migrate Zone
-                                </div>
-                            </motion.div>
-
-                            <motion.h2
-                                className="text-2xl font-black text-white mb-3 leading-tight"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.25 }}
-                            >
-                                {parentLabel}<br />
-                                <span className="text-white/70 text-lg font-semibold">Services</span>
-                            </motion.h2>
-                            <motion.p
-                                className="text-white/60 text-[13px] leading-relaxed"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.25 }}
-                            >
-                                {country?.tagline || 'Expert immigration services'}. We provide end-to-end visa consultation and support for a seamless migration journey.
-                            </motion.p>
-                        </div>
-
-                        {/* Quick Stats */}
-                        <motion.div
-                            className="relative z-10 mt-5 flex gap-3"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.4 }}
-                        >
-                            <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-lg py-2.5 text-center">
-                                <div className="text-base font-black text-white">{country?.stats?.visas || '20K+'}</div>
-                                <div className="text-[10px] text-white/50 uppercase tracking-wider">Visas</div>
-                            </div>
-                            <div className="flex-1 bg-white/10 backdrop-blur-sm rounded-lg py-2.5 text-center">
-                                <div className="text-base font-black text-white">{country?.stats?.success || '95%'}</div>
-                                <div className="text-[10px] text-white/50 uppercase tracking-wider">Success</div>
-                            </div>
-                        </motion.div>
+            <div className="flex min-h-[480px]">
+                {/* Left Sidebar - Categories */}
+                <div className="w-[28%] bg-white py-8 pl-8 pr-4 flex flex-col border-r border-gray-50/50">
+                    <div className="mb-6 px-4">
+                        <h3 className="text-[11px] font-extrabold text-gray-400 uppercase tracking-widest">
+                            Visa Categories
+                        </h3>
                     </div>
+                    <div className="space-y-2 flex-1 overflow-y-auto custom-scrollbar pr-2">
+                        {items.map((item, index) => {
+                            const isActive = activeTab === index;
+                            const config = getCategoryConfig(item.label);
+                            const Icon = config.icon;
 
-                    {/* Right – Categories Grid */}
-                    <div className="flex-1 py-8 px-10 flex flex-col">
-                        {/* Top Row */}
-                        <div
-                            className="grid gap-x-10 gap-y-8"
-                            style={{
-                                gridTemplateColumns: `repeat(${Math.min(topRow.length, 3)}, 1fr)`
-                            }}
-                        >
-                            {topRow.map((item, index) => (
-                                <CategoryColumn key={item.label} item={item} index={index} />
-                            ))}
-                        </div>
-
-                        {/* Divider between rows */}
-                        {bottomRow.length > 0 && (
-                            <div className="border-t border-gray-100 my-7" />
-                        )}
-
-                        {/* Bottom Row */}
-                        {bottomRow.length > 0 && (
-                            <div
-                                className="grid gap-x-10 gap-y-8"
-                                style={{
-                                    gridTemplateColumns: `repeat(${Math.min(bottomRow.length, 3)}, 1fr)`
-                                }}
-                            >
-                                {bottomRow.map((item, index) => (
-                                    <CategoryColumn key={item.label} item={item} index={index + 3} />
-                                ))}
-                            </div>
-                        )}
-
-                        {/* Featured Content — fills space for countries with few categories */}
-                        {items.length <= 3 && (
-                            <div className="mega-col mt-auto pt-6 border-t border-gray-100">
-                                {/* Quick Info Pills */}
-                                <div className="flex flex-wrap gap-2 mb-5">
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1f406d]/5 text-[#1f406d] rounded-full text-[11px] font-semibold">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                                        {country?.stats?.processing || 'Fast Processing'}
-                                    </span>
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1f406d]/5 text-[#1f406d] rounded-full text-[11px] font-semibold">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                                        {country?.highlight || 'Expert Guidance'}
-                                    </span>
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1f406d]/5 text-[#1f406d] rounded-full text-[11px] font-semibold">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                                        {country?.stats?.success || '95%'} Success Rate
-                                    </span>
+                            return (
+                                <div
+                                    key={index}
+                                    className={`group flex items-center gap-4 p-4 rounded-[20px] cursor-pointer transition-all duration-300 relative
+                                        ${isActive ? 'bg-[#1f406d] text-white shadow-lg shadow-blue-900/10' : 'hover:bg-[#F8F9FB] text-gray-500 hover:text-[#1f406d]'}`}
+                                    onMouseEnter={() => setActiveTab(index)}
+                                >
+                                    <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors duration-300
+                                        ${isActive ? 'bg-white/20 text-white' : 'bg-white border border-gray-100 group-hover:border-[#1f406d]/20 text-gray-400 group-hover:text-[#1f406d]'}`}>
+                                        <Icon className="w-4 h-4" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className={`text-[13px] font-bold leading-none mb-1.5 ${isActive ? 'text-white' : 'text-gray-700 group-hover:text-[#1f406d]'}`}>
+                                            {item.label}
+                                        </div>
+                                        <div className={`text-[11px] line-clamp-1 ${isActive ? 'text-white/60' : 'text-gray-400'}`}>
+                                            {item.description || 'Explore options'}
+                                        </div>
+                                    </div>
+                                    {isActive && (
+                                        <ArrowRight className="w-4 h-4 text-white/80" />
+                                    )}
                                 </div>
-
-                                {/* CTA Card */}
-                                <Link href={`/${parentLabel.toLowerCase().replace(' ', '-')}`}>
-                                    <motion.div
-                                        className="relative overflow-hidden rounded-2xl p-6 cursor-pointer group"
-                                        style={{ background: 'linear-gradient(135deg, #1f406d 0%, #2a5a96 50%, #1f406d 100%)' }}
-                                        whileHover={{ scale: 1.01 }}
-                                        whileTap={{ scale: 0.99 }}
-                                    >
-                                        {/* Decorative elements */}
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-                                        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-
-                                        <div className="relative z-10 flex items-center justify-between">
-                                            <div>
-                                                <h4 className="text-white font-bold text-[15px] mb-1">
-                                                    Start Your {parentLabel} Journey
-                                                </h4>
-                                                <p className="text-white/60 text-[12px] leading-relaxed max-w-xs">
-                                                    Get personalized visa guidance from our certified immigration experts. Free initial assessment.
-                                                </p>
-                                            </div>
-                                            <motion.div
-                                                className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0 ml-4"
-                                                whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.25)' }}
-                                            >
-                                                <ArrowRight className="w-4 h-4 text-white" />
-                                            </motion.div>
-                                        </div>
-
-                                        {/* Why Choose Us - compact row */}
-                                        <div className="relative z-10 mt-4 pt-4 border-t border-white/10 grid grid-cols-3 gap-3">
-                                            <div className="text-center">
-                                                <div className="text-white text-[13px] font-bold">{country?.stats?.visas || '20K+'}</div>
-                                                <div className="text-white/40 text-[10px] uppercase tracking-wider">Visas Processed</div>
-                                            </div>
-                                            <div className="text-center border-x border-white/10">
-                                                <div className="text-white text-[13px] font-bold">10+ Years</div>
-                                                <div className="text-white/40 text-[10px] uppercase tracking-wider">Experience</div>
-                                            </div>
-                                            <div className="text-center">
-                                                <div className="text-white text-[13px] font-bold">24/7</div>
-                                                <div className="text-white/40 text-[10px] uppercase tracking-wider">Support</div>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                </Link>
-                            </div>
-                        )}
+                            );
+                        })}
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="bg-gray-50/80 px-8 py-3.5 flex items-center justify-between border-t border-gray-100">
-                    <div className="flex items-center gap-4">
-                        <span className="text-[13px] text-gray-400">Need expert guidance?</span>
-                        <Link href="/contact">
-                            <motion.div
-                                className="flex items-center gap-2 px-5 py-2 bg-[#1f406d] text-white rounded-full text-[12px] font-bold tracking-wide"
-                                whileHover={{ scale: 1.03, backgroundColor: '#16325a' }}
-                                whileTap={{ scale: 0.97 }}
-                            >
-                                Free Consultation
-                                <ArrowRight className="w-3 h-3" />
-                            </motion.div>
-                        </Link>
+                {/* Right Content Area */}
+                <div className="w-[72%] bg-white p-10 flex flex-col relative">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-50">
+                        <div>
+                            <h3 className="text-[11px] font-bold text-[#e41e25] uppercase tracking-widest mb-1.5">
+                                Solutions for
+                            </h3>
+                            <h2 className="text-3xl font-black text-[#1f406d] tracking-tight">
+                                {activeItem?.label}
+                            </h2>
+                        </div>
+                        {activeItem && activeItem.subItems && activeItem.subItems.length > 0 && (
+                            <Link href={activeItem.href}>
+                                <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 text-[12px] font-bold text-gray-500 hover:bg-[#1f406d] hover:text-white transition-all cursor-pointer">
+                                    View All
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                </div>
+                            </Link>
+                        )}
                     </div>
-                    <div className="flex items-center gap-6 text-[12px] text-gray-400">
-                        <a href="tel:1800-123-4567" className="hover:text-[#1f406d] transition-colors flex items-center gap-1.5">
-                            <span>📞</span> 1800-123-4567
-                        </a>
-                        <a href="mailto:info@migratezone.com" className="hover:text-[#1f406d] transition-colors flex items-center gap-1.5">
-                            <span>📧</span> info@migratezone.com
-                        </a>
+
+                    <div className="flex-1 flex gap-10">
+                        {/* Sub-items List (Grid) */}
+                        <div className="flex-1">
+                            {activeItem?.subItems && activeItem.subItems.length > 0 ? (
+                                <div className="grid grid-cols-2 gap-x-6 gap-y-3">
+                                    {activeItem.subItems.map((sub, i) => (
+                                        <Link key={i} href={sub.href}>
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 5 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: i * 0.03 }}
+                                                className="group flex items-center gap-3 p-3 rounded-2xl hover:bg-[#F8F9FB] transition-all border border-transparent hover:border-gray-100"
+                                            >
+                                                <div className="w-1.5 h-1.5 rounded-full bg-gray-200 group-hover:bg-[#e41e25] transition-colors" />
+                                                <div className="text-[13px] font-bold text-gray-600 group-hover:text-[#1f406d] transition-colors">
+                                                    {sub.label}
+                                                </div>
+                                            </motion.div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="h-full flex flex-col justify-center items-start text-gray-400 pl-4">
+                                    <p className="mb-6 text-sm leading-relaxed max-w-sm text-gray-500">
+                                        {activeItem?.description || `Explore our comprehensive ${activeItem?.label} services designed to help you migrate with confidence.`}
+                                    </p>
+                                    <Link href={activeItem?.href || '#'}>
+                                        <button className="px-6 py-3 bg-[#1f406d] text-white text-[13px] font-bold rounded-full hover:bg-[#163055] hover:scale-105 transition-all inline-flex items-center gap-2 shadow-lg shadow-blue-900/20">
+                                            Start Your Application <ArrowRight className="w-4 h-4" />
+                                        </button>
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Promo Card / Right Sidebar */}
+                        <div className="w-[260px] flex-shrink-0">
+                            <motion.div
+                                key={activeItem?.label}
+                                initial={{ opacity: 0, scale: 0.95 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.4 }}
+                                className="h-full rounded-[30px] overflow-hidden relative group bg-gray-900 shadow-xl"
+                            >
+                                <img
+                                    src={country?.image || '/australia_country_1770386989728.png'}
+                                    alt={parentLabel}
+                                    className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-50 group-hover:scale-110 transition-all duration-1000"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#1f406d] via-[#1f406d]/30 to-transparent" />
+
+                                <div className="absolute bottom-0 left-0 p-6 w-full">
+                                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-bold text-white mb-4 border border-white/20 shadow-lg">
+                                        <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                                        Featured
+                                    </div>
+                                    <h4 className="text-white font-bold text-[18px] leading-tight mb-2">
+                                        {parentLabel}
+                                    </h4>
+                                    <p className="text-white/80 text-[12px] leading-relaxed mb-5 font-medium">
+                                        Let us handle your {activeItem?.label.toLowerCase()} process with 98% success rate.
+                                    </p>
+
+                                    <Link href="/contact">
+                                        <div className="w-full py-3 rounded-xl bg-white text-[#1f406d] text-[12px] font-extrabold text-center hover:bg-[#e41e25] hover:text-white transition-all cursor-pointer shadow-lg">
+                                            Free Assessment
+                                        </div>
+                                    </Link>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+
+                    {/* Footer Strip inside Panel */}
+                    <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <div>
+                            <div className="text-[13px] font-bold text-gray-800">
+                                Need different solutions?
+                            </div>
+                            <div className="text-[11px] text-gray-400">
+                                We offer tailored advice for complex migration cases.
+                            </div>
+                        </div>
+                        <Link href="/contact">
+                            <button className="px-4 py-2 bg-white border border-gray-200 text-gray-600 text-[11px] font-bold rounded-lg hover:border-[#1f406d] hover:text-[#1f406d] transition-colors">
+                                Talk to Sales
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -723,7 +601,7 @@ export default function Header() {
                     >
                         <Link href="/contact" onClick={(e) => handleNavClick(e, '/contact')}>
                             <motion.div
-                                className={`group relative w-12 h-12 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500
+                                className={`group relative w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500
                                            ${navTheme === 'glass'
                                         ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)] text-[#1f406d]'
                                         : navTheme === 'black'
@@ -732,7 +610,7 @@ export default function Header() {
                                 whileHover={{ scale: 1.1, backgroundColor: '#e41e25', color: '#fff', borderColor: '#e41e25' }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <MessageCircle className="w-5 h-5 transition-transform duration-500 group-hover:rotate-[360deg]" />
+                                <img src="/contact-us.png" alt="Contact Us" className="w-6 h-6 object-contain transition-transform duration-500 group-hover:rotate-[360deg]" />
                                 <motion.div
                                     className="absolute -top-1 -right-1 w-3 h-3 bg-[#e41e25] rounded-full border-2 border-white"
                                     animate={{ scale: [1, 1.2, 1] }}

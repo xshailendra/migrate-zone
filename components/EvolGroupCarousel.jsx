@@ -20,7 +20,7 @@ const ventures = [
         subtitle: 'Elite IT Solutions',
         description: 'Your partner for innovative digital transformation, custom software development, and strategic IT consulting.',
         image: '/logos/tbt-bg.png',
-        logo: '/logos/logo-TBD.webp',
+        logo: '/logos/1-01.png',
         color: '#1f406d'
     },
     {
@@ -29,7 +29,7 @@ const ventures = [
         subtitle: 'Affiliate Marketing Ecosystem',
         description: 'A revolutionary platform connecting brands with influencers to drive growth through transparent affiliate structures.',
         image: 'https://wharferj.files.wordpress.com/2015/11/bio_north.jpg',
-        logo: '/logos/logo-EN.webp',
+        logo: '/logos/EVOL_NETWORK_LOGO.png',
         color: '#d4ff3f'
     },
     {
@@ -38,26 +38,35 @@ const ventures = [
         subtitle: 'Algorithmic Trading Innovation',
         description: 'Advanced cloud-based trading solutions utilizing AI and machine learning for market-beating algorithmic strategies.',
         image: 'https://images7.alphacoders.com/878/878663.jpg',
-        logo: '/logos/logo-ET.webp',
+        logo: '/logos/EvolTradeLogo_Final_1-02.png',
         color: '#1f406d'
     },
     {
-        id: 'marketrill',
-        title: 'Marketrill',
-        subtitle: 'Revenue Share Platforms',
-        description: 'Decentralized revenue sharing protocols that maximize stakeholder yield through optimized DeFi farming strategies.',
-        image: 'https://theawesomer.com/photos/2017/07/simon_stalenhag_the_electric_state_6.jpg',
-        logo: '/logos/logo-EGC.webp',
+        id: 'evol-jobs',
+        title: 'Evol Jobs',
+        subtitle: 'Global Talent Acquisition',
+        description: 'Connecting top-tier talent with world-class organizations through AI-driven recruitment and staffing solutions.',
+        image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80',
+        logo: '/logos/EVOL_JOBS_LOGO.png',
         color: '#e41e25'
     },
     {
-        id: 'truevalue',
-        title: 'Truevalue CRM',
-        subtitle: 'Enterprise SaaS Automation',
-        description: 'Comprehensive CRM systems that streamline customer relations and automate complex business workflows.',
-        image: 'https://da.se/app/uploads/2015/09/simon-december1994.jpg',
-        logo: '/logos/logo-TVCRM.webp',
+        id: 'evol-assistant',
+        title: 'Evol Assistant',
+        subtitle: 'AI Personal Concierge',
+        description: 'Next-generation AI assistants designed to streamline productivity and automate daily tasks for individuals and businesses.',
+        image: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80',
+        logo: '/logos/EvolAssistant_Logo_5-05.png',
         color: '#1f406d'
+    },
+    {
+        id: 'evol-entertainment',
+        title: 'Evol Entertainment',
+        subtitle: 'Media & Production House',
+        description: 'Creating immersive content and entertainment experiences that captivate audiences across digital and traditional platforms.',
+        image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80',
+        logo: '/logos/EvolEntertainmentLogo-04.png',
+        color: '#d4ff3f'
     }
 ];
 
@@ -116,7 +125,7 @@ export default function EvolGroupCarousel() {
 
                                     <div className="relative z-10 h-full flex flex-col justify-between p-8 text-white">
                                         <div className="flex justify-between items-start">
-                                            <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center p-2.5">
+                                            <div className="w-32 h-16 flex items-center justify-start">
                                                 <img src={venture.logo} alt={venture.title} className="max-w-full max-h-full object-contain" />
                                             </div>
                                             <span className="text-[10px] font-bold uppercase bg-[#1f406d] text-white px-2.5 py-1 rounded-full">Active</span>

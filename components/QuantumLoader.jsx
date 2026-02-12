@@ -197,9 +197,9 @@ const QuantumLoader = ({ onComplete, onTransitionStart }) => {
             {/* 1. Base Layer: World Map Image */}
             <div className="locations-bg absolute inset-0 z-10 opacity-0 overflow-hidden scale-[0.98] flex items-center justify-center">
                 <img
-                    src="/world-map.jpg"
+                    src="/world-map-coloured.png"
                     alt="World Map"
-                    className="w-full h-full object-contain opacity-70 grayscale"
+                    className="w-full h-full object-contain opacity-70 "
                 />
             </div>
 

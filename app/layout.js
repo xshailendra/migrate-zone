@@ -40,12 +40,15 @@ import ParticleBackground from "@/components/ParticleBackground";
 import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 
+import ScrollToTop from "@/components/ScrollToTop";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${outfit.variable} ${syne.variable} ${ralewayDots.variable} ${poppins.variable} ${oxanium.variable} antialiased`}>
         <SmoothScroll>
           <CustomCursor />
+          <ScrollToTop />
           {children}
         </SmoothScroll>
       </body>

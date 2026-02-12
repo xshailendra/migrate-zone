@@ -1,8 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Plus } from 'lucide-react';
+import { ArrowRight, Plus, Globe, Facebook, Twitter, Instagram, Linkedin, Youtube, Send, Github, Bitcoin } from 'lucide-react';
+
+const iconMap = {
+    globe: Globe,
+    facebook: Facebook,
+    twitter: Twitter,
+    instagram: Instagram,
+    linkedin: Linkedin,
+    youtube: Youtube,
+    send: Send,
+    github: Github,
+    bitcoin: Bitcoin
+};
 
 const ventures = [
     {
@@ -13,7 +25,8 @@ const ventures = [
         image: '/evol-group/migrate-zone.png',
         logo: '/logos/logo-wide.webp',
         color: '#e41e25',
-        url: 'https://migratezone.com'
+        url: 'https://migratezone.com',
+        socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin']
     },
     {
         id: 'technobits',
@@ -21,9 +34,10 @@ const ventures = [
         subtitle: 'Elite IT Solutions',
         description: 'Your partner for innovative digital transformation, custom software development, and strategic IT consulting.',
         image: '/evol-group/technobits.png',
-        logo: '/logos/logo-TBD.webp',
+        logo: '/logos/1-01.png',
         color: '#1f406d',
-        url: 'https://technobitsdigital.com'
+        url: 'https://technobitsdigital.com',
+        socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin', 'youtube']
     },
     {
         id: 'evol-network',
@@ -31,9 +45,10 @@ const ventures = [
         subtitle: 'Affiliate Marketing Ecosystem',
         description: 'A revolutionary platform connecting brands with influencers to drive growth through transparent affiliate structures.',
         image: '/evol-group/evol-network.png',
-        logo: '/logos/logo-EN.webp',
+        logo: '/logos/EVOL_NETWORK_LOGO.png',
         color: '#d4ff3f',
-        url: 'https://evolnetwork.com'
+        url: 'https://evolnetwork.com',
+        socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin', 'send', 'github', 'bitcoin']
     },
     {
         id: 'evol-trader',
@@ -41,19 +56,32 @@ const ventures = [
         subtitle: 'Algorithmic Trading Innovation',
         description: 'Advanced cloud-based trading solutions utilizing AI and machine learning for market-beating algorithmic strategies.',
         image: '/evol-group/evol-trader.png',
-        logo: '/logos/logo-ET.webp',
+        logo: '/logos/EvolTradeLogo_Final_1-02.png',
         color: '#1f406d',
-        url: 'https://evoltrader.com'
+        url: 'https://evoltrader.com',
+        socials: ['globe', 'facebook', 'twitter', 'instagram', 'youtube', 'linkedin']
     },
     {
-        id: 'marketrill',
-        title: 'Marketrill',
-        subtitle: 'Revenue Share Platforms',
-        description: 'Decentralized revenue sharing protocols that maximize stakeholder yield through optimized DeFi farming strategies.',
-        image: '/evol-group/marketrill.png',
-        logo: '/logos/logo-EGC.webp',
+        id: 'evol-jobs',
+        title: 'Evol Jobs',
+        subtitle: 'Global Talent Acquisition',
+        description: 'Connecting top-tier talent with world-class organizations through AI-driven recruitment and staffing solutions.',
+        image: '/evol-group/evol-jobs.png',
+        logo: '/logos/EVOL_JOBS_LOGO.png',
         color: '#e41e25',
-        url: 'https://marketrill.com'
+        url: 'https://evoljobs.com',
+        socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin']
+    },
+    {
+        id: 'evol-assistant',
+        title: 'Evol Assistant',
+        subtitle: 'AI Personal Concierge',
+        description: 'Next-generation AI assistants designed to streamline productivity and automate daily tasks for individuals and businesses.',
+        image: '/evol-group/evol-assistant.png',
+        logo: '/logos/EvolAssistant_Logo_5-05.png',
+        color: '#1f406d',
+        url: 'https://evolassistant.com',
+        socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin']
     },
     {
         id: 'truevalue',
@@ -61,34 +89,41 @@ const ventures = [
         subtitle: 'Enterprise SaaS Automation',
         description: 'Comprehensive CRM systems that streamline customer relations and automate complex business workflows.',
         image: '/evol-group/truevalue-crm.png',
-        logo: '/logos/logo-TVCRM.webp',
+        logo: '/logos/TRUEVALUE CRM.png',
         color: '#1f406d',
-        url: 'https://truevaluecrm.com'
+        url: 'https://truevaluecrm.com',
+        socials: ['globe', 'facebook', 'twitter', 'linkedin', 'youtube']
     },
     {
-        id: 'evol-jobs',
-        title: 'Evol Jobs',
-        subtitle: 'Overseas HR Services',
-        description: 'An overseas HR services firm, connected to providing recruitment services for authentic and secure employment opportunities globally.',
-        image: '/evol-group/evol-jobs.png',
-        logo: '/logos/logo-EJ.webp',
-        color: '#e41e25',
-        url: 'https://evoljobs.com'
-    },
-    {
-        id: 'evol-assistant',
-        title: 'Evol Assistant',
-        subtitle: 'Virtual Administrative Support',
-        description: 'A virtual assistant specializes in offering administrative services to clients from remote location. A virtual back office to manage your appointments, travelling, and schedules.',
-        image: '/evol-group/evol-assistant.png',
-        logo: '/logos/logo-EA.webp',
-        color: '#1f406d',
-        url: 'https://evolassistant.com'
+        id: 'evol-entertainment',
+        title: 'Evol Entertainment',
+        subtitle: 'Media & Production House',
+        description: 'Creating immersive content and entertainment experiences that captivate audiences across digital and traditional platforms.',
+        image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80',
+        logo: '/logos/EvolEntertainmentLogo-04.png',
+        color: '#d4ff3f',
+        url: '#',
+        socials: ['globe', 'facebook', 'twitter', 'instagram', 'youtube']
     }
 ];
 
 export default function EvolGroupAccordion() {
     const [expandedIndex, setExpandedIndex] = useState(null);
+
+    useEffect(() => {
+        if (expandedIndex === null) return;
+
+        const startScrollY = window.scrollY;
+
+        const handleScroll = () => {
+            if (Math.abs(window.scrollY - startScrollY) > 100) {
+                setExpandedIndex(null);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [expandedIndex]);
 
     return (
         <section className="py-24 bg-transparent w-full overflow-hidden cursor-none">
@@ -116,7 +151,7 @@ export default function EvolGroupAccordion() {
                                     alt=""
                                     className={`w-full h-full object-cover transition-transform duration-[1200ms] ${expandedIndex === index ? 'scale-105' : ''}`}
                                 />
-                                <div className={`absolute inset-0 transition-all duration-700 ${expandedIndex === index ? 'bg-gradient-to-b md:bg-gradient-to-r from-black/90 to-black/40' : 'bg-black/40'}`}></div>
+                                <div className={`absolute inset-0 transition-all duration-700 ${expandedIndex === index ? 'bg-white/40' : 'bg-white/0'}`}></div>
                             </div>
 
                             <div className="relative z-10 w-full h-full">
@@ -128,19 +163,19 @@ export default function EvolGroupAccordion() {
                                             animate={{ opacity: 1, x: 0 }}
                                             exit={{ opacity: 0, x: 20 }}
                                             transition={{ duration: 0.4, delay: 0.2 }}
-                                            className="h-full flex flex-col justify-center p-8 md:p-12 text-white max-w-2xl"
+                                            className="h-full flex flex-col justify-center p-8 md:p-12 text-[#1f406d] max-w-2xl"
                                         >
                                             <div className="flex flex-col items-start gap-4 mb-8">
-                                                <div className="w-20 h-20 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center p-4">
+                                                <div className="w-40 h-20 flex items-center justify-start">
                                                     <img src={venture.logo} alt={venture.title} className="max-w-full max-h-full object-contain" />
                                                 </div>
-                                                <span className="text-xs font-extrabold uppercase text-[#1f406d] bg-white/10 px-3 py-1 rounded-lg tracking-widest">Active Partner</span>
+                                                <span className="text-xs font-extrabold uppercase text-[#1f406d] bg-gray-100 px-3 py-1 rounded-lg tracking-widest">Active Partner</span>
                                             </div>
 
                                             <div className="mb-10">
                                                 <h3 className="text-4xl md:text-5xl font-black mb-2 font-syne leading-none uppercase tracking-tighter">{venture.title}</h3>
                                                 <p className="text-lg font-bold text-[#e41e25] mb-4 uppercase tracking-wider">{venture.subtitle}</p>
-                                                <p className="text-base leading-relaxed text-white/80">{venture.description}</p>
+                                                <p className="text-base leading-relaxed text-gray-600">{venture.description}</p>
                                             </div>
 
                                             <a
@@ -149,11 +184,21 @@ export default function EvolGroupAccordion() {
                                                 rel="noopener noreferrer"
                                                 className="block w-fit"
                                             >
-                                                <button className="bg-white text-[#1f406d] border-none px-8 py-4 rounded-full text-sm font-extrabold flex items-center gap-3 w-fit transition-all duration-300 hover:bg-[#e41e25] hover:text-white hover:translate-x-1">
+                                                <button className="bg-[#1f406d] text-white border-none px-8 py-4 rounded-full text-sm font-extrabold flex items-center gap-3 w-fit transition-all duration-300 hover:bg-[#e41e25] hover:text-white hover:translate-x-1">
                                                     <span>Visit Portfolio</span>
                                                     <ArrowRight size={18} />
                                                 </button>
                                             </a>
+                                            <div className="flex gap-4 flex-wrap mt-8">
+                                                {venture.socials && venture.socials.map((social, i) => {
+                                                    const Icon = iconMap[social];
+                                                    return Icon ? (
+                                                        <div key={i} className="text-[#1f406d]/70 hover:text-[#e41e25] transition-colors cursor-pointer">
+                                                            <Icon size={20} />
+                                                        </div>
+                                                    ) : null;
+                                                })}
+                                            </div>
                                         </motion.div>
                                     ) : (
                                         <motion.div
@@ -161,15 +206,15 @@ export default function EvolGroupAccordion() {
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}
-                                            className="h-full flex md:flex-col items-center justify-between md:justify-end p-8 md:py-10 text-white"
+                                            className="h-full flex md:flex-col items-center justify-between md:justify-end p-8 md:py-10 text-[#1f406d]"
                                         >
-                                            <div className="w-10 h-10 md:mb-8 opacity-80">
-                                                <img src={venture.logo} alt="" className="w-full h-full object-contain" />
+                                            <div className="w-16 h-10 md:mb-8 opacity-80 flex items-center justify-center">
+                                                <img src={venture.logo} alt="" className="max-w-full max-h-full object-contain" />
                                             </div>
-                                            <h3 className="md:[writing-mode:vertical-rl] md:rotate-180 text-xl font-black font-syne uppercase tracking-widest whitespace-nowrap m-0">
+                                            <h3 className="md:[writing-mode:vertical-rl] md:rotate-180 text-xl font-black font-syne uppercase tracking-widest whitespace-nowrap m-0 text-[#e41e25]">
                                                 {venture.title}
                                             </h3>
-                                            <div className="md:mt-8 w-10 h-10 border border-white/30 rounded-full flex items-center justify-center opacity-50">
+                                            <div className="md:mt-8 w-10 h-10 border border-[#1f406d]/30 rounded-full flex items-center justify-center opacity-50">
                                                 <Plus size={20} />
                                             </div>
                                         </motion.div>

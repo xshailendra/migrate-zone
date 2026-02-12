@@ -68,7 +68,7 @@ export default function USAPage() {
                 <img
                     src="/usa-flag-dots.png"
                     alt=""
-                    className="w-[80%] max-w-[1000px] h-auto object-contain grayscale"
+                    className="w-[80%] max-w-[1000px] h-auto object-contain"
                 />
             </div>
             <Header />
