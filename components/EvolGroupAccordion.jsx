@@ -22,8 +22,9 @@ const ventures = [
         title: 'Migrate Zone',
         subtitle: 'Global Immigration Masters',
         description: 'Leading consultants since 1998, specializing in Australian & Canadian immigration with a focus on seamless transitions.',
-        image: '/evol-group/migrate-zone.png',
+        image: '/evol-group/MZLogo-02.png',
         logo: '/logos/logo-wide.webp',
+        logoShort: '/evol-group/MZLogo-02.png',
         color: '#e41e25',
         url: 'https://migratezone.com',
         socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin']
@@ -33,8 +34,9 @@ const ventures = [
         title: 'Technobits Digital',
         subtitle: 'Elite IT Solutions',
         description: 'Your partner for innovative digital transformation, custom software development, and strategic IT consulting.',
-        image: '/evol-group/technobits.png',
+        image: '/evol-group/Technobits_Digital_Logo1-02.png',
         logo: '/logos/1-01.png',
+        logoShort: '/evol-group/Technobits_Digital_Logo1-02.png',
         color: '#1f406d',
         url: 'https://technobitsdigital.com',
         socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin', 'youtube']
@@ -44,8 +46,9 @@ const ventures = [
         title: 'Evol Network',
         subtitle: 'Affiliate Marketing Ecosystem',
         description: 'A revolutionary platform connecting brands with influencers to drive growth through transparent affiliate structures.',
-        image: '/evol-group/evol-network.png',
+        image: '/evol-group/EVOL_NETWORK_ICON.png',
         logo: '/logos/EVOL_NETWORK_LOGO.png',
+        logoShort: '/evol-group/EVOL_NETWORK_ICON.png',
         color: '#d4ff3f',
         url: 'https://evolnetwork.com',
         socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin', 'send', 'github', 'bitcoin']
@@ -55,8 +58,9 @@ const ventures = [
         title: 'Evol Trader',
         subtitle: 'Algorithmic Trading Innovation',
         description: 'Advanced cloud-based trading solutions utilizing AI and machine learning for market-beating algorithmic strategies.',
-        image: '/evol-group/evol-trader.png',
+        image: '/evol-group/EvolTradeLogo_Final_1-03.png',
         logo: '/logos/EvolTradeLogo_Final_1-02.png',
+        logoShort: '/evol-group/EvolTradeLogo_Final_1-03.png',
         color: '#1f406d',
         url: 'https://evoltrader.com',
         socials: ['globe', 'facebook', 'twitter', 'instagram', 'youtube', 'linkedin']
@@ -66,8 +70,9 @@ const ventures = [
         title: 'Evol Jobs',
         subtitle: 'Global Talent Acquisition',
         description: 'Connecting top-tier talent with world-class organizations through AI-driven recruitment and staffing solutions.',
-        image: '/evol-group/evol-jobs.png',
+        image: '/evol-group/EVOL_JOBS_ICON.png',
         logo: '/logos/EVOL_JOBS_LOGO.png',
+        logoShort: '/evol-group/EVOL_JOBS_ICON.png',
         color: '#e41e25',
         url: 'https://evoljobs.com',
         socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin']
@@ -77,8 +82,9 @@ const ventures = [
         title: 'Evol Assistant',
         subtitle: 'AI Personal Concierge',
         description: 'Next-generation AI assistants designed to streamline productivity and automate daily tasks for individuals and businesses.',
-        image: '/evol-group/evol-assistant.png',
+        image: '/evol-group/EvolAssistant_Logo_90x90.png',
         logo: '/logos/EvolAssistant_Logo_5-05.png',
+        logoShort: '/evol-group/EvolAssistant_Logo_90x90.png',
         color: '#1f406d',
         url: 'https://evolassistant.com',
         socials: ['globe', 'facebook', 'twitter', 'instagram', 'linkedin']
@@ -88,8 +94,9 @@ const ventures = [
         title: 'Truevalue CRM',
         subtitle: 'Enterprise SaaS Automation',
         description: 'Comprehensive CRM systems that streamline customer relations and automate complex business workflows.',
-        image: '/evol-group/truevalue-crm.png',
-        logo: '/logos/TRUEVALUE CRM.png',
+        image: '/evol-group/TRUE VALUE CRM_ICON.png',
+        logo: '/logos/TRUE VALUE CRM_ICON.png',
+        logoShort: '/evol-group/truevalue-crm.png',
         color: '#1f406d',
         url: 'https://truevaluecrm.com',
         socials: ['globe', 'facebook', 'twitter', 'linkedin', 'youtube']
@@ -99,8 +106,9 @@ const ventures = [
         title: 'Evol Entertainment',
         subtitle: 'Media & Production House',
         description: 'Creating immersive content and entertainment experiences that captivate audiences across digital and traditional platforms.',
-        image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80',
-        logo: '/logos/EvolEntertainmentLogo-04.png',
+        image: '/evol-group/Color_Logo-12.png',
+        logo: '/logos/Color_Logo-12.png',
+        logoShort: '/evol-group/evol-entertainment.png',
         color: '#d4ff3f',
         url: '#',
         socials: ['globe', 'facebook', 'twitter', 'instagram', 'youtube']
@@ -175,7 +183,7 @@ export default function EvolGroupAccordion() {
                                             <div className="mb-10">
                                                 <h3 className="text-4xl md:text-5xl font-black mb-2 font-syne leading-none uppercase tracking-tighter">{venture.title}</h3>
                                                 <p className="text-lg font-bold text-[#e41e25] mb-4 uppercase tracking-wider">{venture.subtitle}</p>
-                                                <p className="text-base leading-relaxed text-gray-600">{venture.description}</p>
+                                                <p className="text-base leading-relaxed text-black font-bold">{venture.description}</p>
                                             </div>
 
                                             <a
@@ -208,15 +216,15 @@ export default function EvolGroupAccordion() {
                                             exit={{ opacity: 0 }}
                                             className="h-full flex md:flex-col items-center justify-between md:justify-end p-8 md:py-10 text-[#1f406d]"
                                         >
-                                            <div className="w-16 h-10 md:mb-8 opacity-80 flex items-center justify-center">
-                                                <img src={venture.logo} alt="" className="max-w-full max-h-full object-contain" />
+                                            <div className="w-20 h-12 md:mb-8 flex items-center justify-center px-2">
+                                                <img src={venture.logoShort} alt="" className="max-w-full max-h-full object-contain grayscale hover:grayscale-0 transition-all duration-300" />
                                             </div>
                                             <h3 className="md:[writing-mode:vertical-rl] md:rotate-180 text-xl font-black font-syne uppercase tracking-widest whitespace-nowrap m-0 text-[#e41e25]">
                                                 {venture.title}
                                             </h3>
-                                            <div className="md:mt-8 w-10 h-10 border border-[#1f406d]/30 rounded-full flex items-center justify-center opacity-50">
+                                            {/* <div className="md:mt-8 w-10 h-10 border border-[#1f406d]/30 rounded-full flex items-center justify-center opacity-50">
                                                 <Plus size={20} />
-                                            </div>
+                                            </div> */}
                                         </motion.div>
                                     )}
                                 </AnimatePresence>

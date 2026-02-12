@@ -3,7 +3,7 @@
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, CheckCircle2, Shield, Minus, Plus, Plane, Sun, Briefcase } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Shield, Minus, Plus, Building, Briefcase, Gem, Globe } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -41,7 +41,7 @@ const FAQItem = ({ question, answer }) => {
     );
 };
 
-export default function TouristVisaPage() {
+export default function Visa132Page() {
     const sectionRef = useRef(null);
     const containerRef = useRef(null);
     const leftPhoneRef = useRef(null);
@@ -64,17 +64,17 @@ export default function TouristVisaPage() {
                 <div className="max-w-[1400px] mx-auto text-center relative z-10 mb-20 md:mb-32">
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#1f406d]/5 rounded-full border border-[#1f406d]/10 mb-8">
-                            <div className="px-1.5 py-0.5 bg-[#E42E25] rounded text-[8px] font-black text-white uppercase tracking-wider">Subclass 600</div>
-                            <span className="text-[10px] font-black text-[#1f406d] uppercase tracking-widest">Visitor Visa</span>
+                            <div className="px-1.5 py-0.5 bg-[#E42E25] rounded text-[8px] font-black text-white uppercase tracking-wider">Subclass 132</div>
+                            <span className="text-[10px] font-black text-[#1f406d] uppercase tracking-widest">Business Talent</span>
                         </div>
                         <h1 className="text-5xl md:text-7xl lg:text-8xl font-[900] font-syne text-[#1f406d] leading-[1.1] tracking-tighter mb-8 max-w-5xl mx-auto">
-                            Visit & Explore <span className="text-[#E42E25]">Australia</span>
+                            High-Impact <span className="text-[#E42E25]">Investment</span>
                         </h1>
                         <p className="text-lg md:text-xl text-gray-500 font-medium max-w-2xl mx-auto mb-12 leading-relaxed">
-                            Visit Australia as a tourist, to see family and friends, or for purposes other than business or medical treatment.
+                            For high-calibre business owners or venture capital entrepreneurs who want to do business in Australia. A direct pathway to permanent residence.
                         </p>
                         <Link href="/assessment" className="group inline-flex items-center gap-4 px-10 py-5 bg-[#1f406d] text-white rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#E42E25] transition-all duration-500 shadow-xl shadow-[#1f406d]/10">
-                            Apply for Visit
+                            Check Eligibility
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </motion.div>
@@ -83,26 +83,26 @@ export default function TouristVisaPage() {
                         <div className="flex justify-center items-end gap-0 md:gap-8 absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-20">
                             <IPhoneFrame innerRef={leftPhoneRef} className="hidden md:block shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
                                 <div className="p-6 h-full flex flex-col pt-12">
-                                    <div className="flex items-center gap-2 mb-8"><div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><Plane className="w-4 h-4 text-[#1f406d]" /></div><span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Tourism</span></div>
-                                    <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100 mb-4"><p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Duration</p><p className="text-2xl font-black font-syne text-[#1f406d]">3-12 Months</p></div>
-                                    <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100"><p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Fast Track</p><p className="text-2xl font-black font-syne text-[#1f406d]">Priority</p></div>
+                                    <div className="flex items-center gap-2 mb-8"><div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center"><Gem className="w-4 h-4 text-[#1f406d]" /></div><span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Assets</span></div>
+                                    <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100 mb-4"><p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Net Assets</p><p className="text-2xl font-black font-syne text-[#1f406d]">AUD 1.5M</p></div>
+                                    <div className="p-4 bg-gray-50 rounded-2xl border border-gray-100"><p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Turnover</p><p className="text-2xl font-black font-syne text-[#1f406d]">AUD 3M</p></div>
                                 </div>
                             </IPhoneFrame>
                             <IPhoneFrame innerRef={centerPhoneRef} className="z-10 shadow-[0_40px_100px_rgba(0,0,0,0.1)]">
                                 <div className="p-6 h-full flex flex-col pt-12 text-center items-center">
-                                    <div className="w-14 h-14 bg-[#1f406d]/5 rounded-2xl flex items-center justify-center mb-6"><div className="w-10 h-10 bg-[#1f406d] rounded-xl flex items-center justify-center"><Sun className="w-5 h-5 text-white" /></div></div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#E42E25] mb-2">Holiday</p>
-                                    <h3 className="text-2xl font-[900] font-syne text-[#1f406d] uppercase tracking-tighter leading-tight mb-8">Enjoy <span className="text-gray-400">Life</span></h3>
+                                    <div className="w-14 h-14 bg-[#1f406d]/5 rounded-2xl flex items-center justify-center mb-6"><div className="w-10 h-10 bg-[#1f406d] rounded-xl flex items-center justify-center"><Building className="w-5 h-5 text-white" /></div></div>
+                                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#E42E25] mb-2">Enterprise</p>
+                                    <h3 className="text-2xl font-[900] font-syne text-[#1f406d] uppercase tracking-tighter leading-tight mb-8">Global <span className="text-gray-400">Business</span></h3>
                                     <div className="w-full space-y-3">
-                                        {[{ l: "Apply Online", s: "ImmiAccount" }, { l: "Biometrics", s: "If required" }, { l: "Health Exam", s: "If required" }, { l: "Visa Grant", s: "Final" }].map((s, i) => (<div key={i} className="flex items-center gap-3 p-3 bg-[#f8f9fb] rounded-2xl"><div className={`w-2 h-2 rounded-full ${i === 3 ? 'bg-green-500' : 'bg-[#1f406d]'}`} /><div className="text-left"><p className="text-[11px] font-black text-[#1f406d]">{s.l}</p><p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">{s.s}</p></div></div>))}
+                                        {[{ l: "Nomination", s: "State/Territory" }, { l: "Visa Application", s: "Documented" }, { l: "Visa Grant", s: "Permanent" }, { l: "Business Review", s: "2 Years" }].map((s, i) => (<div key={i} className="flex items-center gap-3 p-3 bg-[#f8f9fb] rounded-2xl"><div className={`w-2 h-2 rounded-full ${i === 3 ? 'bg-green-500' : 'bg-[#1f406d]'}`} /><div className="text-left"><p className="text-[11px] font-black text-[#1f406d]">{s.l}</p><p className="text-[8px] font-bold text-gray-400 uppercase tracking-widest">{s.s}</p></div></div>))}
                                     </div>
                                 </div>
                             </IPhoneFrame>
                             <IPhoneFrame innerRef={rightPhoneRef} className="hidden md:block shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
                                 <div className="p-6 h-full flex flex-col pt-12">
-                                    <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#1f406d] mb-6">Conditions</h4>
-                                    <div className="space-y-3">{["No Work Rights", "Max 3 Months Study", "Health Insurance Rec.", "Return Ticket"].map((r, i) => (<div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><CheckCircle2 className="w-4 h-4 text-[#E42E25]" /><span className="text-[11px] font-bold text-[#1f406d]/60">{r}</span></div>))}</div>
-                                    <div className="mt-auto bg-[#1f406d] p-4 rounded-2xl text-center"><span className="text-[10px] font-black text-white uppercase tracking-widest">Plan Trip</span></div>
+                                    <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#1f406d] mb-6">Obligations</h4>
+                                    <div className="space-y-3">{["Maintain Ownership", "Day-to-day Management", "Audited Accounts", "Review after 2 Yrs"].map((r, i) => (<div key={i} className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><CheckCircle2 className="w-4 h-4 text-[#E42E25]" /><span className="text-[11px] font-bold text-[#1f406d]/60">{r}</span></div>))}</div>
+                                    <div className="mt-auto bg-[#1f406d] p-4 rounded-2xl text-center"><span className="text-[10px] font-black text-white uppercase tracking-widest">Invest Now</span></div>
                                 </div>
                             </IPhoneFrame>
                         </div>
@@ -113,12 +113,11 @@ export default function TouristVisaPage() {
             <section className="py-12 md:py-24 px-6 md:px-10 bg-white">
                 <div className="max-w-[1400px] mx-auto text-center mb-20">
                     <span className="text-[11px] font-black uppercase tracking-[0.5em] text-[#E42E25] mb-4 block">Streams</span>
-                    <h2 className="text-4xl md:text-6xl font-[900] font-syne text-[#1f406d] tracking-tighter uppercase mb-20 max-w-4xl mx-auto leading-tight">Visitor <span className="text-[#E42E25]">Streams</span></h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <h2 className="text-4xl md:text-6xl font-[900] font-syne text-[#1f406d] tracking-tighter uppercase mb-20 max-w-4xl mx-auto leading-tight">Talent <span className="text-[#E42E25]">Streams</span></h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {[
-                            { title: "Tourist", desc: "For a holiday, recreation or to visit family and friends.", icon: Sun },
-                            { title: "Business Visitor", desc: "For short business visits including making general business or employment enquiries.", icon: Briefcase },
-                            { title: "Family Sponsored", desc: "For people travelling to Australia to visit their family. You must have a sponsor.", icon: CheckCircle2 }
+                            { title: "Significant Business History", desc: "For high-calibre business owners who want to do business in Australia.", icon: Building },
+                            { title: "Venture Capital Entrepreneur", desc: "For people who have sourced venture capital funding from a member of the Australian Venture Capital Association Limited (AVCAL).", icon: Briefcase }
                         ].map((card, i) => (
                             <motion.div key={i} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="p-10 bg-white rounded-[40px] border border-black/[0.03] text-left hover:shadow-2xl hover:shadow-black/5 transition-all duration-500">
                                 <div className="w-12 h-12 bg-[#1f406d]/5 rounded-2xl flex items-center justify-center mb-8 border border-[#1f406d]/5"><card.icon className="w-5 h-5 text-[#E42E25]" /></div>
@@ -134,15 +133,15 @@ export default function TouristVisaPage() {
                 <div className="max-w-[1000px] mx-auto px-6">
                     <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
                         <div className="text-left"><span className="text-[11px] font-black uppercase tracking-[0.5em] text-[#E42E25] mb-4 block">Knowledge Base</span><h2 className="text-4xl md:text-6xl font-[900] font-syne text-[#1f406d] tracking-tighter uppercase">Common<br />Questions</h2></div>
-                        <p className="text-[#1f406d]/40 text-lg font-medium max-w-sm mb-2">Details about the Visitor Visa 600.</p>
+                        <p className="text-[#1f406d]/40 text-lg font-medium max-w-sm mb-2">Details about the Business Talent Visa 132.</p>
                     </div>
                     <div className="space-y-2">
                         {[
-                            { q: "Can I extend my stay?", a: "You generally cannot extend this visa. You must apply for a new visa if you wish to stay longer." },
-                            { q: "Can I work in Australia?", a: "No, you cannot work in Australia on this visa. You may be able to study for up to 3 months." },
-                            { q: "How long can I stay?", a: "This visa is generally granted for a stay of 3, 6 or 12 months." },
-                            { q: "Do I need health insurance?", a: "It is highly recommended that you take out health insurance for your period of stay in Australia." },
-                            { q: "What is the processing time?", a: "Processing times vary but most applications are processed within a few weeks." }
+                            { q: "Is this a permanent visa?", a: "Yes, the Business Talent visa (subclass 132) allows you to establish a new or develop an existing business in Australia permanently." },
+                            { q: "Can I include my family?", a: "Yes, you can include your partner and dependent children in your application." },
+                            { q: "What is the funding requirement for VC stream?", a: "You must have received at least AUD1 million in funding from an Australian venture capital firm." },
+                            { q: "Are there age limits?", a: "You must be under 55 years of age, although a state or territory can waive this requirement if your proposed business will be of exceptional economic benefit." },
+                            { q: "Do I need to live in Australia?", a: "Yes, you must have a genuine commitment to maintain an ownership interest in a business in Australia and participate in its day-to-day management." }
                         ].map((faq, i) => (<FAQItem key={i} question={faq.q} answer={faq.a} />))}
                     </div>
                 </div>

@@ -317,15 +317,15 @@ const MegaDropdown = ({ items, isOpen, parentLabel, onMouseEnter, onMouseLeave }
                             {activeItem?.subItems && activeItem.subItems.length > 0 ? (
                                 <div className="grid grid-cols-2 gap-x-6 gap-y-3">
                                     {activeItem.subItems.map((sub, i) => (
-                                        <Link key={i} href={sub.href}>
+                                        <Link key={i} href={sub.href} className="h-full">
                                             <motion.div
                                                 initial={{ opacity: 0, y: 5 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: i * 0.03 }}
-                                                className="group flex items-center gap-3 p-3 rounded-2xl hover:bg-[#F8F9FB] transition-all border border-transparent hover:border-gray-100"
+                                                className="group flex items-center gap-3 p-4 rounded-2xl bg-[#e41e25] text-white shadow-lg shadow-[#e41e25]/20 transition-all hover:scale-[1.02] h-full w-full justify-start"
                                             >
-                                                <div className="w-1.5 h-1.5 rounded-full bg-gray-200 group-hover:bg-[#e41e25] transition-colors" />
-                                                <div className="text-[13px] font-bold text-gray-600 group-hover:text-[#1f406d] transition-colors">
+                                                <div className="w-1.5 h-1.5 flex-shrink-0 rounded-full bg-white" />
+                                                <div className="text-[13px] font-bold text-white leading-tight">
                                                     {sub.label}
                                                 </div>
                                             </motion.div>
@@ -478,6 +478,18 @@ export default function Header() {
         };
     }, []);
 
+    // Body scroll lock for mobile menu
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isMobileMenuOpen]);
+
     const handleMouseEnter = useCallback((index) => {
         if (hoverTimeoutRef.current) {
             clearTimeout(hoverTimeoutRef.current);
@@ -611,11 +623,7 @@ export default function Header() {
                                 whileTap={{ scale: 0.95 }}
                             >
                                 <img src="/contact-us.png" alt="Contact Us" className="w-6 h-6 object-contain transition-transform duration-500 group-hover:rotate-[360deg]" />
-                                <motion.div
-                                    className="absolute -top-1 -right-1 w-3 h-3 bg-[#e41e25] rounded-full border-2 border-white"
-                                    animate={{ scale: [1, 1.2, 1] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                />
+
 
                                 {/* Tooltip */}
                                 <div className="absolute top-full mt-3 right-0 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">

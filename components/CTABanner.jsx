@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ShieldCheck, Globe, Building2 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,17 +66,19 @@ export default function CTABanner() {
                     </div>
 
                     {/* CTA Button */}
-                    <motion.button
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="flex items-center gap-6 px-12 py-6 bg-[#e41e25] text-white rounded-2xl font-black text-sm uppercase tracking-[0.1em] whitespace-nowrap shadow-2xl shadow-black/20 transition-all group"
-                    >
-                        Check My Eligibility
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </motion.button>
+                    <Link href="/contact">
+                        <motion.button
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="flex items-center gap-6 px-12 py-6 bg-[#e41e25] text-white rounded-2xl font-black text-sm uppercase tracking-[0.1em] whitespace-nowrap shadow-2xl shadow-black/20 transition-all group"
+                        >
+                            Check My Eligibility
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </motion.button>
+                    </Link>
                 </div>
 
                 {/* Decorative Elements */}

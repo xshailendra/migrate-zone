@@ -35,7 +35,7 @@ const services = [
         shortTitle: 'Express Entry',
         description: "The Federal Skilled Worker Program is also recognized as the Federal Skilled Worker Class and it is Canada's leading immigration program for personnel, permitting the country to welcome tens of thousands of Immigrants every year based on their capability to become well-known in Canada's workforce.",
         icon: <Ship size={48} />,
-        link: '/services/express-entry',
+        link: '/canada/skilled-worker/express-entry',
         image: 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?q=80&w=1000&auto=format&fit=crop'
     },
     {
@@ -44,7 +44,7 @@ const services = [
         shortTitle: 'Student Australia',
         description: 'Australia is the third most popular country for abroad education. The reasons you should choose to study in Australia are its world-class education system, ethnic diversity, Migration friendly rules and prospect to expand the experience.',
         icon: <GraduationCap size={48} />,
-        link: '/services/student-visa-australia',
+        link: '/australia/student-visa',
         image: 'https://images.unsplash.com/photo-1525920980995-f8a382bf42c5?q=80&w=1000&auto=format&fit=crop'
     },
     {
@@ -53,14 +53,14 @@ const services = [
         shortTitle: 'Student Canada',
         description: 'Canada carries on to fascinate a stable capacity of students from India. While getting admission to Top Universities in Canada continues to necessitate an exceptional educational groove, the approval to study is authenticated through a Study Permit.',
         icon: <GraduationCap size={48} />,
-        link: '/services/student-visa-canada',
+        link: '/canada/student-visa',
         image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1000&auto=format&fit=crop'
     }
 ];
 
 const ServiceItem = ({ service, index, setActiveId }) => {
     const ref = useRef(null);
-    const isInView = useInView(ref, { margin: "-45% 0px -45% 0px" });
+    const isInView = useInView(ref, { margin: "-30% 0px -30% 0px" });
 
     useEffect(() => {
         if (isInView) {
@@ -72,10 +72,7 @@ const ServiceItem = ({ service, index, setActiveId }) => {
         <div
             id={service.id}
             ref={ref}
-            className="min-h-[60vh] flex flex-col justify-center py-20 border-b border-gray-100 last:border-0 cursor-none"
-            data-cursor="explore"
-            onMouseEnter={() => document.body.setAttribute('data-cursor', 'explore')}
-            onMouseLeave={() => document.body.removeAttribute('data-cursor')}
+            className="min-h-[50vh] md:min-h-[60vh] flex flex-col justify-center py-12 md:py-20 border-b border-gray-100 last:border-0"
         >
             <div className="flex items-start gap-8 mb-8">
                 <div className="p-4 bg-gray-50 rounded-2xl text-[#e41e25]">
@@ -121,7 +118,7 @@ export default function PopularServices() {
     };
 
     return (
-        <section className="bg-transparent w-full cursor-none">
+        <section className="bg-transparent w-full">
             <div className="max-w-[1400px] mx-auto px-6 md:px-10 py-24">
                 <div className="mb-24 text-center">
                     <h2 className="text-5xl md:text-5xl font-black text-[#1f406d] font-syne uppercase tracking-tighter">

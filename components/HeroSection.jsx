@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 const sliderImages = [
     "/happy_family_uk.png",
@@ -36,7 +37,7 @@ export default function HeroSection() {
                     loop
                     muted
                     playsInline
-                    className="w-full h-full object-cover brightness-[0.6] contrast-[1.1] opacity-90 scale-105"
+                    className="w-full h-full object-cover brightness-[0.7] md:brightness-[0.6] contrast-[1] md:contrast-[1.1] opacity-90 md:scale-105 will-change-transform"
                 />
             </div>
 
@@ -46,7 +47,7 @@ export default function HeroSection() {
 
                     {/* Line 1: IMMIGRATE TO YOUR + Avatar Pill */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: -20, md: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 3.2, ease: [0.16, 1, 0.3, 1] }}
                         className="flex flex-wrap items-center gap-x-3 md:gap-x-8"
@@ -98,7 +99,7 @@ export default function HeroSection() {
 
                     {/* Line 2: DREAM DESTINATION */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: -20, md: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 3.4, ease: [0.16, 1, 0.3, 1] }}
                         className="flex items-center"
@@ -110,7 +111,7 @@ export default function HeroSection() {
 
                     {/* Line 3: Image Pill + WITH FAMILY */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: -20, md: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, delay: 3.6, ease: [0.16, 1, 0.3, 1] }}
                         className="flex flex-wrap items-center gap-x-3 md:gap-x-8"
@@ -164,15 +165,15 @@ export default function HeroSection() {
                     </div>
 
                     <div className="flex items-center gap-8">
-                        <motion.button
-                            whileHover={{ scale: 1.05, backgroundColor: '#1f406d', color: '#ffffff', borderColor: '#1f406d' }}
-                            whileTap={{ scale: 0.95 }}
-                            className="px-10 cursor-pointer py-5 md:px-14 md:py-7 bg-white text-[#1f406d] border border-white rounded-[5rem] font-black text-s md:text-sm uppercase tracking-widest shadow-3xl shadow-black/40 transition-all duration-500"
-                        >
-                            Contact Us
-                        </motion.button>
-
-
+                        <Link href="/contact">
+                            <motion.button
+                                whileHover={{ scale: 1.05, backgroundColor: '#1f406d', color: '#ffffff', borderColor: '#1f406d' }}
+                                whileTap={{ scale: 0.95 }}
+                                className="px-10 cursor-pointer py-5 md:px-14 md:py-7 bg-white text-[#1f406d] border border-white rounded-[5rem] font-black text-s md:text-sm uppercase tracking-widest shadow-3xl shadow-black/40 transition-all duration-500"
+                            >
+                                Contact Us
+                            </motion.button>
+                        </Link>
                     </div>
                 </motion.div>
             </div>
