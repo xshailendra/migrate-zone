@@ -128,11 +128,7 @@ export default function Footer() {
                             whileInView={{ opacity: 1, y: 0 }}
                             className="mb-12"
                         >
-                            <img
-                                src="/logo-wide-removebg-preview.png"
-                                alt="Migrate Zone Logo"
-                                className="h-12 md:h-16 w-auto mx-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
-                            />
+
                         </motion.div>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
