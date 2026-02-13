@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
+import TopNotch from './TopNotch';
 
 // Country images and data
 const countryData = {
@@ -242,7 +243,7 @@ const MegaDropdown = ({ items, isOpen, parentLabel, onMouseEnter, onMouseLeave }
     return (
         <div
             ref={dropdownRef}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 rounded-[40px] overflow-hidden shadow-[0_40px_80px_rgba(31,64,109,0.12),0_10px_40px_rgba(0,0,0,0.04)] bg-white border border-white"
+            className="fixed top-[130px] left-1/2 -translate-x-1/2 z-50 rounded-[40px] overflow-hidden shadow-[0_40px_80px_rgba(31,64,109,0.12),0_10px_40px_rgba(0,0,0,0.04)] bg-white border border-white"
             style={{ display: 'none', width: 'min(1050px, 95vw)' }}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
@@ -410,73 +411,9 @@ export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [expandedMobileItems, setExpandedMobileItems] = useState([]);
-    const [navTheme, setNavTheme] = useState('white'); // 'black', 'white', 'glass'
     const pathname = usePathname();
     const hoverTimeoutRef = useRef(null);
     const navContainerRef = useRef(null);
-
-    useEffect(() => {
-        const detectTheme = () => {
-            if (window.scrollY >= 60) {
-                setNavTheme('glass');
-                return;
-            }
-
-            // Detect background under navbar
-            const elements = document.elementsFromPoint(window.innerWidth / 2, 40);
-            const bgEl = elements.find(el =>
-                el &&
-                !navContainerRef.current?.contains(el) &&
-                !el.closest('header')
-            );
-
-            if (bgEl) {
-                const style = window.getComputedStyle(bgEl);
-                let bgColor = style.backgroundColor;
-
-                // If current element is transparent, find nearest parent with color
-                let parent = bgEl;
-                while ((bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') && parent.parentElement) {
-                    parent = parent.parentElement;
-                    bgColor = window.getComputedStyle(parent).backgroundColor;
-                }
-
-                const match = bgColor.match(/\d+/g);
-                if (match) {
-                    const [r, g, b] = match.map(Number);
-                    const luminance = (0.299 * r + 0.587 * g + 0.114 * b);
-
-                    if (r === 255 && g === 255 && b === 255) {
-                        setNavTheme('black');
-                    } else if (luminance > 240) {
-                        setNavTheme('glass');
-                    } else if (luminance < 140) {
-                        setNavTheme('white');
-                    } else {
-                        // For complex backgrounds, default to white for contrast
-                        setNavTheme('white');
-                    }
-                } else {
-                    setNavTheme('white');
-                }
-            } else {
-                setNavTheme('white');
-            }
-        };
-
-        const handleScroll = () => {
-            detectTheme();
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        // Initial detection after a small delay to ensure DOM is ready
-        const timer = setTimeout(detectTheme, 100);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            clearTimeout(timer);
-        };
-    }, []);
 
     const handleMouseEnter = useCallback((index) => {
         if (hoverTimeoutRef.current) {
@@ -510,207 +447,194 @@ export default function Header() {
     };
 
     return (
-        <div className="fixed top-6 left-0 w-full z-50 px-6 font-outfit">
-            <header className="max-w-[90rem] mx-auto">
+        <>
+            <TopNotch />
+            <div className="fixed top-16 left-0 w-full z-50 px-6 font-outfit">
+                <header className="max-w-[90rem] mx-auto">
 
-                {/* Navbar Container */}
-                <div ref={navContainerRef} className="relative flex items-center justify-center">
-                    {/* Logo Container */}
-                    <motion.div
-                        className={`relative z-20 flex items-center justify-center px-4 md:px-6 h-12 md:h-14 rounded-full mr-2 md:mr-4 transition-all duration-500 ease-in-out
-                            ${navTheme === 'glass'
-                                ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)]'
-                                : navTheme === 'black'
-                                    ? 'bg-transparent border border-black/20 shadow-none'
-                                    : 'bg-transparent border-none shadow-none'}`}
-                        whileHover={{ scale: 1.02 }}
-                    >
-                        <Link href="/" className="flex items-center justify-center gap-1.5 md:gap-2 h-8 md:h-10 max-w-[150px] md:max-w-[180px]" onClick={(e) => handleNavClick(e, '/')}>
-                            <img
-                                src="/logos/footer-left.png"
-                                alt="Migrate Zone"
-                                className="h-6 w-6 md:h-8 md:w-8 object-contain flex-shrink-0"
-                            />
-                            <span className="text-[14px] md:text-[17px] font-extrabold tracking-tight whitespace-nowrap" style={{ color: '#e41e25' }}>
-                                MIGRATE ZONE
-                            </span>
-                        </Link>
-                    </motion.div>
+                    {/* Navbar Container */}
+                    <div ref={navContainerRef} className="relative flex items-center justify-center">
+                        {/* Logo Container */}
+                        <motion.div
+                            className="relative z-20 flex items-center justify-center px-4 md:px-6 h-12 md:h-14 rounded-full mr-2 md:mr-4 transition-all duration-500 ease-in-out bg-gradient-to-r from-[#e41e25] to-[#1f406d] border border-white/20 shadow-[0px_15px_35px_rgba(31,64,109,0.25)]"
+                            whileHover={{ scale: 1.02 }}
+                        >
+                            <Link href="/" className="flex items-center justify-center gap-1.5 md:gap-2 h-8 md:h-10 max-w-[150px] md:max-w-[180px]" onClick={(e) => handleNavClick(e, '/')}>
+                                <img
+                                    src="/logos/footer-left.png"
+                                    alt="Migrate Zone"
+                                    className="h-6 w-6 md:h-8 md:w-8 object-contain flex-shrink-0 brightness-0 invert"
+                                />
+                                <span className="text-[14px] md:text-[17px] font-extrabold tracking-tight whitespace-nowrap transition-colors duration-500 text-white">
+                                    MIGRATE ZONE
+                                </span>
+                            </Link>
+                        </motion.div>
 
-                    {/* Navigation Container */}
-                    <div className={`relative z-10 rounded-full px-2 md:px-4 py-2 md:py-3 transition-all duration-500 ease-in-out
-                        ${navTheme === 'glass'
-                            ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)]'
-                            : navTheme === 'black'
-                                ? 'bg-transparent border border-black/20 shadow-none'
-                                : 'bg-transparent border-none shadow-none'}`}>
-                        <div className="hidden xl:flex items-center gap-0.5">
-                            {navItems.map((item, index) => (
-                                <div
-                                    key={item.label}
-                                    className="relative"
-                                    onMouseEnter={() => handleMouseEnter(index)}
-                                    onMouseLeave={handleMouseLeave}
-                                >
-                                    <Link
-                                        href={item.href}
-                                        onClick={(e) => handleNavClick(e, item.href)}
-                                        {...(item.target ? { target: item.target, rel: 'noopener noreferrer' } : {})}
+                        {/* Navigation Container */}
+                        <div className="relative z-10 rounded-full px-2 md:px-4 py-2 md:py-3 transition-all duration-500 ease-in-out bg-gradient-to-r from-[#e41e25] to-[#1f406d] border border-white/20 shadow-[0px_15px_35px_rgba(31,64,109,0.25)]">
+                            <div className="hidden xl:flex items-center gap-0.5">
+                                {navItems.map((item, index) => (
+                                    <div
+                                        key={item.label}
+                                        className="relative"
+                                        onMouseEnter={() => handleMouseEnter(index)}
+                                        onMouseLeave={handleMouseLeave}
                                     >
-                                        <motion.div
-                                            className={`relative flex items-center gap-1.5 py-2 px-3 text-[13px] font-medium tracking-widest uppercase 
+                                        <Link
+                                            href={item.href}
+                                            onClick={(e) => handleNavClick(e, item.href)}
+                                            {...(item.target ? { target: item.target, rel: 'noopener noreferrer' } : {})}
+                                        >
+                                            <motion.div
+                                                className={`relative flex items-center gap-1.5 py-2 px-3 text-[15px] font-semibold tracking-wide uppercase 
                                                        transition-all duration-500 rounded-full
                                                        ${hoveredIndex === index
-                                                    ? (navTheme === 'glass' ? 'bg-[#1f406d]/10 text-[#1f406d]' : navTheme === 'black' ? 'bg-black/5 text-slate-950' : 'bg-white/15 text-white')
-                                                    : (navTheme === 'glass' ? 'text-[#1f406d]/80 hover:text-[#1f406d]' : navTheme === 'black' ? 'text-slate-700 hover:text-slate-950' : 'text-white/80 hover:text-white')
-                                                }`}
-                                            whileHover={{ scale: 1.02 }}
-                                        >
-                                            {item.label}
+                                                        ? 'bg-white/20 text-white'
+                                                        : 'text-white/90 hover:text-white'
+                                                    }`}
+                                                whileHover={{ scale: 1.02 }}
+                                            >
+                                                {item.label}
 
-                                            {item.subItems && (
-                                                <motion.div
-                                                    animate={{ rotate: hoveredIndex === index ? 180 : 0 }}
-                                                    transition={{ duration: 0.3 }}
-                                                >
-                                                    <ChevronDown className="w-3 h-3" />
-                                                </motion.div>
-                                            )}
-                                        </motion.div>
-                                    </Link>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Mobile Toggle */}
-                        <button
-                            className={`xl:hidden p-2 transition-colors duration-500 
-                                ${navTheme === 'glass' ? 'text-[#1f406d]' : navTheme === 'black' ? 'text-black' : 'text-white'}`}
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        >
-                            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                        </button>
-                    </div>
-
-                    {/* Contact/Chat Toggle — Separate but close to main navbar unit */}
-                    <motion.div
-                        className="hidden xl:flex items-center ml-4"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.8 }}
-                    >
-                        <Link href="/contact" onClick={(e) => handleNavClick(e, '/contact')}>
-                            <motion.div
-                                className={`group relative w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500
-                                           ${navTheme === 'glass'
-                                        ? 'bg-white/70 backdrop-blur-xl border border-black/10 shadow-[0px_8px_32px_rgba(0,0,0,0.06)] text-[#1f406d]'
-                                        : navTheme === 'black'
-                                            ? 'bg-white border border-black/20 text-[#1f406d] shadow-sm'
-                                            : 'bg-white/10 backdrop-blur-md text-white border border-white/20'}`}
-                                whileHover={{ scale: 1.1, backgroundColor: '#e41e25', color: '#fff', borderColor: '#e41e25' }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <img src="/contact-us.png" alt="Contact Us" className="w-6 h-6 object-contain transition-transform duration-500 group-hover:rotate-[360deg]" />
-
-
-                                {/* Tooltip */}
-                                <div className="absolute top-full mt-3 right-0 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
-                                    <div className="bg-[#1f406d] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg whitespace-nowrap shadow-xl uppercase tracking-widest">
-                                        Contact Us
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </Link>
-                    </motion.div>
-                </div>
-
-                {/* Render Mega Menus outside the Navigation Container to avoid backdrop-filter coordinate issues */}
-                {navItems.map((item, index) => (
-                    item.subItems && (
-                        <MegaDropdown
-                            key={`dropdown-${item.label}`}
-                            items={item.subItems}
-                            isOpen={hoveredIndex === index}
-                            parentLabel={item.label}
-                            onMouseEnter={() => handleMouseEnter(index)}
-                            onMouseLeave={handleMouseLeave}
-                        />
-                    )
-                ))}
-
-                {/* Mobile Menu */}
-                <AnimatePresence>
-                    {isMobileMenuOpen && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: -20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: -20 }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                            className="absolute top-full mt-4 left-0 right-0 xl:hidden max-h-[80vh] overflow-y-auto"
-                        >
-                            <div className="bg-white rounded-3xl shadow-2xl p-6 border border-gray-100">
-                                <div className="space-y-2">
-                                    {navItems.map((item, idx) => (
-                                        <motion.div
-                                            key={item.label}
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: idx * 0.03 }}
-                                        >
-                                            <div className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50">
-                                                <Link
-                                                    href={item.href}
-                                                    className="flex items-center gap-3 text-[13px] font-black tracking-widest text-[#1f406d] uppercase"
-                                                    onClick={(e) => handleNavClick(e, item.href)}
-                                                    {...(item.target ? { target: item.target, rel: 'noopener noreferrer' } : {})}
-                                                >
-                                                    {item.label}
-                                                </Link>
                                                 {item.subItems && (
-                                                    <button onClick={() => toggleMobileExpand(item.label)} className="p-2 rounded-full bg-gray-100">
-                                                        <ChevronDown className={`w-4 h-4 text-[#1f406d] transition-transform ${expandedMobileItems.includes(item.label) ? 'rotate-180' : ''}`} />
-                                                    </button>
-                                                )}
-                                            </div>
-
-                                            <AnimatePresence>
-                                                {item.subItems && expandedMobileItems.includes(item.label) && (
                                                     <motion.div
-                                                        initial={{ opacity: 0, height: 0 }}
-                                                        animate={{ opacity: 1, height: 'auto' }}
-                                                        exit={{ opacity: 0, height: 0 }}
-                                                        className="ml-6 pl-4 border-l-2 border-[#1f406d]/10 space-y-1 overflow-hidden"
+                                                        animate={{ rotate: hoveredIndex === index ? 180 : 0 }}
+                                                        transition={{ duration: 0.3 }}
                                                     >
-                                                        {item.subItems.map(subItem => (
-                                                            <Link
-                                                                key={subItem.label}
-                                                                href={subItem.href}
-                                                                className="block text-[12px] font-bold tracking-wide text-gray-500 hover:text-[#1f406d] uppercase py-2.5"
-                                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                            >
-                                                                {subItem.label}
-                                                            </Link>
-                                                        ))}
+                                                        <ChevronDown className="w-3 h-3" />
                                                     </motion.div>
                                                 )}
-                                            </AnimatePresence>
-                                        </motion.div>
-                                    ))}
-                                </div>
-
-                                <motion.button
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.25 }}
-                                    className="w-full mt-6 py-4 bg-[#1f406d] text-white rounded-xl font-bold text-xs uppercase tracking-widest"
-                                >
-                                    Get Free Consultation
-                                </motion.button>
+                                            </motion.div>
+                                        </Link>
+                                    </div>
+                                ))}
                             </div>
+
+                            {/* Mobile Toggle */}
+                            <button
+                                className="xl:hidden p-2 transition-colors duration-500 text-white"
+                                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            >
+                                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                            </button>
+                        </div>
+
+                        {/* Contact/Chat Toggle — Separate but close to main navbar unit */}
+                        <motion.div
+                            className="hidden xl:flex items-center ml-4"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.8 }}
+                        >
+                            <Link href="/contact" onClick={(e) => handleNavClick(e, '/contact')}>
+                                <motion.div
+                                    className="group relative w-14 h-14 rounded-full flex items-center justify-center cursor-pointer transition-all duration-500 bg-gradient-to-r from-[#e41e25] to-[#1f406d] border border-white/20 shadow-[0_8px_32px_rgba(31,64,109,0.2)] text-white"
+                                    whileHover={{ scale: 1.1, backgroundColor: '#e41e25', color: '#fff', borderColor: '#e41e25' }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <img src="/contact-us.png" alt="Contact Us" className="w-6 h-6 object-contain transition-transform duration-500 group-hover:rotate-[360deg]" />
+
+
+                                    {/* Tooltip */}
+                                    <div className="absolute top-full mt-3 right-0 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+                                        <div className="bg-[#1f406d] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg whitespace-nowrap shadow-xl uppercase tracking-widest">
+                                            Contact Us
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </Link>
                         </motion.div>
-                    )}
-                </AnimatePresence>
-            </header>
-        </div>
+                    </div>
+
+                    {/* Render Mega Menus outside the Navigation Container to avoid backdrop-filter coordinate issues */}
+                    {navItems.map((item, index) => (
+                        item.subItems && (
+                            <MegaDropdown
+                                key={`dropdown-${item.label}`}
+                                items={item.subItems}
+                                isOpen={hoveredIndex === index}
+                                parentLabel={item.label}
+                                onMouseEnter={() => handleMouseEnter(index)}
+                                onMouseLeave={handleMouseLeave}
+                            />
+                        )
+                    ))}
+
+                    {/* Mobile Menu */}
+                    <AnimatePresence>
+                        {isMobileMenuOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.95, y: -20 }}
+                                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                                className="absolute top-full mt-4 left-0 right-0 xl:hidden max-h-[80vh] overflow-y-auto"
+                            >
+                                <div className="bg-white rounded-3xl shadow-2xl p-6 border border-gray-100">
+                                    <div className="space-y-2">
+                                        {navItems.map((item, idx) => (
+                                            <motion.div
+                                                key={item.label}
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: idx * 0.03 }}
+                                            >
+                                                <div className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50">
+                                                    <Link
+                                                        href={item.href}
+                                                        className="flex items-center gap-3 text-[15px] font-semibold tracking-wide text-[#1f406d] uppercase"
+                                                        onClick={(e) => handleNavClick(e, item.href)}
+                                                        {...(item.target ? { target: item.target, rel: 'noopener noreferrer' } : {})}
+                                                    >
+                                                        {item.label}
+                                                    </Link>
+                                                    {item.subItems && (
+                                                        <button onClick={() => toggleMobileExpand(item.label)} className="p-2 rounded-full bg-gray-100">
+                                                            <ChevronDown className={`w-4 h-4 text-[#1f406d] transition-transform ${expandedMobileItems.includes(item.label) ? 'rotate-180' : ''}`} />
+                                                        </button>
+                                                    )}
+                                                </div>
+
+                                                <AnimatePresence>
+                                                    {item.subItems && expandedMobileItems.includes(item.label) && (
+                                                        <motion.div
+                                                            initial={{ opacity: 0, height: 0 }}
+                                                            animate={{ opacity: 1, height: 'auto' }}
+                                                            exit={{ opacity: 0, height: 0 }}
+                                                            className="ml-6 pl-4 border-l-2 border-[#1f406d]/10 space-y-1 overflow-hidden"
+                                                        >
+                                                            {item.subItems.map(subItem => (
+                                                                <Link
+                                                                    key={subItem.label}
+                                                                    href={subItem.href}
+                                                                    className="block text-[12px] font-bold tracking-wide text-gray-500 hover:text-[#1f406d] uppercase py-2.5"
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                >
+                                                                    {subItem.label}
+                                                                </Link>
+                                                            ))}
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+
+                                    <motion.button
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.25 }}
+                                        className="w-full mt-6 py-4 bg-[#1f406d] text-white rounded-xl font-bold text-xs uppercase tracking-widest"
+                                    >
+                                        Get Free Consultation
+                                    </motion.button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </header>
+            </div>
+        </>
     );
 }

@@ -51,6 +51,7 @@ export default function Home() {
             }}
             className="fixed top-0 left-0 w-full z-50"
           >
+
             <Header />
           </motion.div>
         )}
