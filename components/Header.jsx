@@ -472,7 +472,7 @@ export default function Header() {
                         </motion.div>
 
                         {/* Navigation Container */}
-                        <div className="relative z-10 rounded-full px-2 md:px-4 py-2 md:py-3 transition-all duration-500 ease-in-out bg-gradient-to-r from-[#e41e25] to-[#1f406d] border border-white/20 shadow-[0px_15px_35px_rgba(31,64,109,0.25)]">
+                        <div className="relative z-10 h-12 md:h-14 flex items-center rounded-full px-2 md:px-4 transition-all duration-500 ease-in-out bg-gradient-to-r from-[#e41e25] to-[#1f406d] border border-white/20 shadow-[0px_15px_35px_rgba(31,64,109,0.25)]">
                             <div className="hidden xl:flex items-center gap-0.5">
                                 {navItems.map((item, index) => (
                                     <div
